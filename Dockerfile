@@ -1,5 +1,5 @@
 # docker buildx build -t peeps . --load
-# docker run --rm -p 8000:8000 -v `pwd`:/root -w /root peeps uvicorn main:app --host 0.0.0.0 --reload
+# docker run --rm -p 8000:8000 -v `pwd`:/root -w /root peeps uvicorn main:app --port 80 --ssl-keyfile=/etc/ssl/private/key.pem --ssl-certfile=/etc/ssl/certs/cert.pem --reload
 
 # docker login -u gregclinton
 # docker tag peeps:latest gregclinton/peeps:latest
@@ -12,3 +12,5 @@ RUN apt-get -y update
 RUN apt -y install python3 python3-pip
 
 RUN pip install openai langchain langchain-cli
+
+RUN openssl req -x509 -newkey rsa:4096 -keyout /etc/ssl/private/key.pem -out /etc/ssl/certs/cert.pem -days 365 -nodes -subj "/CN=greg.com"
