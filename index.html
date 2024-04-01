@@ -7,8 +7,7 @@
 <body/>
 
 <script>
-    let p = navigator.mediaDevices.getUserMedia({ audio: true });
+    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
 
-    p.then(function(mediaStream) {
-    });
+    })
 </script>
