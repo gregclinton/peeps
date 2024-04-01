@@ -1,5 +1,5 @@
 # docker buildx build -t peeps . --load
-# docker run --rm -v `pwd`:/root -w /root peeps ls index.html
+# docker run --rm -v `pwd`:/root -w /root peeps uvicorn main:app --reload
 
 # docker login -u gregclinton
 # docker tag peeps:latest gregclinton/peeps:latest
