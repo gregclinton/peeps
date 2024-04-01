@@ -15,4 +15,8 @@ RUN apt -y install python3 python3-pip
 
 RUN pip install openai langchain langchain-cli
 
+RUN pip install anthropic mistralai langchain-openai
+
+RUN pip install -q -U google-generativeai
+
 RUN openssl req -x509 -newkey rsa:4096 -keyout /etc/ssl/private/key.pem -out /etc/ssl/certs/cert.pem -days 365 -nodes -subj "/CN=greg.com"
