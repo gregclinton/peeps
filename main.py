@@ -26,6 +26,6 @@ completion = client.chat.completions.create(
 
 haiku = completion.choices[0].message.content
 
-@app.get('/')
-async def read_test(test: str):
-    return haiku
+@app.get('/test')
+async def read_test():
+    return {'abc': 'def'}
