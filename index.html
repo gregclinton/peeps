@@ -1,0 +1,21 @@
+<!--
+    https://192.168.1.13
+-->
+
+<title>peeps</title>
+
+<body id="content"></body>
+
+<script>
+    window.onload = () => {
+        fetch('/test')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('content').innerHTML = data.abc;
+            })
+    };
+
+    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+
+    })
+</script>

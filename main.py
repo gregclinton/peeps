@@ -1,16 +1,11 @@
-keys = dict(line.split(',') for line in open('api_keys').read().splitlines())
-
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 
 from openai import OpenAI
 
-client = OpenAI(
-    api_key = keys['OPENAI_API_KEY'],
-)
+client = OpenAI()
 
 completion = client.chat.completions.create(
 #   openai.com/pricing                context   $in/$out/M    trained
@@ -26,6 +21,10 @@ completion = client.chat.completions.create(
 
 haiku = completion.choices[0].message.content
 
+@app.get('/', response_class = HTMLResponse)
+async def read():
+    return open('index.html').read()
+
 @app.get('/test')
 async def read_test():
-    return {'abc': 'def'}
+    return {'abc': haiku}
