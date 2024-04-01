@@ -9,8 +9,8 @@
 <script>
     window.onload = () => {
         fetch('/test').then(response => {
-            response.text().then(data => {
-                document.getElementById('content').innerHTML = data;
+            response.json().then(data => {
+                document.getElementById('content').innerHTML = data.abc;
             })
         })
     };
