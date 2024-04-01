@@ -1,38 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-        #chat {
-            overflow-y: scroll;
-            height: calc(100% - 50px);
-        }
-        #toolbar {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            height: 50px;
-            background: #ccc;
-        }
-        .chat-div {
-            margin: 10px;
-            padding: 10px;
-            background: #eee;
-        }
-    </style>
-</head>
+<!--
+    https://gregclinton.github.io/peeps/
+-->
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat</title>
+
 <body>
-    <div id="chat">
-        <div class="chat-div">abc</div>
-        <div class="chat-div">def</div>
+    <div id="main">
+        <div>
+            <div class="chat-div">abc</div>
+            <div class="chat-div">abc</div>
+        </div>
     </div>
     <div id="toolbar"><button>Button</button></div>
 </body>
-</html>
+
+<link href="main.css" rel="stylesheet"/>
+<script src="chat.js"></script>
