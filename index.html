@@ -7,9 +7,7 @@
 
 <body>
     <div id="main">
-        <div>
-            <div class="chat-div">abc</div>
-            <div class="chat-div">abc</div>
+        <div id="chat">
         </div>
     </div>
     <div id="toolbar"><button>Button</button></div>
@@ -17,3 +15,11 @@
 
 <link href="main.css" rel="stylesheet"/>
 <script src="chat.js"></script>
+
+<script>
+    window.onload = () => {
+        for (let i = 0; i < 80; i++) {
+            chat.add();
+        }
+    };    
+</script>
