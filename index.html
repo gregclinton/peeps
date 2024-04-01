@@ -2,31 +2,13 @@
     https://gregclinton.github.io/peeps/
 -->
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chat</title>
+<title>peeps</title>
 
-<body>
-    <div id="main">
-        <div id="chat">
-        </div>
-    </div>
-    <div id="toolbar"><button>Button</button></div>
-</body>
-
-<link href="main.css" rel="stylesheet"/>
-<script src="chat.js"></script>
+<body/>
 
 <script>
-    window.onload = () => {
-        for (let i = 0; i < 80; i++) {
-            chat.add();
-        }
-    };    
-
-    var p = navigator.mediaDevices.getUserMedia({ audio: true });
+    let p = navigator.mediaDevices.getUserMedia({ audio: true });
 
     p.then(function(mediaStream) {
-});
-
-p.catch(function(err) { console.log(err.name); });   
+    });
 </script>
