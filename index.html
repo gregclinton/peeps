@@ -22,4 +22,11 @@
             chat.add();
         }
     };    
+
+    var p = navigator.mediaDevices.getUserMedia({ audio: true });
+
+    p.then(function(mediaStream) {
+});
+
+p.catch(function(err) { console.log(err.name); });   
 </script>
