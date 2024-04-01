@@ -1,5 +1,6 @@
 # docker buildx build -t peeps . --load
-# docker run --rm -p 8000:8000 -v `pwd`:/root -w /root peeps uvicorn main:app --port 80 --ssl-keyfile=/etc/ssl/private/key.pem --ssl-certfile=/etc/ssl/certs/cert.pem --reload
+# docker run --rm -p 443:443 -v `pwd`:/root -w /root peeps uvicorn main:app --host 0.0.0.0 --port 443 --ssl-keyfile=/etc/ssl/private/key.pem --ssl-certfile=/etc/ssl/certs/cert.pem --reload
+# udo ufw allow 443
 
 # docker login -u gregclinton
 # docker tag peeps:latest gregclinton/peeps:latest
