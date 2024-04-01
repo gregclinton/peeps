@@ -4,9 +4,17 @@
 
 <title>peeps</title>
 
-<body/>
+<body id="content"></body>
 
 <script>
+    window.onload = () => {
+        fetch('/test').then(response => {
+            response.text().then(data => {
+                document.getElementById('content').innerHTML = data;
+            })
+        })
+    };
+
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
 
     })
