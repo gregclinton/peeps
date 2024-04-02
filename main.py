@@ -1,6 +1,7 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import HTMLResponse, FileResponse
-import chat
+from chat import process
+from speech import stt, tts
 
 app = FastAPI()
 
@@ -10,5 +11,5 @@ async def read():
 
 @app.get('/test')
 async def read_test(wav: UploadFile = File(...)):
-    chat.tts(chat.process(chat.stt(wav.filename)), 'out.mp3')
+    tts(process(stt(wav.filename)), 'out.mp3')
     return FileResponse('out.mp3')
