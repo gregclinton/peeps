@@ -47,7 +47,6 @@
             // detect 5 seconds of relative silence
             if ((new Date() - startTime) / 1000 > 5 && loudness / count < 0.3) {
                 recorder.stopRecording(() => {
-if (false)
                     fetch('/chat', {
                         method: 'POST',
                         body: recorder.getBlob(),
@@ -63,7 +62,6 @@ if (false)
                     });
 
                     audioChunks = [];
-new Audio(URL.createObjectURL(recorder.getBlob())).play().then(() => startRecording());
                 });
             }
         }
