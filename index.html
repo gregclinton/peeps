@@ -14,24 +14,24 @@
         let startTime;
         let loudness;
         let count;
-        
+
         function startRecording() {
             recorder = new RecordRTC(stream, {
                 type: 'audio',
                 mimeType: 'audio/wav',
                 timeSlice: 1000,
-                ondataavailable: blob => { 
+                ondataavailable: blob => {
                     audioChunks.push(blob);
                  },
                 audioBitsPerSecond: 128000
             });
-            
+
             recorder.startRecording();
             startTime = new Date();
             loudness = 0;
             count = 0;
         }
-        
+
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         const scriptProcessor = audioContext.createScriptProcessor(4096, 1, 1);
         const source = audioContext.createMediaStreamSource(stream);
@@ -43,13 +43,16 @@
 
             loudness += data.reduce((acc, val) => acc + Math.abs(val), 0);
             count += data.length;
-            
+
             // detect 5 seconds of relative silence
             if ((new Date() - startTime) / 1000 > 5 && loudness / count < 0.3) {
                 recorder.stopRecording(() => {
                     fetch('/chat', {
                         method: 'POST',
                         body: recorder.getBlob(),
+                        headers: {
+                            'Content-Type': 'audio/wav',
+                        },
                     })
                     .then(response => response.blob())
                     .then(blob => {
@@ -57,7 +60,7 @@
                     }).catch(error => {
                         console.error("Error posting audio", error);
                     });
-                    
+
                     audioChunks = [];
                     startRecording();
                 });
