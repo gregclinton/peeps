@@ -3,9 +3,10 @@ from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 
+keys = dict(line.split(',') for line in open('api_keys').read().splitlines())
 from openai import OpenAI
 
-client = OpenAI()
+client = OpenAI(api_key = keys['OPENAI_API_KEY'])
 
 completion = client.chat.completions.create(
 #   openai.com/pricing                context   $in/$out/M    trained
