@@ -9,8 +9,8 @@ app = FastAPI()
 async def read():
     return open('index.html').read()
 
-@app.post('/chat')
-async def read_test(audio: UploadFile = File(...)):
+@app.post("/chat/")
+async def read_chat(audio: UploadFile):
     return FileResponse(audio.filename)
     tts(process(stt(audio.filename)), 'out.wav')
     return FileResponse('out.wav')
