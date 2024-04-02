@@ -1,2 +1,2 @@
-def process():
-    return 'abc'
+def process(text):
+    return text

@@ -6,17 +6,22 @@ client = OpenAI(api_key = secrets.get('OPENAI_API_KEY'))
 import warnings
 warnings.filterwarnings('ignore', category = DeprecationWarning)
 
-def tts(text, mp3):
+# consider using the free whisper model for improved latency
+
+def tts(text, filename):
     client.audio.speech.create(
         model = "tts-1", # $15 / 1M characters
-        voice = "alloy",# alloy, echo, fable, onyx, nova, and shimmer
+        voice = "alloy", # alloy, echo, fable, onyx, nova, and shimmer
         speed = 3.5, 
-        input = "Hello, everyone."
-    ).stream_to_file(mp3)
+        input = text
+        response_format = 'wav'
+    ).stream_to_file(filename)
 
-def stt(mp3):
-    with open(mp3, 'rb') as audio_file:
+def stt(filename):
+    with open(filename, 'rb') as audio_file:
         return client.audio.transcriptions.create(
             file = audio_file,
-            model = "whisper-1" # 1 penny per 100 seconds
-        ).text
+            language = 'en',  # optional but improves accuracy and latency
+            model = 'whisper-1' # 100 seconds for a penny, 
+            response_format = 'text'
+        )

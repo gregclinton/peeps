@@ -4,18 +4,33 @@
 
 <title>peeps</title>
 
-<body/>
-
 <script>
-    window.onload = () => {
-        fetch('/test')
-            .then(response => response.blob())
-            .then(blob => {
-                new Audio(URL.createObjectURL(blob)).play();
-            })
-    };
-
     navigator.mediaDevices.getUserMedia({ audio: true })
         .then((stream) => {
-        })
+
+        const recorder = new RecordRTC(stream, {
+            type: 'audio',
+            mimeType: 'audio/wav',
+            // Other configuration options as needed
+        });
+
+        recorder.startRecording();
+
+        if (false) {
+            recorder.stopRecording(() => {
+                const audioBlob = recorder.getBlob();
+                const formData = new FormData();
+                formData.append("audio", audioBlob, "audio.wav");
+
+                fetch('/chat', {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.blob())
+                .then(blob => {
+                        new Audio(URL.createObjectURL(blob)).play();
+                })
+            });
+        });
+    })
 </script>
