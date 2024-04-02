@@ -56,12 +56,14 @@
                 audioChunks = [];
 
                 recorder.stopRecording(() => {
+                    const formData = new FormData();
+   
+                    formData.append("file", recorder.getBlob(), "recording.wav");
+
                     fetch('/chat', {
                         method: 'POST',
-                        body: recorder.getBlob(),
-                        headers: {
-                            'Content-Type': 'audio/wav',
-                        },
+                        body: formData,
+                        // don't set Content-Type header manually when using FormData
                     })
                     .then(response => response.blob())
                     .then(blob => {
