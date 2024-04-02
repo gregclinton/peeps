@@ -17,6 +17,8 @@
         let responsePending;
 
         function startRecording() {
+            startTime = new Date();
+
             recorder = new RecordRTC(stream, {
                 mimeType: 'audio/wav',
                 timeSlice: 1000,
@@ -46,10 +48,10 @@
 
             loudness += data.reduce((acc, val) => acc + Math.abs(val), 0);
             count += data.length;
+            const avg = loudness / count;
 
             // detect 5 seconds of relative silence
-            if ((new Date() - startTime) / 1000 > 5 && loudness / count < 0.3) {
-                startTime = new Date();
+            if (((new Date() - startTime) / 1000 > 5) && (avg < 0.3)) {
                 loudness = 0;
                 count = 0;
                 responsePending = true;

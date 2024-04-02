@@ -11,8 +11,8 @@ warnings.filterwarnings('ignore', category = DeprecationWarning)
 def tts(text, filename):
     client.audio.speech.create(
         model = "tts-1", # $15 / 1M characters
-        voice = "alloy", # alloy, echo, fable, onyx, nova, and shimmer
-        speed = 3.5, 
+        voice = "echo", # alloy, echo, fable, onyx, nova, and shimmer
+        speed = 1, 
         input = text,
         response_format = 'wav'
     ).stream_to_file(filename)
