@@ -33,7 +33,7 @@
         }
 
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const scriptProcessor = audioContext.createScriptProcessor(4096, 1, 1); 
+        const scriptProcessor = audioContext.createScriptProcessor(4096, 1, 1);
         const source = audioContext.createMediaStreamSource(stream);
 
         source.connect(scriptProcessor);
@@ -57,7 +57,7 @@
 
                 recorder.stopRecording(() => {
                     const formData = new FormData();
-   
+
                     formData.append("file", recorder.getBlob(), "recording.wav");
 
                     fetch('/chat', {
