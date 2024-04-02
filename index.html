@@ -11,9 +11,9 @@
     .then(stream => {
         let recorder;
         let audioChunks = [];
-        let startTime;
-        let loudness;
-        let count;
+        let startTime = new Date();
+        let loudness = 0;
+        let count = 0;
         let responsePending;
 
         function startRecording() {
