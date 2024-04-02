@@ -8,7 +8,7 @@
 
 <script>
     navigator.mediaDevices.getUserMedia({ audio: true })
-    .then(function(stream) {
+    .then(stream => {
         let recorder;
         let audioChunks = [];
         
@@ -24,42 +24,42 @@
             });
             
             recorder.startRecording();
-            monitorSilence(stream);
+            // reset average data
         }
         
-        function monitorSilence(stream) {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const scriptProcessor = audioContext.createScriptProcessor(4096, 1, 1);
-            const source = audioContext.createMediaStreamSource(stream);
-            source.connect(scriptProcessor);
-            scriptProcessor.connect(audioContext.destination);
-            scriptProcessor.onaudioprocess = function(audioProcessingEvent) {
-                const data = audioProcessingEvent.inputBuffer.getChannelData(0);
-                const sum = data.reduce((acc, val) => acc + Math.abs(val), 0);
-                const average = sum / data.length;
-                
-                if (average < 0.1) {
-                    recorder.stopRecording(() => {
-                        fetch('/chat', {
-                            method: 'POST',
-                            body: recorder.getBlob(),
-                        })
-                        .then(response => response.blob())
-                        .then(blob => {
-                            new Audio(URL.createObjectURL(blob)).play();
-                        }).catch(error => {
-                            console.error("Error posting audio", error);
-                        });
-                        
-                        audioChunks = [];
-                        startRecording();
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const scriptProcessor = audioContext.createScriptProcessor(4096, 1, 1);
+        const source = audioContext.createMediaStreamSource(stream);
+        source.connect(scriptProcessor);
+        scriptProcessor.connect(audioContext.destination);
+
+        scriptProcessor.onaudioprocess = e => {
+            const data = e.inputBuffer.getChannelData(0);
+            const sum = data.reduce((acc, val) => acc + Math.abs(val), 0);
+            const average = sum / data.length;
+            
+            if (average < 0.3) {
+                recorder.stopRecording(() => {
+                    fetch('/chat', {
+                        method: 'POST',
+                        body: recorder.getBlob(),
+                    })
+                    .then(response => response.blob())
+                    .then(blob => {
+                        new Audio(URL.createObjectURL(blob)).play();
+                    }).catch(error => {
+                        console.error("Error posting audio", error);
                     });
-                }
+                    
+                    audioChunks = [];
+                    startRecording();
+                });
+            }
         }
 
         startRecording();
     })
-    .catch(function(err) {
+    .catch(err => {
         console.error('Error accessing media devices.', err);
     });
 </script>
