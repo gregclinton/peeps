@@ -14,5 +14,12 @@ async def read():
 async def post_to_chat(file: UploadFile = File(...)):
     with open(file.filename, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
-    tts(process(stt(file.filename)), 'out.wav')
-    return FileResponse('out.wav')
+    q = stt(file.filename);
+    if q and len(q) > 0:
+        print(q)
+        a = process(q);
+        if a and len(a) > 0:
+            print(a)
+            tts(a, 'out.wav')
+            return FileResponse('out.wav')
+    raise HTTPException(status_code = 404);
