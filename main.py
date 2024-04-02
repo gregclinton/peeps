@@ -1,8 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 import chat
-import tts
-import stt
 
 app = FastAPI()
 
@@ -12,10 +10,10 @@ async def read():
 
 @app.get('/test')
 async def read_test():
-    stt.get('xxx.mp3')
+    chat.stt('xxx.mp3')
     return {'abc': chat.haiku()}
 
 @app.get('/foo')
 async def read_foo():
-    tts.get(chat.haiku);
+    chat.tts(chat.haiku);
     return {'abc': chat.haiku()}
