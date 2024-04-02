@@ -21,6 +21,7 @@
                 mimeType: 'audio/wav',
                 timeSlice: 1000,
                 recorderType: RecordRTC.StereoAudioRecorder,
+                numberOfAudioChannels: 1,
                 ondataavailable: blob => {
                     audioChunks.push(blob);
                  },
