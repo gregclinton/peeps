@@ -2,6 +2,7 @@
 # docker run --rm -p 443:443 -v `pwd`:/root -w /root peeps /bin/bash peeps.sh
 # udo ufw allow 443
 # sudo hostname -I | cut -d' ' -f1
+# sudo docker stop $(sudo docker ps -q)
 
 # docker login -u gregclinton
 # docker tag peeps:latest gregclinton/peeps:latest
@@ -18,5 +19,7 @@ RUN pip install openai langchain langchain-cli
 RUN pip install anthropic mistralai langchain-openai
 
 RUN pip install -q -U google-generativeai
+
+RUN pip install python-multipart
 
 RUN openssl req -x509 -newkey rsa:4096 -keyout /etc/ssl/private/key.pem -out /etc/ssl/certs/cert.pem -days 365 -nodes -subj "/CN=greg.com"

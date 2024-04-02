@@ -13,7 +13,7 @@ def tts(text, filename):
         model = "tts-1", # $15 / 1M characters
         voice = "alloy", # alloy, echo, fable, onyx, nova, and shimmer
         speed = 3.5, 
-        input = text
+        input = text,
         response_format = 'wav'
     ).stream_to_file(filename)
 
@@ -22,6 +22,6 @@ def stt(filename):
         return client.audio.transcriptions.create(
             file = audio_file,
             language = 'en',  # optional but improves accuracy and latency
-            model = 'whisper-1' # 100 seconds for a penny, 
+            model = 'whisper-1', # 100 seconds for a penny, 
             response_format = 'text'
         )
