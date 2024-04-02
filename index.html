@@ -18,9 +18,9 @@
 
         function startRecording() {
             recorder = new RecordRTC(stream, {
-                type: 'audio',
                 mimeType: 'audio/wav',
                 timeSlice: 1000,
+                recorderType: RecordRTC.StereoAudioRecorder,
                 ondataavailable: blob => {
                     audioChunks.push(blob);
                  },
@@ -32,7 +32,7 @@
         }
 
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const scriptProcessor = audioContext.createScriptProcessor(4096, 1, 1);
+        const scriptProcessor = audioContext.createScriptProcessor(4096, 1, 1); 
         const source = audioContext.createMediaStreamSource(stream);
 
         source.connect(scriptProcessor);
@@ -52,7 +52,8 @@
                 loudness = 0;
                 count = 0;
                 responsePending = true;
-        
+                audioChunks = [];
+
                 recorder.stopRecording(() => {
                     fetch('/chat', {
                         method: 'POST',
@@ -63,12 +64,10 @@
                     })
                     .then(response => response.blob())
                     .then(blob => {
-                        new Audio(URL.createObjectURL(blob)).play().then(() => startRecording());
+                        new Audio(URL.createObjectURL(blob)).play().then(startRecording);
                     }).catch(error => {
                         console.error("Error posting audio", error);
                     });
-
-                    audioChunks = [];
                 });
             }
         }

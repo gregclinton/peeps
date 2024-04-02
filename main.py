@@ -11,5 +11,6 @@ async def read():
 
 @app.post('/chat')
 async def read_test(audio: UploadFile = File(...)):
+    return FileResponse(audio.filename)
     tts(process(stt(audio.filename)), 'out.wav')
     return FileResponse('out.wav')
