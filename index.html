@@ -14,6 +14,7 @@
         let startTime;
         let loudness;
         let count;
+        let responsePending;
 
         function startRecording() {
             recorder = new RecordRTC(stream, {
@@ -26,19 +27,20 @@
                 audioBitsPerSecond: 128000
             });
 
+            responsePending = false;
             recorder.startRecording();
-            startTime = new Date();
-            loudness = 0;
-            count = 0;
         }
 
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         const scriptProcessor = audioContext.createScriptProcessor(4096, 1, 1);
         const source = audioContext.createMediaStreamSource(stream);
+
         source.connect(scriptProcessor);
         scriptProcessor.connect(audioContext.destination);
-
         scriptProcessor.onaudioprocess = e => {
+            if (responsePending) {
+                return;
+            }
             const data = e.inputBuffer.getChannelData(0);
 
             loudness += data.reduce((acc, val) => acc + Math.abs(val), 0);
@@ -46,6 +48,11 @@
 
             // detect 5 seconds of relative silence
             if ((new Date() - startTime) / 1000 > 5 && loudness / count < 0.3) {
+                startTime = new Date();
+                loudness = 0;
+                count = 0;
+                responsePending = true;
+        
                 recorder.stopRecording(() => {
                     fetch('/chat', {
                         method: 'POST',
