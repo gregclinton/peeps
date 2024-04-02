@@ -10,10 +10,4 @@ async def read():
 
 @app.get('/test')
 async def read_test():
-    chat.stt('xxx.mp3')
-    return {'abc': chat.haiku()}
-
-@app.get('/foo')
-async def read_foo():
-    chat.tts(chat.haiku);
-    return {'abc': chat.haiku()}
+    return {'response': chat.tts(chat.process(chat.stt('peeps.mp3')))}

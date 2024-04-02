@@ -15,7 +15,7 @@ completion = client.chat.completions.create(
     ]
 )
 
-def haiku():
+def process():
     return completion.choices[0].message.content
 
 import warnings
