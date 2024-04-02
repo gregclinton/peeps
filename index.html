@@ -4,33 +4,62 @@
 
 <title>peeps</title>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.6.1/RecordRTC.min.js"></script>
+
 <script>
     navigator.mediaDevices.getUserMedia({ audio: true })
-        .then((stream) => {
-
-        const recorder = new RecordRTC(stream, {
-            type: 'audio',
-            mimeType: 'audio/wav',
-            // Other configuration options as needed
-        });
-
-        recorder.startRecording();
-
-        if (false) {
-            recorder.stopRecording(() => {
-                const audioBlob = recorder.getBlob();
-                const formData = new FormData();
-                formData.append("audio", audioBlob, "audio.wav");
-
-                fetch('/chat', {
-                    method: 'POST',
-                    body: formData,
-                })
-                .then(response => response.blob())
-                .then(blob => {
-                        new Audio(URL.createObjectURL(blob)).play();
-                })
+    .then(function(stream) {
+        let recorder;
+        let audioChunks = [];
+        
+        function startRecording() {
+            recorder = new RecordRTC(stream, {
+                type: 'audio',
+                mimeType: 'audio/wav',
+                timeSlice: 1000,
+                ondataavailable: blob => { 
+                    audioChunks.push(blob);
+                 },
+                audioBitsPerSecond: 128000
             });
-        });
+            
+            recorder.startRecording();
+            monitorSilence(stream);
+        }
+        
+        function monitorSilence(stream) {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const scriptProcessor = audioContext.createScriptProcessor(4096, 1, 1);
+            const source = audioContext.createMediaStreamSource(stream);
+            source.connect(scriptProcessor);
+            scriptProcessor.connect(audioContext.destination);
+            scriptProcessor.onaudioprocess = function(audioProcessingEvent) {
+                const data = audioProcessingEvent.inputBuffer.getChannelData(0);
+                const sum = data.reduce((acc, val) => acc + Math.abs(val), 0);
+                const average = sum / data.length;
+                
+                if (average < 0.1) {
+                    recorder.stopRecording(() => {
+                        fetch('/chat', {
+                            method: 'POST',
+                            body: recorder.getBlob(),
+                        })
+                        .then(response => response.blob())
+                        .then(blob => {
+                            new Audio(URL.createObjectURL(blob)).play();
+                        }).catch(error => {
+                            console.error("Error posting audio", error);
+                        });
+                        
+                        audioChunks = [];
+                        startRecording();
+                    });
+                }
+        }
+
+        startRecording();
     })
+    .catch(function(err) {
+        console.error('Error accessing media devices.', err);
+    });
 </script>
