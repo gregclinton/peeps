@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
 import chat
 
 app = FastAPI()
@@ -10,4 +10,5 @@ async def read():
 
 @app.get('/test')
 async def read_test():
-    return {'response': chat.tts(chat.process(chat.stt('peeps.mp3')))}
+    chat.tts(chat.process(chat.stt('in.mp3')), 'out.mp3')
+    return FileResponse('out.mp3')

@@ -21,13 +21,13 @@ def process():
 import warnings
 warnings.filterwarnings('ignore', category = DeprecationWarning)
 
-def tts(text):
+def tts(text, mp3):
     client.audio.speech.create(
         model = "tts-1", # $15 / 1M characters
         voice = "alloy",# alloy, echo, fable, onyx, nova, and shimmer
         speed = 3.5, 
         input = "Hello, everyone."
-    ).stream_to_file('peep.mp3')
+    ).stream_to_file(mp3)
 
 def stt(mp3):
     with open(mp3, 'rb') as audio_file:

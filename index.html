@@ -4,14 +4,14 @@
 
 <title>peeps</title>
 
-<body id="content"></body>
+<body/>
 
 <script>
     window.onload = () => {
         fetch('/test')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('content').innerHTML = data.abc;
+            .then(response => response.blob())
+            .then(blob => {
+                new Audio(URL.createObjectURL(blob)).play();
             })
     };
 
