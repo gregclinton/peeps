@@ -22,5 +22,6 @@ async def get_static_file(filename: str):
 async def post_to_chat(file: UploadFile = File(...)):
     with open(file.filename, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
-    tts(process(stt(file.filename)), 'out.wav')
-    return FileResponse('out.wav')
+    out = 'audio/response.wav'
+    tts(process(stt(file.filename)), out)
+    return FileResponse(out)
