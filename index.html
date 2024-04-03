@@ -6,11 +6,20 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.6.1/RecordRTC.min.js"></script>
 
+<body onclick="record()"></body>
+
 <script>
     let recorder;
 
-    // recorder.startRecording();
-    // recorder.stopRecording();
+    function record() {
+        if (recorder.recording) {
+            recorder.stopRecording();
+            recorder.recording = false;
+        } else {
+            recorder.startRecording();
+            recorder.recording = true;
+        }
+    }
 
     navigator.mediaDevices.getUserMedia({ audio: true })
     .then(stream => {
