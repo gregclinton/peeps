@@ -137,7 +137,7 @@ window.onload = () => {
     settings.companies.forEach(company => {
         const div = document.createElement('div');
 
-        div.innerHTML = company.company;
+        div.innerHTML = '<h3>' + company.company + '</h3><br/>';
         models.appendChild(div);
     });
 };
