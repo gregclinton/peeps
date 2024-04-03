@@ -7,8 +7,8 @@ def respond(chat):
     messages = [ {"role": "system", "content": "You are a helpful assistant."} ];
 
     for item in chat:
-        messages.append({'role': 'user', 'content': item['prompt']});
-        messages.append({'role': 'assistant', 'content': item['response']});
+        for k, v in item.items():
+            messages.append({'role': 'user' if k == 'prompt' else 'assistant', 'content': v});
 
     return client.chat.completions.create(
 #       openai.com/pricing                context   $in/$out/M    trained

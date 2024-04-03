@@ -3,8 +3,9 @@ import gpt
 items = []
 
 def prompt(text):
+    items.append({'prompt': text})
     response = gpt.respond(items)
-    items.append({'prompt': text, 'response': response})
+    items.append({'response': response})
     return response
 
 def clear():
