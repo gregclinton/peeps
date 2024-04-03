@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 import chat
+import settings
 from speech import stt, tts
 from pathlib import Path
 import shutil
@@ -26,6 +27,10 @@ async def post_to_chat(file: UploadFile = File(...)):
     tts(chat.prompt(stt(file.filename)), out)
     return FileResponse(out)
 
-@app.put("/chat/clear")
-async def chat_clear():
+@app.delete("/chat/")
+async def delete_chat():
     chat.clear()
+
+@app.put("/settings/")
+async def update_settings(new_settings):
+    settings.model = new_settings.model
