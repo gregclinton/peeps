@@ -7,80 +7,34 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.6.1/RecordRTC.min.js"></script>
 
 <script>
+    let recorder;
+
+    // recorder.startRecording();
+    // recorder.stopRecording();
+
     navigator.mediaDevices.getUserMedia({ audio: true })
     .then(stream => {
-        let recorder;
-        let audioChunks = [];
-        let startTime = new Date();
-        let loudness = 0;
-        let count = 0;
-        let responsePending;
+        recorder = new RecordRTC(stream, {
+            mimeType: 'audio/wav',
+            timeSlice: 1000,
+            recorderType: RecordRTC.StereoAudioRecorder,
+            numberOfAudioChannels: 1,
+            audioBitsPerSecond: 128000
+        });
 
-        function startRecording() {
-            startTime = new Date();
+        recorder.stopRecording(() => {
+            const data = new FormData();
 
-            recorder = new RecordRTC(stream, {
-                mimeType: 'audio/wav',
-                timeSlice: 1000,
-                recorderType: RecordRTC.StereoAudioRecorder,
-                numberOfAudioChannels: 1,
-                ondataavailable: blob => {
-                    audioChunks.push(blob);
-                 },
-                audioBitsPerSecond: 128000
+            data.append("file", recorder.getBlob(), 'recorder.wav');
+
+            fetch('/chat/', {
+                method: 'POST',
+                body: data,
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                new Audio(URL.createObjectURL(blob)).play();
             });
-
-            responsePending = false;
-            recorder.startRecording();
-        }
-
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const scriptProcessor = audioContext.createScriptProcessor(4096, 1, 1);
-        const source = audioContext.createMediaStreamSource(stream);
-
-        source.connect(scriptProcessor);
-        scriptProcessor.connect(audioContext.destination);
-        scriptProcessor.onaudioprocess = e => {
-            if (responsePending) {
-                return;
-            }
-            const data = e.inputBuffer.getChannelData(0);
-
-            loudness += data.reduce((acc, val) => acc + Math.abs(val), 0);
-            count += data.length;
-            const avg = loudness / count;
-
-            // detect 5 seconds of relative silence
-            if (((new Date() - startTime) / 1000 > 5) && (avg < 0.3)) {
-                loudness = 0;
-                count = 0;
-                responsePending = true;
-                audioChunks = [];
-
-                recorder.stopRecording(() => {
-                    const data = new FormData();
-                    const blob = recorder.getBlob();
-
-                    data.append("file", blob, 'recorder.wav');
-
-                    fetch('/chat/', {
-                        method: 'POST',
-                        body: data,
-                        // don't set Content-Type header manually when using FormData
-                    })
-                    .then(response => response.blob())
-                    .then(blob => {
-                        new Audio(URL.createObjectURL(blob)).play().then(startRecording);
-                    }).catch(error => {
-                        console.error("Error posting audio", error);
-                    });
-                });
-            }
-        }
-
-        startRecording();
+        });
     })
-    .catch(err => {
-        console.error('Error accessing media devices.', err);
-    });
 </script>
