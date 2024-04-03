@@ -25,3 +25,13 @@ def stt(filename):
             model = 'whisper-1', # 100 seconds for a penny, 
             response_format = 'text'
         )
+
+# from transformers import pipeline
+
+# def stt_whisper(filename):
+#     pipe = pipeline(
+#         task = "automatic-speech-recognition",
+#         model = "openai/whisper-tiny",
+#         device = 'cpu')
+
+#     return pipe('peeps.wav', return_timestamps=True, chunk_length_s=30, stride_length_s=[6,0], batch_size=32).text
