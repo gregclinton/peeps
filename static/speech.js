@@ -3,6 +3,22 @@ const recorder = {
     stream: 0,
     recording: false,
 
+    toggle() {
+        recorder.recording = !recorder.recording;
+
+        const start = document.getElementById('recorder-start').classList;
+        const stop = document.getElementById('recorder-stop').classList;
+
+        start.remove('hidden');
+        stop.remove('hidden');
+
+        if (recorder.recording) {
+            start.add('hidden');
+        } else {
+            stop.add('hidden');
+        }
+    },
+
     start: () => {
         recorder.audio = new RecordRTC(recorder.stream, {
             mimeType: 'audio/wav',
@@ -13,7 +29,7 @@ const recorder = {
         });
 
         recorder.audio.startRecording();
-        recorder.recording = true;
+        recorder.toggle();
     },
 
     send: () => {
@@ -28,19 +44,19 @@ const recorder = {
             })
             .then(response => response.blob())
             .then(blob => {
-                new Audio(URL.createObjectURL(blob)).play();
+                new Audio(URL.createObjectURL(blob)).play().then(recorder.toggle);
             });
         });
-        recorder.recording = false;
     },
 
     cancel: () => {
-        recorder.audio_.stopRecording();
-        recorder.recording = false;
+        recorder.audio.stopRecording(recorder.toggle);
     }
 };
 
 navigator.mediaDevices.getUserMedia({ audio: true })
 .then(stream => {
     recorder.stream = stream;
+    recorder.toggle();
+    recorder.toggle();
 })
