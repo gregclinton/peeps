@@ -1,2 +1,4 @@
+import gpt
+
 def process(text):
-    return text
+    return gpt.prompt(text)
