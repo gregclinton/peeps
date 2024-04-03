@@ -20,6 +20,11 @@ body, html
     background: #ccc;
 }
 
+#toolbar svg
+{
+    margin: 8px;
+}
+
 #recorder
 {
     float: right;
