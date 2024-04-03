@@ -1,7 +1,9 @@
 let recorder;
+let recorderStream;
+let recording = false;
 
 function record() {
-    if (recorder.recording) {
+    if (recording) {
         recorder.stopRecording(() => {
             const data = new FormData();
 
@@ -16,20 +18,22 @@ function record() {
                 new Audio(URL.createObjectURL(blob)).play();
             });
         });
-        recorder.recording = false;
+        recording = false;
     } else {
+        recorder = new RecordRTC(recorderStream, {
+            mimeType: 'audio/wav',
+            timeSlice: 1000,
+            recorderType: RecordRTC.StereoAudioRecorder,
+            numberOfAudioChannels: 1,
+            audioBitsPerSecond: 128000
+        });
+
         recorder.startRecording();
-        recorder.recording = true;
+        recording = true;
     }
 }
 
 navigator.mediaDevices.getUserMedia({ audio: true })
 .then(stream => {
-    recorder = new RecordRTC(stream, {
-        mimeType: 'audio/wav',
-        timeSlice: 1000,
-        recorderType: RecordRTC.StereoAudioRecorder,
-        numberOfAudioChannels: 1,
-        audioBitsPerSecond: 128000
-    });
+    recorderStream = stream;
 })
