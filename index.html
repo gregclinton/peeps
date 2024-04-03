@@ -13,7 +13,20 @@
 
     function record() {
         if (recorder.recording) {
-            recorder.stopRecording();
+            recorder.stopRecording(() => {
+                const data = new FormData();
+
+                data.append("file", recorder.getBlob(), 'recorder.wav');
+
+                fetch('/chat/', {
+                    method: 'POST',
+                    body: data,
+                })
+                .then(response => response.blob())
+                .then(blob => {
+                    new Audio(URL.createObjectURL(blob)).play();
+                });
+            });
             recorder.recording = false;
         } else {
             recorder.startRecording();
@@ -29,21 +42,6 @@
             recorderType: RecordRTC.StereoAudioRecorder,
             numberOfAudioChannels: 1,
             audioBitsPerSecond: 128000
-        });
-
-        recorder.stopRecording(() => {
-            const data = new FormData();
-
-            data.append("file", recorder.getBlob(), 'recorder.wav');
-
-            fetch('/chat/', {
-                method: 'POST',
-                body: data,
-            })
-            .then(response => response.blob())
-            .then(blob => {
-                new Audio(URL.createObjectURL(blob)).play();
-            });
         });
     })
 </script>
