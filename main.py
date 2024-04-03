@@ -13,6 +13,11 @@ app.mount("/static", StaticFiles(directory = "static"), name ="static")
 async def get_index():
     return FileResponse(Path("static/index.html"))
 
+@app.get("/{filename:path}")
+async def get_static_file(filename: str):
+    static_path = Path(f"static/{filename}")
+    return FileResponse(static_path)
+
 @app.post("/chat/")
 async def post_to_chat(file: UploadFile = File(...)):
     with open(file.filename, "wb") as buffer:
