@@ -144,7 +144,14 @@ window.onload = () => {
         const tbody = document.createElement('tbody');
         const thead = document.createElement('thead');
 
-        thead.innerHTML = '<th>model</th><th>context</th><th>in</th><th>out</th><th>trained</th>'
+        const first = company.models[0];
+
+        thead.innerHTML =
+            '<th>model</th>' +
+            (first.context ? '<th>context</th>' : '') +
+            '<th>in</th><th>out</th>' +
+            (first.trainingDate ? '<th>trained</th>' : '');
+
         div.appendChild(table);
         table.appendChild(thead);
         table.appendChild(tbody);
@@ -153,13 +160,15 @@ window.onload = () => {
         company.models.forEach(model => {
             const tr = document.createElement('tr');
             const addTd = (value => {
-                const td = document.createElement('td');
+                if (value !== null) {
+                    const td = document.createElement('td');
 
-                if (value > 1000) {
-                    value =  Math.round(value / 1000) + 'K';
+                    if (value > 1000) {
+                        value =  Math.round(value / 1000) + 'K';
+                    }
+                    td.innerHTML = value;
+                    tr.appendChild(td)
                 }
-                td.innerHTML = value;
-                tr.appendChild(td)
             });
 
             addTd(model.name);
