@@ -1,7 +1,7 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from chat import process
+import chat
 from speech import stt, tts
 from pathlib import Path
 import shutil
@@ -23,5 +23,9 @@ async def post_to_chat(file: UploadFile = File(...)):
     with open(file.filename, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     out = 'audio/response.wav'
-    tts(process(stt(file.filename)), out)
+    tts(chat.prompt(stt(file.filename)), out)
     return FileResponse(out)
+
+@app.put("/chat/clear")
+async def chat_clear():
+    chat.clear()
