@@ -6,8 +6,6 @@ client = OpenAI(api_key = secrets.get('OPENAI_API_KEY'))
 import warnings
 warnings.filterwarnings('ignore', category = DeprecationWarning)
 
-# consider using the free whisper model for improved latency
-
 def tts(text, filename):
     client.audio.speech.create(
         model = "tts-1", # $15 / 1M characters
