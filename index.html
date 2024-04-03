@@ -6,7 +6,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.6.1/RecordRTC.min.js"></script>
 
-<body onclick="record()"></body>
+<body id="main", onclick="record()"></body>
 
 <script>
     let recorder;
@@ -28,9 +28,11 @@
                 });
             });
             recorder.recording = false;
+            document.getElementById('main').innerHTML = '';
         } else {
             recorder.startRecording();
             recorder.recording = true;
+            document.getElementById('main').innerHTML = 'Recording';
         }
     }
 
