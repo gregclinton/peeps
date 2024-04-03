@@ -9,4 +9,6 @@ def prompt(text):
     return response
 
 def clear():
+    global items
+
     items = []
