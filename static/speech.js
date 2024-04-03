@@ -17,7 +17,6 @@ function record() {
             });
         });
         recorder.recording = false;
-        document.getElementById('main').innerHTML = '';
     } else {
         recorder.startRecording();
         recorder.recording = true;
