@@ -1,30 +1,10 @@
-const recorder = {
-    audio: 0,
+const speech = {
+    recorder: 0,
     stream: 0,
     recording: false,
 
-    toggle() {
-        recorder.recording = !recorder.recording;
-
-        const parent = document.getElementById('recorder');
-        const start = document.getElementById('recorder-start');
-        const stop = document.getElementById('recorder-stop');
-        const send = document.getElementById('recorder-send');
-
-        parent.hidden = false;
-        start.hidden = false;
-        stop.hidden = false;
-        send.hidden = false;
-
-        if (recorder.recording) {
-            start.hidden = true;
-        } else {
-            stop.hidden = true;
-        }
-    },
-
     start: () => {
-        recorder.audio = new RecordRTC(recorder.stream, {
+        speech.recorder = new RecordRTC(speech.stream, {
             mimeType: 'audio/wav',
             timeSlice: 1000,
             recorderType: RecordRTC.StereoAudioRecorder,
@@ -32,16 +12,18 @@ const recorder = {
             audioBitsPerSecond: 128000
         });
 
-        recorder.audio.startRecording();
-        recorder.toggle();
+        speech.recorder.startRecording();
+        document.getElementById('speech-start').hidden = true;
+        document.getElementById('speech-send').hidden = false;
+        document.getElementById('speech-stop').hidden = false;
     },
 
     send: () => {
-        document.getElementById('recorder').hidden = true;
-        recorder.audio.stopRecording(() => {
+        document.getElementById('speech-send').hidden = true;
+        speech.recorder.stopRecording(() => {
             const data = new FormData();
 
-            data.append("file", recorder.audio.getBlob(), 'audio/prompt.wav');
+            data.append("file", speech.recorder.getBlob(), 'audio/prompt.wav');
 
             fetch('/chat/', {
                 method: 'POST',
@@ -49,19 +31,23 @@ const recorder = {
             })
             .then(response => response.blob())
             .then(blob => {
-                new Audio(URL.createObjectURL(blob)).play().then(recorder.toggle);
+                new Audio(URL.createObjectURL(blob)).play().then(() => {
+                    document.getElementById('speech-stop').hidden = true;
+                });
             });
         });
     },
 
-    cancel: () => {
-        recorder.audio.stopRecording(recorder.toggle);
+    stop: () => {
+        document.getElementById('speech-stop').hidden = true;
+        document.getElementById('speech-send').hidden = true;
+        speech.recorder.stopRecording(() => {
+            document.getElementById('speech-start').hidden = false;
+        });
     }
 };
 
 navigator.mediaDevices.getUserMedia({ audio: true })
 .then(stream => {
-    recorder.stream = stream;
-    recorder.toggle();
-    recorder.toggle();
+    speech.stream = stream;
 })

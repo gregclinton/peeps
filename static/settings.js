@@ -186,4 +186,8 @@ window.onload = () => {
 
         models.appendChild(div);
     });
+
+    document.getElementById('speech-start').hidden = false;
+    document.getElementById('speech-send').hidden = true;
+    document.getElementById('speech-stop').hidden = true;
 };
