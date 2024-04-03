@@ -12,6 +12,6 @@ def respond(chat):
             messages.append({'role': 'user' if k == 'prompt' else 'assistant', 'content': v});
 
     return client.chat.completions.create(
-        model = settings['model'],
+        model = settings.model,
         messages = messages
     ).choices[0].message.content
