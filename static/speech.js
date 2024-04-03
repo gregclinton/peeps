@@ -5,7 +5,7 @@ function record() {
         recorder.stopRecording(() => {
             const data = new FormData();
 
-            data.append("file", recorder.getBlob(), 'recorder.wav');
+            data.append("file", recorder.getBlob(), 'audio/prompt.wav');
 
             fetch('/chat/', {
                 method: 'POST',
