@@ -32,5 +32,5 @@ async def delete_chat():
     chat.clear()
 
 @app.put("/settings/")
-async def update_settings(new_settings):
-    settings.model = new_settings.model
+async def update_settings(new_settings: dict):
+    settings.model = new_settings['model']
