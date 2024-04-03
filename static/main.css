@@ -35,3 +35,36 @@ body, html
 {
     margin-left: 20px;
 }
+
+#models h3
+{
+    margin: 0px;
+}
+
+#models div span
+{
+    margin-top: 10px;
+    margin-bottom: 0px;
+    height: 10px;
+}
+
+#models td:nth-child(n+3)
+{
+    text-align: right;
+}
+
+table
+{
+    border-collapse: collapse;
+}
+
+table, th, td
+{
+    border: 1px solid lightgray;
+}
+
+th, td
+{
+    padding: 2px;
+    text-align: left;
+}

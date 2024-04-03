@@ -147,7 +147,7 @@ window.onload = () => {
         const first = company.models[0];
 
         thead.innerHTML =
-            '<th>model</th>' +
+            '<th></th><th>model</th>' +
             (first.context ? '<th>context</th>' : '') +
             '<th>in</th><th>out</th>' +
             (first.trainingDate ? '<th>trained</th>' : '');
@@ -171,12 +171,17 @@ window.onload = () => {
                 }
             });
 
+            addTd(model.name === settings.name ? 'x': '&nbsp;&nbsp;&nbsp;&nbsp;');
             addTd(model.name);
             addTd(model.context);
             addTd(model.inPrice);
             addTd(model.outPrice);
             addTd(model.trainingDate);
             tbody.appendChild(tr);
+
+            tr.onclick = () => {
+                settings.name = model.name;
+            }
         });
 
         models.appendChild(div);
