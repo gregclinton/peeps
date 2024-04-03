@@ -1,51 +1,20 @@
-<!--
-    https://192.168.1.13
--->
+<!-- https://192.168.1.13 -->
 
-<title>peeps</title>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>peeps</title>
+    </head>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.6.1/RecordRTC.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.6.1/RecordRTC.min.js"></script>
+    <link href="main.css" rel="stylesheet"/>
+    <script src="speech.js"></script>
 
-<body id="main", onclick="record()"></body>
-<link href="main.css" rel="stylesheet"/>
-<script src="speech.js"></script>
-
-<script>
-    let recorder;
-
-    function record() {
-        if (recorder.recording) {
-            recorder.stopRecording(() => {
-                const data = new FormData();
-
-                data.append("file", recorder.getBlob(), 'recorder.wav');
-
-                fetch('/chat/', {
-                    method: 'POST',
-                    body: data,
-                })
-                .then(response => response.blob())
-                .then(blob => {
-                    new Audio(URL.createObjectURL(blob)).play();
-                });
-            });
-            recorder.recording = false;
-            document.getElementById('main').innerHTML = '';
-        } else {
-            recorder.startRecording();
-            recorder.recording = true;
-            document.getElementById('main').innerHTML = 'Recording';
-        }
-    }
-
-    navigator.mediaDevices.getUserMedia({ audio: true })
-    .then(stream => {
-        recorder = new RecordRTC(stream, {
-            mimeType: 'audio/wav',
-            timeSlice: 1000,
-            recorderType: RecordRTC.StereoAudioRecorder,
-            numberOfAudioChannels: 1,
-            audioBitsPerSecond: 128000
-        });
-    })
-</script>
+    <body id="main">
+        <div id="canvas"></div>
+        <div id="toolbar" >
+            <button onclick="record()">Record</button>
+        </div>
+    </body>
+</html>
