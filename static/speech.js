@@ -6,11 +6,15 @@ const recorder = {
     toggle() {
         recorder.recording = !recorder.recording;
 
+        const parent = document.getElementById('recorder').classList;
         const start = document.getElementById('recorder-start').classList;
         const stop = document.getElementById('recorder-stop').classList;
+        const send = document.getElementById('recorder-send').classList;
 
+        parent.remove('hidden');
         start.remove('hidden');
         stop.remove('hidden');
+        send.remove('hidden');
 
         if (recorder.recording) {
             start.add('hidden');
@@ -33,6 +37,7 @@ const recorder = {
     },
 
     send: () => {
+        document.getElementById('recorder').classList.add('hidden');
         recorder.audio.stopRecording(() => {
             const data = new FormData();
 
