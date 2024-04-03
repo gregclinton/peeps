@@ -30,3 +30,8 @@ body, html
 {
     float: right;
 }
+
+#settings
+{
+    margin-left: 20px;
+}
