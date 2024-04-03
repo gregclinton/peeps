@@ -30,8 +30,3 @@ body, html
 {
     float: right;
 }
-
-.hidden
-{
-    visibility: hidden;
-}

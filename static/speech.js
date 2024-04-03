@@ -6,20 +6,20 @@ const recorder = {
     toggle() {
         recorder.recording = !recorder.recording;
 
-        const parent = document.getElementById('recorder').classList;
-        const start = document.getElementById('recorder-start').classList;
-        const stop = document.getElementById('recorder-stop').classList;
-        const send = document.getElementById('recorder-send').classList;
+        const parent = document.getElementById('recorder');
+        const start = document.getElementById('recorder-start');
+        const stop = document.getElementById('recorder-stop');
+        const send = document.getElementById('recorder-send');
 
-        parent.remove('hidden');
-        start.remove('hidden');
-        stop.remove('hidden');
-        send.remove('hidden');
+        parent.hidden = false;
+        start.hidden = false;
+        stop.hidden = false;
+        send.hidden = false;
 
         if (recorder.recording) {
-            start.add('hidden');
+            start.hidden = true;
         } else {
-            stop.add('hidden');
+            stop.hidden = true;
         }
     },
 
@@ -37,7 +37,7 @@ const recorder = {
     },
 
     send: () => {
-        document.getElementById('recorder').classList.add('hidden');
+        document.getElementById('recorder').hidden = true;
         recorder.audio.stopRecording(() => {
             const data = new FormData();
 
