@@ -26,6 +26,25 @@ const speech = {
 
             data.append("file", speech.recorder.getBlob(), 'audio/prompt.wav');
 
+            fetch('/audio/', {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({text: 'hi hi hi everyone is a star'})
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                speech.player = new Audio(URL.createObjectURL(blob));
+                speech.player.play();
+                speech.player.onended = () => {
+                    document.getElementById('speech-start').hidden = false;
+                    document.getElementById('speech-stop').hidden = true;
+                    speech.player = 0;
+                };
+            });
+            return;
+
+
+
             fetch('/chat/', {
                 method: 'POST',
                 body: data,
