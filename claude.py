@@ -1,9 +1,10 @@
 import anthropic
 import secrets
+import settings
 
 client = anthropic.Anthropic(api_key = secrets.get('ANTHROPIC_API_KEY'))
 
-def prompt(messages):
+def respond(chat):
     messages = []
 
     for item in chat:

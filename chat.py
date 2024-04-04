@@ -1,4 +1,4 @@
-import gpt, claude, gemini, mistral
+import gpt, claude, gemini, mistral, settings
 
 items = []
 
@@ -8,8 +8,8 @@ def prompt(text):
     csps = [gpt, claude, gemini, mistral]
 
     for i, s in enumerate(map(lambda x: x.__name__, csps)):
-        if m.startswith(s):
-            csps[i].respond(items)
+        if settings.model.startswith(s):
+            response = csps[i].respond(items)
             break
 
     items.append({'response': response})

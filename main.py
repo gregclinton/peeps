@@ -34,3 +34,6 @@ async def delete_chat():
 @app.put("/settings/")
 async def update_settings(new_settings: dict):
     settings.model = new_settings['model']
+
+async def http_exception_handler(request, exc):
+    return PlainTextResponse(str(exc.detail), status_code = exc.status_code)
