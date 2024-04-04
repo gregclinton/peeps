@@ -1,5 +1,6 @@
 from openai import OpenAI
 import secrets
+import settings
 
 client = OpenAI(api_key = secrets.get('OPENAI_API_KEY'))
 
@@ -9,7 +10,7 @@ warnings.filterwarnings('ignore', category = DeprecationWarning)
 def tts(text, filename):
     client.audio.speech.create(
         model = "tts-1", # $15 / 1M characters
-        voice = "echo", # alloy, echo, fable, onyx, nova, and shimmer
+        voice = settings.voice,
         speed = 1, 
         input = text,
         response_format = 'wav'

@@ -5,10 +5,18 @@ settings = {
     },
 
     updateModel: (name) => {
-        fetch('/settings/', {
+        fetch('/settings/model/', {
             method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({model: name})
+            headers: {'Content-Type': 'text/plain'},
+            body: name
+        })
+    },
+
+    updateVoice: (name) => {
+        fetch('/settings/voice/', {
+            method: 'PUT',
+            headers: {'Content-Type': 'text/plain'},
+            body: name
         })
     },
 
@@ -70,4 +78,6 @@ window.onload = () => {
             settings.updateModel(name);
         }
     });
+
+    settings.updateVoice('alloy'); // alloy, echo, fable, onyx, nova, and shimmer
 };
