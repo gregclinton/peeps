@@ -48,7 +48,7 @@ body, html
     height: 10px;
 }
 
-#models td:nth-child(n+3)
+#models td:nth-child(n+2)
 {
     text-align: right;
 }
@@ -63,8 +63,13 @@ table, th, td
     border: 1px solid lightgray;
 }
 
-th, td
+td
 {
     padding: 2px;
     text-align: left;
+}
+
+th
+{
+    text-align: center;
 }

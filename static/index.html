@@ -1,6 +1,5 @@
 <!--
     https://192.168.1.13
-    prism stuff below is for displaying python code
 -->
 
 <html>
@@ -8,18 +7,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <script>
-            MathJax = {
-                tex: { inlineMath: [['\\(', '\\)']] },
-                chtml: { scale: 1.5 }
-            };
-        </script>
-
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.6.1/RecordRTC.min.js"></script>
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" />
         <link href="main.css" rel="stylesheet"/>
         <link rel="icon" href="data:,"/>
 
@@ -35,23 +23,8 @@
 
 
             <div id="settings" hidden>
-                <h2>models</h2>
                 <div id="models"></div>
             </div>
-
-            <p> \(x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}\) </p>
-
-<pre>
-<code class="language-python">
-import numpy as np
-
-def say_hello():
-    print("Hello, World!")
-
-if __name__ == "__main__":
-    say_hello()
-</code>
-</pre>
 
         </div>
         <div id="toolbar">
@@ -71,8 +44,5 @@ if __name__ == "__main__":
                 </span>
             </span>
         </div>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-python.min.js"></script>
     </body>
 </html>

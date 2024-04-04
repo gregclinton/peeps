@@ -136,30 +136,16 @@ window.onload = () => {
     document.getElementById('speech-stop').hidden = true;
 
     const models = document.getElementById('models');
+    const table = document.createElement('table');
+    const tbody = document.createElement('tbody');
+    const thead = document.createElement('thead');
+
+    thead.innerHTML = '<th>model</th><th>context</th><th>in</th><th>out</th><th>trained</th>';
+    table.appendChild(thead);
+    table.appendChild(tbody);
+    models.appendChild(table);
 
     settings.companies.forEach(company => {
-        const div = document.createElement('div');
-        const span = document.createElement('span');
-
-        span.innerHTML = '<h3>' + company.name + '</h3><br/>';
-        div.appendChild(span);
-        const table = document.createElement('table');
-        const tbody = document.createElement('tbody');
-        const thead = document.createElement('thead');
-
-        const first = company.models[0];
-
-        thead.innerHTML =
-            '<th></th><th>model</th>' +
-            (first.context ? '<th>context</th>' : '') +
-            '<th>in</th><th>out</th>' +
-            (first.trainingDate ? '<th>trained</th>' : '');
-
-        div.appendChild(table);
-        table.appendChild(thead);
-        table.appendChild(tbody);
-        div.appendChild(table);
-
         company.models.forEach(model => {
             const tr = document.createElement('tr');
             const addTd = (value => {
@@ -174,19 +160,16 @@ window.onload = () => {
                 }
             });
 
-            addTd(model.name === settings.name ? 'x': '&nbsp;&nbsp;&nbsp;&nbsp;');
             addTd(model.name);
-            addTd(model.context);
+            addTd(model.context || '&nbsp;');
             addTd(model.inPrice);
             addTd(model.outPrice);
-            addTd(model.trainingDate);
+            addTd(model.trainingDate || '&nbsp;');
             tbody.appendChild(tr);
 
             tr.onclick = () => {
                 settings.name = model.name;
             }
         });
-
-        models.appendChild(div);
     });
 };
