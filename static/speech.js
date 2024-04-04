@@ -15,7 +15,11 @@ const speech = {
     },
 
     tts: text => {
-
+        return fetch('/tts/', {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({text: text})
+        })
     },
 
     start: () => {
@@ -47,11 +51,7 @@ const speech = {
                 })
                 .then(response => response.text())
                 .then(text => {
-                    fetch('/tts/', {
-                        method: 'PUT',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({text: text})
-                    })
+                    speech.tts(text)
                     .then(response => response.blob())
                     .then(blob => {
                         speech.player = new Audio(URL.createObjectURL(blob));
