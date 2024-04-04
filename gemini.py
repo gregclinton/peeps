@@ -3,6 +3,12 @@ import secrets
 
 genai.configure(api_key = secrets.get('GEMINI_API_KEY'))
 
-model = genai.GenerativeModel(settings.model)
+def respond(chat):
+    transcript = ''
 
-print(model.generate_content("Write a haiku about relativity.").text)
+    for item in chat:
+        for k, v in item.items():
+            transcript += k + ': ' + v
+
+    transcript += 'response: '
+    return genai.GenerativeModel(settings.model).generate_content(transcript).text
