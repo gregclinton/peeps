@@ -13,3 +13,4 @@ def prompt(messages):
             { "role": "user", "content": text }
         ]
     ).content[0].text
+    
