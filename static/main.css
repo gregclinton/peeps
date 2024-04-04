@@ -74,6 +74,10 @@ th
     text-align: center;
 }
 
+#models tr {
+    font-size: larger;
+}
+
 #models tr.selected {
     font-weight: bold;
     color: darkblue; 
