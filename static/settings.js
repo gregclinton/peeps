@@ -77,7 +77,7 @@ window.onload = () => {
             settings.selectedModel = tr;
             settings.updateModel(name);
         }
-    });
 
-    settings.updateVoice('alloy'); // alloy, echo, fable, onyx, nova, and shimmer
+        settings.updateVoice('alloy'); // alloy, echo, fable, onyx, nova, and shimmer
+    });
 };
