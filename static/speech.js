@@ -1,3 +1,27 @@
+const recorder = {
+    rec: null,
+
+    start: (stream) => {
+        recorder.rec = new RecordRTC(stream, {
+            mimeType: 'audio/wav',
+            timeSlice: 1000,
+            recorderType: RecordRTC.StereoAudioRecorder,
+            numberOfAudioChannels: 1,
+            audioBitsPerSecond: 128000
+        });
+
+        recorder.rec.startRecording();
+    },
+
+    stop: (fn) => {
+        recorder.rec.stopRecording(fn);
+    },
+
+    blob: () => {
+        return recorder.rec.getBlob();
+    }
+}
+
 const speech = {
     stream: 0,
     recorder: 0,
@@ -22,26 +46,18 @@ const speech = {
         })
     },
 
-    start: () => {
+    start: (stream) => {
         document.getElementById('speech-start').hidden = true;
         document.getElementById('speech-send').hidden = false;
         document.getElementById('speech-stop').hidden = false;
 
-        speech.recorder = new RecordRTC(speech.stream, {
-            mimeType: 'audio/wav',
-            timeSlice: 1000,
-            recorderType: RecordRTC.StereoAudioRecorder,
-            numberOfAudioChannels: 1,
-            audioBitsPerSecond: 128000
-        });
-
-        speech.recorder.startRecording();
+        recorder.start(speech.stream);
     },
 
     send: () => {
         document.getElementById('speech-send').hidden = true;
-        speech.recorder.stopRecording(() => {
-            speech.stt(speech.recorder.getBlob())
+        recorder.stop(() => {
+            speech.stt(recorder.blob())
             .then(response => response.text())
             .then(text => {
                 chat.prompt(text)
@@ -60,7 +76,7 @@ const speech = {
                     });
                 })
             })
-        });
+        })
     },
 
     stop: () => {
@@ -71,7 +87,7 @@ const speech = {
             speech.player.pause();
             speech.player = 0;
         } else {
-            speech.recorder.stopRecording();
+            recorder.stop();
         }
     }
 };
