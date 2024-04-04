@@ -1,8 +1,8 @@
 const recorder = {
-    rec: null,
+    device: null,
 
     start: (stream) => {
-        recorder.rec = new RecordRTC(stream, {
+        recorder.device = new RecordRTC(stream, {
             mimeType: 'audio/wav',
             timeSlice: 1000,
             recorderType: RecordRTC.StereoAudioRecorder,
@@ -10,22 +10,41 @@ const recorder = {
             audioBitsPerSecond: 128000
         });
 
-        recorder.rec.startRecording();
+        recorder.device.startRecording();
     },
 
     stop: (fn) => {
-        recorder.rec.stopRecording(fn);
+        recorder.device.stopRecording(fn);
     },
 
     blob: () => {
-        return recorder.rec.getBlob();
+        return recorder.device.getBlob();
+    }
+}
+
+const player = {
+    device: null,
+    playing: false,
+
+    play: (blob, fn) => {
+        player.device = new Audio(URL.createObjectURL(blob));
+        player.device.play();
+        player.device.onended = () => {
+            player.playing = false;
+            fn();
+            player.device = null;
+        }
+        player.playing = true;
+    },
+
+    stop: () => {
+        player.device.pause();
+        player.playing = false;
     }
 }
 
 const speech = {
     stream: 0,
-    recorder: 0,
-    player: 0,
 
     stt: blob => {
         const data = new FormData();
@@ -66,13 +85,10 @@ const speech = {
                     speech.tts(text)
                     .then(response => response.blob())
                     .then(blob => {
-                        speech.player = new Audio(URL.createObjectURL(blob));
-                        speech.player.play();
-                        speech.player.onended = () => {
+                        player.play(blob, () => {
                             document.getElementById('speech-start').hidden = false;
                             document.getElementById('speech-stop').hidden = true;
-                            speech.player = 0;
-                        };
+                        });
                     });
                 })
             })
@@ -83,12 +99,7 @@ const speech = {
         document.getElementById('speech-send').hidden = true;
         document.getElementById('speech-stop').hidden = true;
         document.getElementById('speech-start').hidden = false;
-        if (speech.player) {
-            speech.player.pause();
-            speech.player = 0;
-        } else {
-            recorder.stop();
-        }
+        (player.playing ? player : recorder).stop();
     }
 };
 
