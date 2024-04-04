@@ -73,3 +73,8 @@ th
 {
     text-align: center;
 }
+
+#models tr.selected {
+    font-weight: bold;
+    color: darkblue; 
+}

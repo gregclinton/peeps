@@ -4,14 +4,19 @@ settings = {
         e.hidden = !e.hidden;
     },
 
-    name: 'gpt-3.5-turbo-0125',
+    updateModel: (name) => { return;
+        fetch('/settings/', {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({model: name})
+        })
+    },
+
+    selectedModel: null
 }
 
-fetch('/settings/', {
-    method: 'PUT',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({model: 'gpt-3.5-turbo-0125'})
-})
+settings.updateModel('gpt-3.5-turbo-0125');
+
 
 window.onload = () => {
     document.getElementById('speech-send').hidden = true;
@@ -43,20 +48,30 @@ window.onload = () => {
     ].forEach(model => {
         const tr = document.createElement('tr');
         const addTd = (value => {
-            if (value !== null) {
-                const td = document.createElement('td');
+            const td = document.createElement('td');
 
-                td.innerHTML = value;
-                tr.appendChild(td)
-            }
+            td.innerHTML = value;
+            tr.appendChild(td)
         });
 
-        addTd(model[0]);
-        addTd(model[1]);
+        const name = model[0];
+        const price = model[1];
+
+        addTd(name);
+        addTd(price);
+
+        if (name === 'gpt-3.5-turbo-0125') {
+            tr.classList.add('selected')
+            settings.selectedModel = tr;
+        }
+
         tbody.appendChild(tr);
 
         tr.onclick = () => {
-            settings.name = model.name;
+            settings.selectedModel.classList.remove('selected')
+            tr.classList.add('selected');
+            settings.selectedModel = tr;
+            settings.updateModel(name);
         }
     });
 };
