@@ -26,27 +26,35 @@ const speech = {
 
             data.append("file", speech.recorder.getBlob(), 'audio/prompt.wav');
 
-            fetch('/chat/', {
-                method: 'POST',
+            fetch('/stt/', {
+                method: 'PUT',
                 body: data,
             })
             .then(response => response.text())
             .then(text => {
-                fetch('/audio/', {
-                    method: 'PUT',
+                fetch('/chat/', {
+                    method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({text: text})
                 })
-                .then(response => response.blob())
-                .then(blob => {
-                    speech.player = new Audio(URL.createObjectURL(blob));
-                    speech.player.play();
-                    speech.player.onended = () => {
-                        document.getElementById('speech-start').hidden = false;
-                        document.getElementById('speech-stop').hidden = true;
-                        speech.player = 0;
-                    };
-                });
+                .then(response => response.text())
+                .then(text => {
+                    fetch('/tts/', {
+                        method: 'PUT',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({text: text})
+                    })
+                    .then(response => response.blob())
+                    .then(blob => {
+                        speech.player = new Audio(URL.createObjectURL(blob));
+                        speech.player.play();
+                        speech.player.onended = () => {
+                            document.getElementById('speech-start').hidden = false;
+                            document.getElementById('speech-stop').hidden = true;
+                            speech.player = 0;
+                        };
+                    });
+                })
             })
         });
     },

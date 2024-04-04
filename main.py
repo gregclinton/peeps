@@ -19,14 +19,18 @@ async def get_static_file(filename: str):
     static_path = Path(f"static/{filename}")
     return FileResponse(static_path)
 
-@app.post("/chat/", response_class=PlainTextResponse)
-async def post_to_chat(file: UploadFile = File(...)):
+@app.post("/chat/", response_class = PlainTextResponse)
+async def post_to_chat(o: dict):
+    return chat.prompt(o['text'])
+
+@app.put("/stt/", response_class = PlainTextResponse)
+async def put_stt(file: UploadFile = File(...)):
     with open(file.filename, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
-    return chat.prompt(stt(file.filename))
+    return stt(file.filename)
 
-@app.put("/audio/")
-async def get_audio(o: dict):
+@app.put("/tts/")
+async def put_tts(o: dict):
     out = 'audio/response.wav'
     tts(o['text'], out)
     return FileResponse(out)
