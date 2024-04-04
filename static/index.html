@@ -9,24 +9,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <script>
-            window.MathJax = {
-                tex: {
-                    inlineMath: [['$', '$'], ['\\(', '\\)']]
-                },
-
-                svg: {
-                    fontCache: 'global'
-                },
-
-                options: {
-                    renderActions: {
-                        addClasses: [0, function (doc) {
-                            for (const math of doc.math) {
-                                math.typesetRoot.classList.add('math-rendered');
-                            }
-                        }, '']
-                    }
-                }
+            MathJax = {
+                tex: { inlineMath: [['\\(', '\\)']] },
+                chtml: { scale: 1.5 }
             };
         </script>
 
