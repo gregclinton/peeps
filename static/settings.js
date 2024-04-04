@@ -4,7 +4,7 @@ settings = {
         e.hidden = !e.hidden;
     },
 
-    updateModel: (name) => { return;
+    updateModel: (name) => {
         fetch('/settings/', {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
@@ -14,9 +14,6 @@ settings = {
 
     selectedModel: null
 }
-
-settings.updateModel('gpt-3.5-turbo-0125');
-
 
 window.onload = () => {
     document.getElementById('speech-send').hidden = true;
@@ -63,6 +60,7 @@ window.onload = () => {
         if (name === 'gpt-3.5-turbo-0125') {
             tr.classList.add('selected')
             settings.selectedModel = tr;
+            settings.updateModel(name);
         }
 
         tbody.appendChild(tr);
