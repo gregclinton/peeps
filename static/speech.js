@@ -4,6 +4,10 @@ const speech = {
     recording: false,
 
     start: () => {
+        document.getElementById('speech-start').hidden = true;
+        document.getElementById('speech-send').hidden = false;
+        document.getElementById('speech-stop').hidden = false;
+
         speech.recorder = new RecordRTC(speech.stream, {
             mimeType: 'audio/wav',
             timeSlice: 1000,
@@ -13,9 +17,6 @@ const speech = {
         });
 
         speech.recorder.startRecording();
-        document.getElementById('speech-start').hidden = true;
-        document.getElementById('speech-send').hidden = false;
-        document.getElementById('speech-stop').hidden = false;
     },
 
     send: () => {
@@ -32,6 +33,7 @@ const speech = {
             .then(response => response.blob())
             .then(blob => {
                 new Audio(URL.createObjectURL(blob)).play().then(() => {
+                    document.getElementById('speech-start').hidden = false;
                     document.getElementById('speech-stop').hidden = true;
                 });
             });
@@ -39,8 +41,8 @@ const speech = {
     },
 
     stop: () => {
-        document.getElementById('speech-stop').hidden = true;
         document.getElementById('speech-send').hidden = true;
+        document.getElementById('speech-stop').hidden = true;
         speech.recorder.stopRecording(() => {
             document.getElementById('speech-start').hidden = false;
         });
