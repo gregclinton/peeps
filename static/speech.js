@@ -1,7 +1,7 @@
 const speech = {
     recorder: 0,
     stream: 0,
-    recording: false,
+    audio: 0,
 
     start: () => {
         document.getElementById('speech-start').hidden = true;
@@ -32,10 +32,13 @@ const speech = {
             })
             .then(response => response.blob())
             .then(blob => {
-                new Audio(URL.createObjectURL(blob)).play().then(() => {
+                speech.audio = new Audio(URL.createObjectURL(blob));
+                speech.audio.play();
+                speech.audio.onended = () => {
                     document.getElementById('speech-start').hidden = false;
                     document.getElementById('speech-stop').hidden = true;
-                });
+                    speech.audio = 0;
+                };
             });
         });
     },
@@ -43,9 +46,13 @@ const speech = {
     stop: () => {
         document.getElementById('speech-send').hidden = true;
         document.getElementById('speech-stop').hidden = true;
-        speech.recorder.stopRecording(() => {
-            document.getElementById('speech-start').hidden = false;
-        });
+        document.getElementById('speech-start').hidden = false;
+        if (speech.audio) {
+            speech.audio.pause();
+            speech.audio = 0;
+        } else {
+            speech.recorder.stopRecording();
+        }
     }
 };
 
