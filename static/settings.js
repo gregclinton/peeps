@@ -37,8 +37,6 @@ window.onload = () => {
         ['claude-3-sonnet-20240229', '$3/$15'],
         ['claude-3-opus-20240229', '$15/$75'],
         ['gemini-1.0-pro-001', 'free'],
-        ['gemini-1.5-pro-latest', 'free'],
-        ['gemini-nano', '$0.13/$0.38'],
         ['mistral-small-latest' , '$2/$6'],
         ['mistral-medium-latest', '$2.70/$8.10'],
         ['mistral-large-latest', '$8/24'],
