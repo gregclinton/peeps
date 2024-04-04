@@ -1,5 +1,5 @@
 from fastapi import FastAPI, File, UploadFile
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 import chat
 import settings
@@ -19,13 +19,11 @@ async def get_static_file(filename: str):
     static_path = Path(f"static/{filename}")
     return FileResponse(static_path)
 
-@app.post("/chat/")
+@app.post("/chat/", response_class=PlainTextResponse)
 async def post_to_chat(file: UploadFile = File(...)):
     with open(file.filename, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
-    out = 'audio/response.wav'
-    tts(chat.prompt(stt(file.filename)), out)
-    return FileResponse(out)
+    return chat.prompt(stt(file.filename))
 
 @app.put("/audio/")
 async def get_audio(o: dict):
