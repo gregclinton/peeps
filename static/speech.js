@@ -65,7 +65,7 @@ const speech = {
         })
     },
 
-    start: (stream) => {
+    start: () => {
         document.getElementById('speech-start').hidden = true;
         document.getElementById('speech-send').hidden = false;
         document.getElementById('speech-stop').hidden = false;
