@@ -86,7 +86,7 @@ window.onload = () => {
     ].forEach(voice => {
         const span = document.createElement('span');
 
-        span.innerHTML = voice;
+        span.innerHTML = voice + ' &nbsp;&nbsp;&nbsp;';
         voices.appendChild(span);
    
         if (voice === 'alloy') {
@@ -95,9 +95,7 @@ window.onload = () => {
             settings.updateVoice(voice);
         }
 
-        div.appendChild(span);
-
-        tr.onclick = () => {
+        span.onclick = () => {
             settings.selectedVoice.classList.remove('selected')
             span.classList.add('selected');
             settings.selectedVoice = span;

@@ -82,3 +82,8 @@ th
     font-weight: bold;
     color: darkblue; 
 }
+
+#voices span.selected {
+    font-weight: bold;
+    color: darkblue; 
+}
