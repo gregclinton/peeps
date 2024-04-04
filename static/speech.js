@@ -3,6 +3,21 @@ const speech = {
     recorder: 0,
     player: 0,
 
+    stt: blob => {
+        const data = new FormData();
+
+        data.append("file", blob, 'audio/stt.wav');
+
+        return fetch('/stt/', {
+            method: 'PUT',
+            body: data,
+        })
+    },
+
+    tts: text => {
+
+    },
+
     start: () => {
         document.getElementById('speech-start').hidden = true;
         document.getElementById('speech-send').hidden = false;
@@ -22,14 +37,7 @@ const speech = {
     send: () => {
         document.getElementById('speech-send').hidden = true;
         speech.recorder.stopRecording(() => {
-            const data = new FormData();
-
-            data.append("file", speech.recorder.getBlob(), 'audio/prompt.wav');
-
-            fetch('/stt/', {
-                method: 'PUT',
-                body: data,
-            })
+            speech.stt(speech.recorder.getBlob())
             .then(response => response.text())
             .then(text => {
                 fetch('/chat/', {
