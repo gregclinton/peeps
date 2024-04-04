@@ -77,13 +77,14 @@ const speech = {
         document.getElementById('speech-send').hidden = true;
         recorder.stop(() => {
             speech.stt(recorder.blob())
-            .then(response => response.text())
-            .then(text => {
-                chat.prompt(text)
-                .then(response => response.text())
-                .then(text => {
-                    speech.tts(text)
-                    .then(response => response.blob())
+            .then(res => res.text())
+            .then(prompt => {
+                chat.prompt(prompt)
+                .then(res => res.text())
+                .then(response => {
+                    // put prompt and response text in canvas
+                    speech.tts(response)
+                    .then(res => res.blob())
                     .then(blob => {
                         player.play(blob, () => {
                             document.getElementById('speech-start').hidden = false;
