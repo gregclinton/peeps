@@ -32,12 +32,12 @@ async def delete_chat():
     chat.clear()
 
 @app.put("/settings/model/")
-async def update_settings(new_model: str):
-    settings.model = new_model
+async def update_settings(new_settings: dict):
+    settings.model = new_settings['model']    
 
 @app.put("/settings/voice/")
-async def update_settings(new_voice: str):
-    settings.voice = new_voice
+async def update_settings(new_settings: dict):
+    settings.voice = new_settings['voice']    
 
 async def http_exception_handler(request, exc):
     return PlainTextResponse(str(exc.detail), status_code = exc.status_code)

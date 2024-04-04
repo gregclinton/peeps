@@ -7,16 +7,16 @@ settings = {
     updateModel: (name) => {
         fetch('/settings/model/', {
             method: 'PUT',
-            headers: {'Content-Type': 'text/plain'},
-            body: name
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({model: name})
         })
     },
 
     updateVoice: (name) => {
         fetch('/settings/voice/', {
             method: 'PUT',
-            headers: {'Content-Type': 'text/plain'},
-            body: name
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({voice: name})
         })
     },
 
@@ -77,7 +77,31 @@ window.onload = () => {
             settings.selectedModel = tr;
             settings.updateModel(name);
         }
+    });
 
-        settings.updateVoice('alloy'); // alloy, echo, fable, onyx, nova, and shimmer
+    const voices = document.getElementById('voices');
+    
+    [
+        'alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'
+    ].forEach(voice => {
+        const span = document.createElement('span');
+
+        span.innerHTML = voice;
+        voices.appendChild(span);
+   
+        if (voice === 'alloy') {
+            span.classList.add('selected')
+            settings.selectedVoice = span;
+            settings.updateVoice(voice);
+        }
+
+        div.appendChild(span);
+
+        tr.onclick = () => {
+            settings.selectedVoice.classList.remove('selected')
+            span.classList.add('selected');
+            settings.selectedVoice = span;
+            settings.updateVoice(voice);
+        }
     });
 };
