@@ -44,11 +44,7 @@ const speech = {
             speech.stt(speech.recorder.getBlob())
             .then(response => response.text())
             .then(text => {
-                fetch('/chat/', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({text: text})
-                })
+                chat.prompt(text)
                 .then(response => response.text())
                 .then(text => {
                     speech.tts(text)
