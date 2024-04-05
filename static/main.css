@@ -107,6 +107,11 @@ th
     margin: 5px 0px 5px 0px;
 }
 
+#chat p:first-of-type /* markdown adds a <p> */
+{
+    margin: 0px;
+}
+
 #chat .post
 {
     margin-left: 15px;
