@@ -41,14 +41,20 @@ const speech = {
                     response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
                     chat.add(settings.model, marked.parse(response));
                     MathJax.typesetPromise();
-                    speech.tts(response, settings.voice)
-                    .then(res => res.blob())
-                    .then(blob => {
-                        player.play(blob, () => {
-                            document.getElementById('speech-start').hidden = false;
-                            document.getElementById('speech-stop').hidden = true;
+                    if (settings.voice === 'none')
+                    {
+                        document.getElementById('speech-start').hidden = false;
+                        document.getElementById('speech-stop').hidden = true;
+                    } else {
+                        speech.tts(response, settings.voice)
+                        .then(res => res.blob())
+                        .then(blob => {
+                            player.play(blob, () => {
+                                document.getElementById('speech-start').hidden = false;
+                                document.getElementById('speech-stop').hidden = true;
+                            });
                         });
-                    });
+                    }
                 })
             })
         })
