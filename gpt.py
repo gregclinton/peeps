@@ -4,7 +4,7 @@ import secrets
 client = OpenAI(api_key = secrets.get('OPENAI_API_KEY'))
 
 def respond(chat, model):
-    messages = [ {"role": "system", "content": "You are a helpful assistant."} ];
+    messages = [ {"role": "system", "content": "You are a helpful assistant. Keep your answers brief."} ];
 
     for item in chat:
         for k, v in item.items():

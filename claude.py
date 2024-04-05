@@ -14,6 +14,6 @@ def respond(chat, model):
         model = model,
         max_tokens = 1000,
         temperature = 0.0,
-        system = "You are a helpful assistant.",
+        system = "You are a helpful assistant. Keep your answers brief.",
         messages = messages
     ).content[0].text
