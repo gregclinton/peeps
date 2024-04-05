@@ -10,6 +10,9 @@ settings = {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({model: name})
         })
+        .then(() => {
+            settings.model = name;
+        });
     },
 
     updateVoice: (name) => {
@@ -20,6 +23,7 @@ settings = {
         })
     },
 
+    model: '',
     selectedModel: null
 }
 
@@ -80,7 +84,7 @@ window.onload = () => {
     });
 
     const voices = document.getElementById('voices');
-    
+
     [
         'alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'
     ].forEach(voice => {
@@ -88,7 +92,7 @@ window.onload = () => {
 
         span.innerHTML = voice + ' &nbsp;&nbsp;&nbsp;';
         voices.appendChild(span);
-   
+
         if (voice === 'alloy') {
             span.classList.add('selected')
             settings.selectedVoice = span;

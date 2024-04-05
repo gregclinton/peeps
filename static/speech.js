@@ -79,10 +79,11 @@ const speech = {
             speech.stt(recorder.blob())
             .then(res => res.text())
             .then(prompt => {
+                chat.add('you', prompt);
                 chat.prompt(prompt)
                 .then(res => res.text())
                 .then(response => {
-                    // put prompt and response text in canvas
+                    chat.add(settings.model, response);
                     speech.tts(response)
                     .then(res => res.blob())
                     .then(blob => {
