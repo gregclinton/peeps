@@ -76,7 +76,7 @@ window.onload = () => {
         span.innerHTML = voice + ' &nbsp;&nbsp;&nbsp;';
         voices.appendChild(span);
 
-        if (voice === 'alloy') {
+        if (voice === 'echo') {
             span.classList.add('selected')
             settings.selectedVoice = span;
             settings.voice = voice;
