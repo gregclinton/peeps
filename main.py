@@ -20,7 +20,7 @@ async def get_static_file(filename: str):
 
 @app.post("/chat/", response_class = PlainTextResponse)
 async def post_to_chat(o: dict):
-    return chat.prompt(o['text'], o['model'])
+    return chat.prompt(o['messages'], o['model'])
 
 @app.put("/stt/", response_class = PlainTextResponse)
 async def put_stt(file: UploadFile = File(...)):
@@ -33,10 +33,6 @@ async def put_tts(o: dict):
     out = 'audio/response.wav'
     tts(o['text'], o['voice'], out)
     return FileResponse(out)
-
-@app.delete("/chat/")
-async def delete_chat():
-    chat.clear()
 
 async def http_exception_handler(request, exc):
     return PlainTextResponse(str(exc.detail), status_code = exc.status_code)

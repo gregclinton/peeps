@@ -7,7 +7,7 @@ chat = {
         return await fetch('/chat/', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({text: text, model: settings.model})
+            body: JSON.stringify({messages: chat.messages, model: settings.model})
         })
         .then(res => res.text())
         .then(text => {
@@ -17,10 +17,6 @@ chat = {
     },
 
     clear: () => {
-        fetch('/chat/', {
-            method: 'DELETE'
-        })
-
         document.getElementById('chat').innerHTML = "";
         chat.messages = [];
     },
