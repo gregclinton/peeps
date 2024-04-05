@@ -83,7 +83,7 @@ const speech = {
                 chat.prompt(prompt, settings.model)
                 .then(res => res.text())
                 .then(response => {
-                    chat.add(settings.model, response);
+                    chat.add(settings.model, marked.parse(response));
                     speech.tts(response, settings.voice)
                     .then(res => res.blob())
                     .then(blob => {
