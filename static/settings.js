@@ -50,7 +50,7 @@ window.onload = () => {
         addTd(name);
         addTd(price);
 
-        if (name === 'gpt-3.5-turbo-0125') {
+        if (name === 'gemini-1.0-pro-001') {
             tr.classList.add('selected')
             settings.selectedModel = tr;
             settings.model = name;
@@ -69,14 +69,14 @@ window.onload = () => {
     const voices = document.getElementById('voices');
 
     [
-        'alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'
+        'none', 'alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'
     ].forEach(voice => {
         const span = document.createElement('span');
 
         span.innerHTML = voice + ' &nbsp;&nbsp;&nbsp;';
         voices.appendChild(span);
 
-        if (voice === 'echo') {
+        if (voice === 'none') {
             span.classList.add('selected')
             settings.selectedVoice = span;
             settings.voice = voice;
