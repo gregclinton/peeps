@@ -2,7 +2,6 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 import chat
-import settings
 from speech import stt, tts
 from pathlib import Path
 import shutil
@@ -21,7 +20,7 @@ async def get_static_file(filename: str):
 
 @app.post("/chat/", response_class = PlainTextResponse)
 async def post_to_chat(o: dict):
-    return chat.prompt(o['text'])
+    return chat.prompt(o['text'], o['model'])
 
 @app.put("/stt/", response_class = PlainTextResponse)
 async def put_stt(file: UploadFile = File(...)):
@@ -32,20 +31,12 @@ async def put_stt(file: UploadFile = File(...)):
 @app.put("/tts/")
 async def put_tts(o: dict):
     out = 'audio/response.wav'
-    tts(o['text'], out)
+    tts(o['text'], o['voice'], out)
     return FileResponse(out)
 
 @app.delete("/chat/")
 async def delete_chat():
     chat.clear()
-
-@app.put("/settings/model/")
-async def update_settings(new_settings: dict):
-    settings.model = new_settings['model']
-
-@app.put("/settings/voice/")
-async def update_settings(new_settings: dict):
-    settings.voice = new_settings['voice']
 
 async def http_exception_handler(request, exc):
     return PlainTextResponse(str(exc.detail), status_code = exc.status_code)

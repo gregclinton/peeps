@@ -4,30 +4,13 @@ settings = {
         e.hidden = !e.hidden;
     },
 
-    updateModel: (name) => {
-        fetch('/settings/model/', {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({model: name})
-        })
-        .then(() => {
-            settings.model = name;
-        });
-    },
-
-    updateVoice: (name) => {
-        fetch('/settings/voice/', {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({voice: name})
-        })
-    },
-
     model: '',
+    voice: '',
     selectedModel: null
 }
 
 window.onload = () => {
+    chat.clear();
     document.getElementById('speech-send').hidden = true;
     document.getElementById('speech-stop').hidden = true;
 
@@ -70,7 +53,7 @@ window.onload = () => {
         if (name === 'gpt-3.5-turbo-0125') {
             tr.classList.add('selected')
             settings.selectedModel = tr;
-            settings.updateModel(name);
+            settings.model = name;
         }
 
         tbody.appendChild(tr);
@@ -79,7 +62,7 @@ window.onload = () => {
             settings.selectedModel.classList.remove('selected')
             tr.classList.add('selected');
             settings.selectedModel = tr;
-            settings.updateModel(name);
+            settings.model = name;
         }
     });
 
@@ -96,14 +79,14 @@ window.onload = () => {
         if (voice === 'alloy') {
             span.classList.add('selected')
             settings.selectedVoice = span;
-            settings.updateVoice(voice);
+            settings.voice = voice;
         }
 
         span.onclick = () => {
             settings.selectedVoice.classList.remove('selected')
             span.classList.add('selected');
             settings.selectedVoice = span;
-            settings.updateVoice(voice);
+            settings.voice = voice;
         }
     });
 };

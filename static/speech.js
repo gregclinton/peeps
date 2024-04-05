@@ -61,7 +61,7 @@ const speech = {
         return fetch('/tts/', {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({text: text})
+            body: JSON.stringify({text: text, voice: settings.voice})
         })
     },
 
@@ -80,11 +80,11 @@ const speech = {
             .then(res => res.text())
             .then(prompt => {
                 chat.add('you', prompt);
-                chat.prompt(prompt)
+                chat.prompt(prompt, settings.model)
                 .then(res => res.text())
                 .then(response => {
                     chat.add(settings.model, response);
-                    speech.tts(response)
+                    speech.tts(response, settings.voice)
                     .then(res => res.blob())
                     .then(blob => {
                         player.play(blob, () => {

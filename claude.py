@@ -1,10 +1,9 @@
 import anthropic
 import secrets
-import settings
 
 client = anthropic.Anthropic(api_key = secrets.get('ANTHROPIC_API_KEY'))
 
-def respond(chat):
+def respond(chat, model):
     messages = []
 
     for item in chat:
@@ -12,7 +11,7 @@ def respond(chat):
             messages.append({'role': 'user' if k == 'prompt' else 'assistant', 'content': v});
 
     return client.messages.create(
-        model = settings.model,
+        model = model,
         max_tokens = 1000,
         temperature = 0.0,
         system = "You are a helpful assistant.",

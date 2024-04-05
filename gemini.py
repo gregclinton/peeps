@@ -1,10 +1,9 @@
 import google.generativeai as genai
 import secrets
-import settings
 
 genai.configure(api_key = secrets.get('GEMINI_API_KEY'))
 
-def respond(chat):
+def respond(chat, model):
     transcript = ''
 
     for item in chat:
@@ -12,4 +11,4 @@ def respond(chat):
             transcript += k + ': ' + v
 
     transcript += 'response: '
-    return genai.GenerativeModel(settings.model).generate_content(transcript).text
+    return genai.GenerativeModel(model).generate_content(transcript).text

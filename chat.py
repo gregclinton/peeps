@@ -1,15 +1,15 @@
-import gpt, claude, gemini, mistral, settings
+import gpt, claude, gemini, mistral
 
 items = []
 
-def prompt(text):
+def prompt(text, model):
     items.append({'prompt': text})
 
     csps = [gpt, claude, gemini, mistral]
 
     for i, s in enumerate(map(lambda x: x.__name__, csps)):
-        if settings.model.startswith(s):
-            response = csps[i].respond(items)
+        if model.startswith(s):
+            response = csps[i].respond(items, model)
             break
 
     items.append({'response': response})
