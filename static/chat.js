@@ -28,5 +28,7 @@ chat = {
 
         post.classList.add('post');
         document.getElementById('chat').appendChild(post);
+
+        post.scrollIntoView({ behavior: 'smooth' });
     }
 }
