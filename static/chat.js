@@ -17,7 +17,7 @@ chat = {
 
     add: (name, text) => {
         const post = document.createElement('div');
-        const n = document.createElement('div');
+        const n = document.createElement('h4');
         const t = document.createElement('div');
 
         post.appendChild(n);
@@ -26,6 +26,7 @@ chat = {
         n.innerHTML = name;
         t.innerHTML = text;
 
+        post.classList.add('post');
         document.getElementById('chat').appendChild(post);
     }
 }

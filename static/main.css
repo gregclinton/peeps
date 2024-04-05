@@ -74,16 +74,35 @@ th
     text-align: center;
 }
 
-#models tr {
+#models tr
+{
     font-size: larger;
 }
 
-#models tr.selected {
+#models tr.selected
+{
     font-weight: bold;
-    color: darkblue; 
+    color: darkblue;
 }
 
-#voices span.selected {
+#voices span.selected
+{
     font-weight: bold;
-    color: darkblue; 
+    color: darkblue;
+}
+
+#chat
+{
+    font-family: sans-serif;
+}
+
+#chat h4
+{
+    margin: 5px 0px 5px 0px;
+}
+
+#chat .post
+{
+    margin-left: 15px;
+    margin-bottom: 15px;
 }
