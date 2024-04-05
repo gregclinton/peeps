@@ -36,7 +36,6 @@ const speech = {
             .then(prompt => {
                 chat.add('you', prompt);
                 chat.prompt(prompt, settings.model)
-                .then(res => res.text())
                 .then(response => {
                     response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
                     chat.add(settings.model, marked.parse(response));

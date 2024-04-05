@@ -1,9 +1,18 @@
 chat = {
-    prompt: text => {
-        return fetch('/chat/', {
+    messages: [],
+
+    prompt: async text => {
+        chat.messages.push({prompt: text});
+
+        return await fetch('/chat/', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({text: text, model: settings.model})
+        })
+        .then(res => res.text())
+        .then(text => {
+            chat.messages.push({response: text});
+            return text;
         })
     },
 
@@ -13,6 +22,7 @@ chat = {
         })
 
         document.getElementById('chat').innerHTML = "";
+        chat.messages = [];
     },
 
     add: (name, text) => {
