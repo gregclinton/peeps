@@ -50,7 +50,7 @@ window.onload = () => {
         addTd(name);
         addTd(price);
 
-        if (name === 'gemini-1.0-pro-001') {
+        if (name === 'gpt-3.5-turbo-0125') {
             tr.classList.add('selected')
             settings.selectedModel = tr;
             settings.model = name;
