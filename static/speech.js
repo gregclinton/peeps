@@ -1,6 +1,4 @@
 const speech = {
-    stream: 0,
-
     stt: blob => {
         const data = new FormData();
 
@@ -25,7 +23,7 @@ const speech = {
         document.getElementById('speech-send').hidden = false;
         document.getElementById('speech-stop').hidden = false;
 
-        recorder.start(speech.stream);
+        recorder.start();
     },
 
     send: () => {
@@ -66,8 +64,3 @@ const speech = {
         (player.playing ? player : recorder).stop();
     }
 };
-
-navigator.mediaDevices.getUserMedia({ audio: true })
-.then(stream => {
-    speech.stream = stream;
-})

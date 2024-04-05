@@ -1,8 +1,9 @@
 const recorder = {
+    stream: 0,
     device: null,
 
-    start: (stream) => {
-        recorder.device = new RecordRTC(stream, {
+    start: () => {
+        recorder.device = new RecordRTC(recorder.stream, {
             mimeType: 'audio/wav',
             timeSlice: 1000,
             recorderType: RecordRTC.StereoAudioRecorder,
@@ -21,3 +22,8 @@ const recorder = {
         return recorder.device.getBlob();
     }
 }
+
+navigator.mediaDevices.getUserMedia({ audio: true })
+.then(stream => {
+    recorder.stream = stream;
+})
