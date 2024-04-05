@@ -83,7 +83,9 @@ const speech = {
                 chat.prompt(prompt, settings.model)
                 .then(res => res.text())
                 .then(response => {
+                    response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
                     chat.add(settings.model, marked.parse(response));
+                    MathJax.typesetPromise();
                     speech.tts(response, settings.voice)
                     .then(res => res.blob())
                     .then(blob => {
