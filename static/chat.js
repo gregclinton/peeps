@@ -39,14 +39,24 @@ chat = {
     },
 
     paste: () => {
-        
+
     },
 
     redo: () => {
-        
+
     },
 
     back: () => {
-        
+        const div = document.getElementById('chat');
+
+        div.removeChild(div.lastElementChild);
+        div.removeChild(div.lastElementChild);
+        chat.messages.pop();
+        chat.messages.pop();
     }
 }
+
+document.addEventListener('paste', function(event) {
+    var pastedText = (event.clipboardData || window.clipboardData).getData('text');
+    console.log('Pasted text: ', pastedText);
+});
