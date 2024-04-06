@@ -23,7 +23,7 @@ chat = {
     },
 
     add: (name, text) => {
-        chat.messages.push({prompt: text});
+        chat.messages.push({[name === 'you' ? 'prompt' : 'response']: text});
         const post = document.createElement('div');
         const n = document.createElement('h4');
         const t = document.createElement('div');
