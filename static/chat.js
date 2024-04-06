@@ -40,7 +40,14 @@ chat = {
         post.scrollIntoView({ behavior: 'smooth' });
     },
 
-    paste: () => {},
+    paste: () => {
+        navigator.clipboard.readText()
+        .then(text => {
+            if (text !== '') {
+                chat.prompt(text);
+            }
+        })
+    },
 
     redo: () => {
         const m = chat.messages;
@@ -68,6 +75,8 @@ chat = {
 }
 
 document.addEventListener('paste', function(event) {
-    var pastedText = (event.clipboardData || window.clipboardData).getData('text');
-    console.log('Pasted text: ', pastedText);
+    navigator.clipboard.readText()
+    .then(text => {
+        document.getElementById('paste').disabled = text !== '';
+    })
 });
