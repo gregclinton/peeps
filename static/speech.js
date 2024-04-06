@@ -1,7 +1,9 @@
 const speech = {
-    show: (name, show) => {
-        document.getElementById('speech-' + name).hidden = !show;
+    hide: (name, show) => {
+        document.getElementById('speech-' + name).hidden = show === undefined;
     },
+
+    show: (name) => { speech.hide(name, false); },
 
     stt: blob => {
         const data = new FormData();
@@ -15,31 +17,31 @@ const speech = {
     },
 
     start: () => {
-        speech.show('start', false);
-        speech.show('send', true);
-        speech.show('stop', true);
+        speech.hide('start');
+        speech.show('send');
+        speech.show('stop');
         recorder.start();
     },
 
     send: () => {
-        speech.show('send', false);
+        speech.hide('send');
         recorder.stop(() => {
             speech.stt(recorder.blob())
             .then(res => res.text())
             .then(prompt => {
                 chat.prompt(prompt.trim())
                 .then(() => {
-                    speech.show('start', true);
-                    speech.show('stop', false);
+                    speech.show('start');
+                    speech.hide('stop');
                 })
             })
         })
     },
 
     stop: () => {
-        speech.show('start', true);
-        speech.show('send', false);
-        speech.show('stop', false);
+        speech.show('start');
+        speech.hide('send');
+        speech.hide('stop');
         recorder.stop();
     }
 };
