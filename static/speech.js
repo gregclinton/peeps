@@ -14,7 +14,6 @@ const speech = {
         document.getElementById('speech-start').hidden = true;
         document.getElementById('speech-send').hidden = false;
         document.getElementById('speech-stop').hidden = false;
-
         recorder.start();
     },
 
@@ -24,7 +23,7 @@ const speech = {
             speech.stt(recorder.blob())
             .then(res => res.text())
             .then(prompt => {
-                chat.prompt(prompt)
+                chat.prompt(prompt.trim())
                 .then(() => {
                     document.getElementById('speech-start').hidden = false;
                     document.getElementById('speech-stop').hidden = true;
