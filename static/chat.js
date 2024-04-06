@@ -36,5 +36,17 @@ chat = {
         document.getElementById('chat').appendChild(post);
 
         post.scrollIntoView({ behavior: 'smooth' });
+    },
+
+    paste: () => {
+        
+    },
+
+    redo: () => {
+        
+    },
+
+    back: () => {
+        
     }
 }
