@@ -2,7 +2,7 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 import chat
-from speech import stt, tts
+from speech import stt
 from pathlib import Path
 import shutil
 
@@ -27,12 +27,6 @@ async def put_stt(file: UploadFile = File(...)):
     with open(file.filename, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     return stt(file.filename)
-
-@app.put("/tts/")
-async def put_tts(o: dict):
-    out = 'audio/response.wav'
-    tts(o['text'], o['voice'], out)
-    return FileResponse(out)
 
 async def http_exception_handler(request, exc):
     return PlainTextResponse(str(exc.detail), status_code = exc.status_code)

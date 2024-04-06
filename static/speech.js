@@ -10,14 +10,6 @@ const speech = {
         })
     },
 
-    tts: text => {
-        return fetch('/tts/', {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({text: text, voice: settings.voice})
-        })
-    },
-
     start: () => {
         document.getElementById('speech-start').hidden = true;
         document.getElementById('speech-send').hidden = false;
@@ -38,20 +30,8 @@ const speech = {
                     response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
                     chat.add(settings.model, marked.parse(response));
                     MathJax.typesetPromise();
-                    if (settings.voice === 'none')
-                    {
-                        document.getElementById('speech-start').hidden = false;
-                        document.getElementById('speech-stop').hidden = true;
-                    } else {
-                        speech.tts(response, settings.voice)
-                        .then(res => res.blob())
-                        .then(blob => {
-                            player.play(blob, () => {
-                                document.getElementById('speech-start').hidden = false;
-                                document.getElementById('speech-stop').hidden = true;
-                            });
-                        });
-                    }
+                    document.getElementById('speech-start').hidden = false;
+                    document.getElementById('speech-stop').hidden = true;
                 })
             })
         })
@@ -61,6 +41,6 @@ const speech = {
         document.getElementById('speech-send').hidden = true;
         document.getElementById('speech-stop').hidden = true;
         document.getElementById('speech-start').hidden = false;
-        (player.playing ? player : recorder).stop();
+        recorder.stop();
     }
 };

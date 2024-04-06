@@ -5,7 +5,6 @@ settings = {
     },
 
     model: '',
-    voice: '',
     selectedModel: null
 }
 
@@ -25,9 +24,9 @@ window.onload = () => {
     models.appendChild(table);
 
     [
-        ['gpt-4-0125-preview', '10/30'],
-        ['gpt-4', '10/60'],
         ['gpt-3.5-turbo-0125', '0.50/1.50'],
+        ['gpt-4', '10/60'],
+        ['gpt-4-0125-preview', '10/30'],
         ['claude-3-haiku-20240307' , '0.25/1.25'],
         ['claude-3-sonnet-20240229', '3/15'],
         ['claude-3-opus-20240229', '15/75'],
@@ -63,30 +62,6 @@ window.onload = () => {
             tr.classList.add('selected');
             settings.selectedModel = tr;
             settings.model = name;
-        }
-    });
-
-    const voices = document.getElementById('voices');
-
-    [
-        'none', 'alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'
-    ].forEach(voice => {
-        const span = document.createElement('span');
-
-        span.innerHTML = voice + ' &nbsp;&nbsp;&nbsp;';
-        voices.appendChild(span);
-
-        if (voice === 'none') {
-            span.classList.add('selected')
-            settings.selectedVoice = span;
-            settings.voice = voice;
-        }
-
-        span.onclick = () => {
-            settings.selectedVoice.classList.remove('selected')
-            span.classList.add('selected');
-            settings.selectedVoice = span;
-            settings.voice = voice;
         }
     });
 };

@@ -86,17 +86,6 @@ th
     color: darkblue;
 }
 
-#voices span.selected
-{
-    font-weight: bold;
-    color: darkblue;
-}
-
-#voices span
-{
-    cursor: pointer;
-}
-
 #chat
 {
     font-family: sans-serif;
