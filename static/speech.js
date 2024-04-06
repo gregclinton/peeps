@@ -22,7 +22,7 @@ const speech = {
     },
 
     send: () => {
-        document.getElementById('speech-send').hidden = true;
+        speech.show('send', false);
         recorder.stop(() => {
             speech.stt(recorder.blob())
             .then(res => res.text())
