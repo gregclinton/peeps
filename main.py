@@ -20,7 +20,7 @@ async def get_static_file(filename: str):
 
 @app.post("/chat/", response_class = PlainTextResponse)
 async def post_to_chat(o: dict):
-    return chat.prompt(o['messages'], o['model'])
+    return chat.prompt(o['messages'], o['model'], o['temperature'])
 
 @app.put("/stt/", response_class = PlainTextResponse)
 async def put_stt(file: UploadFile = File(...)):

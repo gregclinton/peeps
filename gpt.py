@@ -3,7 +3,7 @@ import secrets
 
 client = OpenAI(api_key = secrets.get('OPENAI_API_KEY'))
 
-def respond(chat, model):
+def respond(chat, model, temperature):
     messages = [ {"role": "system", "content": "You are a helpful assistant. Keep your answers brief."} ];
 
     for item in chat:
@@ -12,5 +12,6 @@ def respond(chat, model):
 
     return client.chat.completions.create(
         model = model,
-        messages = messages
+        messages = messages,
+        temperature = 2.0 * temperature / 8.0
     ).choices[0].message.content

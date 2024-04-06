@@ -4,7 +4,7 @@ import secrets
 
 client = MistralClient(api_key = secrets.get('MISTRAL_API_KEY'))
 
-def respond(chat, model):
+def respond(chat, model, temperature):
     messages = []
 
     for item in chat:

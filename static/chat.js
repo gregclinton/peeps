@@ -7,7 +7,11 @@ chat = {
         return await fetch('/chat/', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({messages: chat.messages, model: settings.model})
+            body: JSON.stringify({
+                messages: chat.messages,
+                model: settings.model,
+                temperature: settings.temperature // 0 to 8
+            })
         })
         .then(res => res.text())
         .then(response => {

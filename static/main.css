@@ -87,6 +87,22 @@ th
     color: darkblue;
 }
 
+#temperature
+{
+    margin-top: 10px;
+}
+
+#temperature span.tick
+{
+    color: gray;
+}
+
+#temperature span.selected
+{
+    font-weight: bolder;
+    color: darkblue;
+}
+
 #chat
 {
     font-family: sans-serif;
