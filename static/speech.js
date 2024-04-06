@@ -24,12 +24,8 @@ const speech = {
             speech.stt(recorder.blob())
             .then(res => res.text())
             .then(prompt => {
-                chat.add('you', prompt);
                 chat.prompt(prompt)
-                .then(response => {
-                    response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
-                    chat.add(settings.model, marked.parse(response));
-                    MathJax.typesetPromise();
+                .then(() => {
                     document.getElementById('speech-start').hidden = false;
                     document.getElementById('speech-stop').hidden = true;
                 })

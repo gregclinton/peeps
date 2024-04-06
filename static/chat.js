@@ -2,7 +2,7 @@ chat = {
     messages: [],
 
     prompt: async text => {
-        chat.messages.push({prompt: text});
+        chat.add('you', text);
 
         return await fetch('/chat/', {
             method: 'POST',
@@ -10,9 +10,10 @@ chat = {
             body: JSON.stringify({messages: chat.messages, model: settings.model})
         })
         .then(res => res.text())
-        .then(text => {
-            chat.messages.push({response: text});
-            return text;
+        .then(response => {
+            response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
+            chat.add(settings.model, marked.parse(response));
+            MathJax.typesetPromise();
         })
     },
 
@@ -22,6 +23,7 @@ chat = {
     },
 
     add: (name, text) => {
+        chat.messages.push({prompt: text});
         const post = document.createElement('div');
         const n = document.createElement('h4');
         const t = document.createElement('div');
@@ -38,21 +40,30 @@ chat = {
         post.scrollIntoView({ behavior: 'smooth' });
     },
 
-    paste: () => {
-
-    },
+    paste: () => {},
 
     redo: () => {
+        const m = chat.messages;
 
+        if (m.length > 1) {
+            const text = m[m.length - 2].prompt;
+
+            chat.back();
+            chat.prompt(text);
+        }
     },
 
     back: () => {
-        const div = document.getElementById('chat');
+        const m = chat.messages;
 
-        div.removeChild(div.lastElementChild);
-        div.removeChild(div.lastElementChild);
-        chat.messages.pop();
-        chat.messages.pop();
+        if (m.length > 1) {
+            const div = document.getElementById('chat');
+
+            div.removeChild(div.lastElementChild);
+            div.removeChild(div.lastElementChild);
+            m.pop();
+            m.pop();
+        }
     }
 }
 
