@@ -51,7 +51,7 @@ window.onload = () => {
         addTd(name);
         addTd(price);
 
-        if (name === 'gpt-3.5-turbo-0125') {
+        if (name === 'gpt-4-0125-preview') {
             tr.classList.add('selected')
             settings.selectedModel = tr;
             settings.model = name;
