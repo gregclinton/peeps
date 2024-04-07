@@ -13,7 +13,10 @@ curl https://api.openai.com/v1/chat/completions \
 
 */
 
-fetch('/openai/v1/chat/completions', {
+fetch('/v1/chat/completions', {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json'} ,
+    headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + secrets.openaiApiKey,
+    } ,
 })
