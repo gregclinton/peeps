@@ -6,6 +6,7 @@ chat = {
         let res;
         const instruction = "You are a helpful assistant. Keep your answers brief.";
         const headers = { 'Content-Type': 'application/json' };
+        let response = '';
 
         if (settings.model.startsWith('gpt')) {
             // https://platform.openai.com/docs/api-reference/introduction
@@ -13,7 +14,7 @@ chat = {
             msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.prompt });
             msgs.unshift({ role: 'system', content: instruction });
 
-            res = fetch('/openai/v1/chat/completions', {
+            response = await fetch('/openai/v1/chat/completions', {
                 method: 'POST',
                 headers:  headers,
                 body: JSON.stringify({
@@ -21,14 +22,16 @@ chat = {
                     model: settings.model,
                     temperature: 2.0 * settings.temperature / 8.0
                 })
-            });
+            })
+            .then(response => response.json())
+            .then(o => o.content);
         } else if (settings.model.startsWith('claude')) {
             // https://docs.anthropic.com/claude/reference/messages_post
 
             msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.prompt });
             headers['anthropic-version'] = '2023-06-01';
 
-            res = fetch('/anthropic/v1/messages', {
+            response = await fetch('/anthropic/v1/messages', {
                 method: 'POST',
                 headers:  headers,
                 body: JSON.stringify({
@@ -38,7 +41,9 @@ chat = {
                     temperature: 1.0 * settings.temperature / 8.0,
                     max_tokens: 1000
                 })
-            });
+            })
+            .then(response => response.json())
+            .then(o => o.content);
         } else if (settings.model.startsWith('gemini')) {
             // https://ai.google.dev/api/rest
 
@@ -64,13 +69,9 @@ chat = {
                 })
             });
         }
-
-        res.then(res => res.text())
-        .then(response => {
-            response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
-            chat.add(settings.model, marked.parse(response));
-            MathJax.typesetPromise();
-        })
+        response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
+        chat.add(settings.model, marked.parse(response));
+        MathJax.typesetPromise();
     },
 
     clear: () => {
