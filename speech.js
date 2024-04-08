@@ -9,14 +9,15 @@ const speech = {
         const data = new FormData();
 
         data.append("file", blob, 'audio/stt.wav');
+        data.append('model', 'whisper-t');
 
         return fetch('/openai/1/audio/transcriptions', {
             method: 'POST',
             headers: {
                 'Authorization': 'Bearer ' + secrets.openaiApiKey,
                 'Content-Type': 'multipart/form-data'
-            } ,            
-            body: data,
+            } ,
+            body: data
         })
     },
 
