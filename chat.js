@@ -4,44 +4,47 @@ chat = {
     prompt: async text => {
         chat.add('you', text);
         let res;
+        const instruction = "You are a helpful assistant. Keep your answers brief.";
+        const headers = { 'Content-Type': 'application/json' };
 
         if (settings.model.startsWith('gpt')) {
             // https://platform.openai.com/docs/api-reference/introduction
 
-            //   messages = [ {"role": "system", "content": "You are a helpful assistant. Keep your answers brief."} ];
+            msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.prompt });
+            msgs.unshift({ role: 'system', content: instruction });
 
             res = fetch('/openai/v1/chat/completions', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                } ,
+                headers:  headers,
                 body: JSON.stringify({
-                    messages: chat.messages.map(msg => msg.prompt ? {role: 'user', content: msg.prompt} : {role: 'assistant', content: msg.prompt}),
+                    messages: msgs,
                     model: settings.model,
                     temperature: 2.0 * settings.temperature / 8.0
                 })
             });
         } else if (settings.model.startsWith('claude')) {
-            res = fetch('/anthropic/v1/chat/completions', {
+            // https://docs.anthropic.com/claude/reference/messages_post
+
+            msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.prompt });
+            headers['anthropic-version'] = '2023-06-01';
+
+            res = fetch('/anthropic/v1/messages', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                } ,
+                headers:  headers,
                 body: JSON.stringify({
-                    system: "You are a helpful assistant. Keep your answers brief.",
-                    messages: chat.messages.map(msg => msg.prompt ? {role: 'user', content: msg.prompt} : {role: 'assistant', content: msg.prompt}),
+                    system: instruction,
+                    messages: msgs,
                     model: settings.model,
-                    temperature: 1.0 * settings.temperature / 8.0
+                    temperature: 1.0 * settings.temperature / 8.0,
+                    max_tokens: 1000
                 })
             });
         } else if (settings.model.startsWith('gemini')) {
             res = fetch('/gemini/v1/chat/completions', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                } ,
+                headers:  headers,
                 body: JSON.stringify({
-                    messages: chat.messages.map(msg => msg.prompt ? {role: 'user', content: msg.prompt} : {role: 'assistant', content: msg.prompt}),
+                    messages: msgs,
                     model: settings.model,
                     temperature: 2.0 * settings.temperature / 8.0
                 })
@@ -49,11 +52,9 @@ chat = {
         } else if (settings.model.startsWith('mistral')) {
             res = fetch('/mistral/v1/chat/completions', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                } ,
+                headers:  headers,
                 body: JSON.stringify({
-                    messages: chat.messages.map(msg => msg.prompt ? {role: 'user', content: msg.prompt} : {role: 'assistant', content: msg.prompt}),
+                    messages: msgs,
                     model: settings.model,
                     temperature: 2.0 * settings.temperature / 8.0
                 })
