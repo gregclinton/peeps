@@ -11,7 +11,7 @@ const speech = {
         data.append("file", blob, 'audio/stt.wav');
         data.append('model', 'whisper-t');
 
-        return fetch('/openai/1/audio/transcriptions', {
+        return fetch('/openai/v1/audio/transcriptions', {
             method: 'POST',
             headers: {
                 'Authorization': 'Bearer ' + secrets.openaiApiKey,
