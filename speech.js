@@ -10,8 +10,12 @@ const speech = {
 
         data.append("file", blob, 'audio/stt.wav');
 
-        return fetch('/stt/', {
-            method: 'PUT',
+        return fetch('/openai/1/audio/transcriptions', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + secrets.openaiApiKey,
+                'Content-Type': 'multipart/form-data'
+            } ,            
             body: data,
         })
     },

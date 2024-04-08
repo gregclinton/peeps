@@ -3,8 +3,8 @@
 fetch('/openai/v1/chat/completions', {
     method: 'POST',
     headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + secrets.openaiApiKey
+        'Authorization': 'Bearer ' + secrets.openaiApiKey,
+        'Content-Type': 'application/json'
     } ,
     body: JSON.stringify({
         messages: [{"role": "user", "content": "Say this is a test!"}],
