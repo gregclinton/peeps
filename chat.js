@@ -48,7 +48,7 @@ chat = {
                 })
             })
             .then(response => response.json())
-            .then(o => o.content.text);
+            .then(o => add(o.content.text));
         } else if (settings.model.startsWith('gemini')) {
             // https://ai.google.dev/api/rest
 
@@ -62,7 +62,7 @@ chat = {
                 })
             })
             .then(response => response.json())
-            .then(o => o.content.text);
+            .then(o => add(o.content.text));
         } else if (settings.model.startsWith('mistral')) {
             // https://docs.mistral.ai/api/
 
@@ -76,7 +76,7 @@ chat = {
                 })
             })
             .then(response => response.json())
-            .then(o => o.content.text);
+            .then(o => add(o.content.text));
         }
     },
 
