@@ -15,13 +15,13 @@ curl https://api.openai.com/v1/chat/completions \
 
 fetch('/v1/chat/completions', {
     method: 'POST',
-    headers: { 
+    headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + secrets.openaiApiKey
     } ,
     body: JSON.stringify({
-        messages: [],
-        model: 'gpt-4',
-        temperature: 1
-    })   
+        messages: [{"role": "user", "content": "Say this is a test!"}],
+        model: 'gpt-3.5-turbo',
+        temperature: 0.7
+    })
 });
