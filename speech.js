@@ -8,8 +8,11 @@ const speech = {
     stt: blob => {
         const data = new FormData();
 
-        data.append("file", blob, 'audio/stt.wav');
-        data.append('model', 'whisper-t');
+//        data.append("file", blob, 'audio/stt.wav');
+//        data.append("file", 'audio/stt.wav');
+        data.append('model', 'whisper-t'); // 100 seconds for a penny
+        data.append('language', 'en'); // optional but improves accuracy and latency
+        data.append('response_format', 'text');
 
         return fetch('/openai/v1/audio/transcriptions', {
             method: 'POST',
