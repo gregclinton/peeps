@@ -8,6 +8,8 @@ chat = {
         if (settings.model.startsWith('gpt')) {
             // https://platform.openai.com/docs/api-reference/introduction
 
+            //   messages = [ {"role": "system", "content": "You are a helpful assistant. Keep your answers brief."} ];
+
             res = fetch('/openai/v1/chat/completions', {
                 method: 'POST',
                 headers: {
@@ -26,6 +28,7 @@ chat = {
                     'Content-Type': 'application/json'
                 } ,
                 body: JSON.stringify({
+                    system: "You are a helpful assistant. Keep your answers brief.",
                     messages: chat.messages.map(msg => msg.prompt ? {role: 'user', content: msg.prompt} : {role: 'assistant', content: msg.prompt}),
                     model: settings.model,
                     temperature: 1.0 * settings.temperature / 8.0
