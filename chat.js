@@ -3,17 +3,26 @@ chat = {
 
     prompt: async text => {
         chat.add('you', text);
+        let res;
 
-        fetch('/chat/', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                messages: chat.messages,
-                model: settings.model,
-                temperature: settings.temperature // 0 to 8
-            })
-        })
-        .then(res => res.text())
+        if (settings.model.startsWith('gpt')) {
+            // https://platform.openai.com/docs/api-reference/introduction
+
+            res = fetch('/openai/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + secrets.openaiApiKey,
+                    'Content-Type': 'application/json'
+                } ,
+                body: JSON.stringify({
+                    messages: message.map(msg => msg.prompt ? {role: 'user', content: msg.prompt} : {role: 'assistant', content: msg.prompt}),
+                    model: settings.model,
+                    temperature: 2.0 * settings.temperature / 8.0
+                })
+            });
+        }
+
+        res.then(res => res.text())
         .then(response => {
             response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
             chat.add(settings.model, marked.parse(response));
