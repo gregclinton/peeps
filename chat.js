@@ -6,7 +6,12 @@ chat = {
         let res;
         const instruction = "You are a helpful assistant. Keep your answers brief.";
         const headers = { 'Content-Type': 'application/json' };
-        let response = '';
+
+        function add(response) {
+            response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
+            chat.add(settings.model, marked.parse(response));
+            MathJax.typesetPromise();
+        }
 
         if (settings.model.startsWith('gpt')) {
             // https://platform.openai.com/docs/api-reference/introduction
@@ -14,7 +19,7 @@ chat = {
             msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.prompt });
             msgs.unshift({ role: 'system', content: instruction });
 
-            response = await fetch('/openai/v1/chat/completions', {
+            fetch('/openai/v1/chat/completions', {
                 method: 'POST',
                 headers:  headers,
                 body: JSON.stringify({
@@ -24,7 +29,7 @@ chat = {
                 })
             })
             .then(response => response.json())
-            .then(o => o.content);
+            .then(o => add(o.choices[0].message.content));
         } else if (settings.model.startsWith('claude')) {
             // https://docs.anthropic.com/claude/reference/messages_post
 
@@ -69,9 +74,6 @@ chat = {
                 })
             });
         }
-        response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
-        chat.add(settings.model, marked.parse(response));
-        MathJax.typesetPromise();
     },
 
     clear: () => {
