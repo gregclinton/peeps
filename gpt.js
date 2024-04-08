@@ -20,8 +20,8 @@ fetch('/v1/chat/completions', {
         'Authorization': 'Bearer ' + secrets.openaiApiKey
     } ,
     body: JSON.stringify({
-      messages: [],
-      model: 'gpt-4',
-      temperature: 1
+        messages: [],
+        model: 'gpt-4',
+        temperature: 1
     })   
 });
