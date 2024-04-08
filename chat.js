@@ -36,7 +36,7 @@ chat = {
             msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.prompt });
             headers['anthropic-version'] = '2023-06-01';
 
-            response = await fetch('/anthropic/v1/messages', {
+            fetch('/anthropic/v1/messages', {
                 method: 'POST',
                 headers:  headers,
                 body: JSON.stringify({
@@ -52,7 +52,7 @@ chat = {
         } else if (settings.model.startsWith('gemini')) {
             // https://ai.google.dev/api/rest
 
-            res = fetch('/gemini/v1/chat/completions', {
+            fetch('/gemini/v1/chat/completions', {
                 method: 'POST',
                 headers:  headers,
                 body: JSON.stringify({
@@ -60,11 +60,13 @@ chat = {
                     model: settings.model,
                     temperature: 2.0 * settings.temperature / 8.0
                 })
-            });
+            })
+            .then(response => response.json())
+            .then(o => o.content.text);
         } else if (settings.model.startsWith('mistral')) {
             // https://docs.mistral.ai/api/
 
-            res = fetch('/mistral/v1/chat/completions', {
+            fetch('/mistral/v1/chat/completions', {
                 method: 'POST',
                 headers:  headers,
                 body: JSON.stringify({
@@ -72,7 +74,9 @@ chat = {
                     model: settings.model,
                     temperature: 2.0 * settings.temperature / 8.0
                 })
-            });
+            })
+            .then(response => response.json())
+            .then(o => o.content.text);
         }
     },
 
