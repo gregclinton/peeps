@@ -15,9 +15,6 @@ const speech = {
 
         return fetch('/openai/v1/audio/transcriptions', {
             method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + secrets.openaiApiKey,
-            } ,
             body: data
         })
     },
