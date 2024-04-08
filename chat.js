@@ -19,6 +19,42 @@ chat = {
                     temperature: 2.0 * settings.temperature / 8.0
                 })
             });
+        } else if (settings.model.startsWith('claude')) {
+            res = fetch('/anthropic/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                } ,
+                body: JSON.stringify({
+                    messages: chat.messages.map(msg => msg.prompt ? {role: 'user', content: msg.prompt} : {role: 'assistant', content: msg.prompt}),
+                    model: settings.model,
+                    temperature: 1.0 * settings.temperature / 8.0
+                })
+            });
+        } else if (settings.model.startsWith('gemini')) {
+            res = fetch('/gemini/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                } ,
+                body: JSON.stringify({
+                    messages: chat.messages.map(msg => msg.prompt ? {role: 'user', content: msg.prompt} : {role: 'assistant', content: msg.prompt}),
+                    model: settings.model,
+                    temperature: 2.0 * settings.temperature / 8.0
+                })
+            });
+        } else if (settings.model.startsWith('mistral')) {
+            res = fetch('/mistral/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                } ,
+                body: JSON.stringify({
+                    messages: chat.messages.map(msg => msg.prompt ? {role: 'user', content: msg.prompt} : {role: 'assistant', content: msg.prompt}),
+                    model: settings.model,
+                    temperature: 2.0 * settings.temperature / 8.0
+                })
+            });
         }
 
         res.then(res => res.text())
