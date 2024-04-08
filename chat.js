@@ -48,7 +48,7 @@ chat = {
                 })
             })
             .then(response => response.json())
-            .then(o => o.content);
+            .then(o => o.content.text);
         } else if (settings.model.startsWith('gemini')) {
             // https://ai.google.dev/api/rest
 
