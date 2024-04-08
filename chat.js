@@ -15,7 +15,7 @@ chat = {
                     'Content-Type': 'application/json'
                 } ,
                 body: JSON.stringify({
-                    messages: message.map(msg => msg.prompt ? {role: 'user', content: msg.prompt} : {role: 'assistant', content: msg.prompt}),
+                    messages: chat.messages.map(msg => msg.prompt ? {role: 'user', content: msg.prompt} : {role: 'assistant', content: msg.prompt}),
                     model: settings.model,
                     temperature: 2.0 * settings.temperature / 8.0
                 })
