@@ -40,6 +40,8 @@ chat = {
                 })
             });
         } else if (settings.model.startsWith('gemini')) {
+            // https://ai.google.dev/api/rest
+
             res = fetch('/gemini/v1/chat/completions', {
                 method: 'POST',
                 headers:  headers,
@@ -50,6 +52,8 @@ chat = {
                 })
             });
         } else if (settings.model.startsWith('mistral')) {
+            // https://docs.mistral.ai/api/
+
             res = fetch('/mistral/v1/chat/completions', {
                 method: 'POST',
                 headers:  headers,
