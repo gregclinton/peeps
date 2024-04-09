@@ -49,7 +49,7 @@ window.onload = () => {
     }
 
     addSpan('cold');
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 11; i++) {
         const span = addSpan('&nbsp;&nbsp;|&nbsp;&nbsp;');
 
         span.classList.add('tick');

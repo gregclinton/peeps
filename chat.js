@@ -27,7 +27,7 @@ chat = {
                 body: JSON.stringify({
                     messages: msgs,
                     model: 'gpt-4-0125-preview',
-                    temperature: 2.0 * settings.temperature / 8.0
+                    temperature: 2.0 * settings.temperature / 10.0
                 })
             })
             .then(response => response.json())
@@ -47,7 +47,7 @@ chat = {
                     system: instruction,
                     messages: msgs,
                     model: 'claude-3-opus-20240229',
-                    temperature: 1.0 * settings.temperature / 8.0,
+                    temperature: 1.0 * settings.temperature / 10.0,
                     max_tokens: 1000
                 })
             })

@@ -11,6 +11,11 @@ body, html
     height: calc(100% - 50px);
 }
 
+#canvas h4
+{
+    color: darkcyan;
+}
+
 #toolbar
 {
     position: fixed;
@@ -58,23 +63,7 @@ table
     border-collapse: collapse;
 }
 
-table, th, td
-{
-    border: 1px solid lightgray;
-}
-
-td
-{
-    padding: 2px;
-    text-align: left;
-}
-
-th
-{
-    text-align: center;
-}
-
-#models tr
+#models span
 {
     font-size: larger;
     cursor: pointer;
@@ -98,7 +87,10 @@ th
 
 #temperature span.selected
 {
+    font-size: larger;
     font-weight: bolder;
+    font-weight: bold;
+    color: darkcyan;
 }
 
 #chat
