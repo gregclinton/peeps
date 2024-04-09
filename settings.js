@@ -53,7 +53,7 @@ window.onload = () => {
         const span = addSpan('&nbsp;&nbsp;|&nbsp;&nbsp;');
 
         span.classList.add('tick');
-        if (i === 4) {
+        if (i === 5) {
             settings.temperature = i;
             span.classList.add('selected');
             settings.selectedTemperature = span;
