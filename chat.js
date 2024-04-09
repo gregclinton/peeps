@@ -19,7 +19,7 @@ chat = {
             post.scrollIntoView({ behavior: 'smooth' });
         }
 
-        function tts(text) {
+        async function tts(text) {
             fetch('/openai/v1/audio/speech', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -30,9 +30,7 @@ chat = {
                 })
             })
             .then(res => res.blob())
-            .then(blob => {
-                player.play(blob, () => {});
-            });
+            .then(blob => { return player.play(blob) });
         }
 
         post('me', text);
@@ -43,7 +41,11 @@ with the equation environment and \\( and \\) where inline is needed.`;
 
         function addResponse(response, model) {
             if (settings.sound === 'on') {
-                tts(response, settings.voice);
+                tts(response, settings.voice)
+                .then(() => {
+                    speech.show('start');
+                    speech.hide('stop');
+                });
             }
             if (model !==  'Alfred') {
                 chat.messages.push({ response: response });
