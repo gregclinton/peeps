@@ -37,7 +37,7 @@ chat = {
 
                 const msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
 
-                fetch('/openai/v1/chat/completions', {
+                await fetch('/openai/v1/chat/completions', {
                     method: 'POST',
                     headers:  headers,
                     body: JSON.stringify({
@@ -57,7 +57,7 @@ chat = {
                 const msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
                 headers['anthropic-version'] = '2023-06-01';
 
-                fetch('/anthropic/v1/messages', {
+                await fetch('/anthropic/v1/messages', {
                     method: 'POST',
                     headers:  headers,
                     body: JSON.stringify({
@@ -79,7 +79,7 @@ chat = {
 
                 const transcript = chat.messages.map(msg => msg.prompt ? 'prompt: ' +  msg.prompt : 'response: ' + msg.response).join('\n') + '\nresponse: ';
 
-                fetch('/gemini/v1beta/models/gemini-pro:generateContent', {
+                await fetch('/gemini/v1beta/models/gemini-pro:generateContent', {
                     method: 'POST',
                     headers:  headers,
                     body: JSON.stringify({
@@ -97,7 +97,7 @@ chat = {
 
                 const msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
 
-                fetch('/mistral/v1/chat/completions', {
+                await fetch('/mistral/v1/chat/completions', {
                     method: 'POST',
                     headers:  headers,
                     body: JSON.stringify({
