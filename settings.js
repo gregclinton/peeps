@@ -1,6 +1,6 @@
 settings = {
     toggle: () => {
-        e = document.getElementById('settings');
+        const e = document.getElementById('settings');
         e.hidden = !e.hidden;
     },
 

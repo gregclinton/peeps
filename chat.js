@@ -3,7 +3,6 @@ chat = {
 
     prompt: async text => {
         chat.add('me', text);
-        let res;
         const instruction = "You are a helpful assistant. Keep your answers brief.";
         const headers = { 'Content-Type': 'application/json' };
 
@@ -151,7 +150,7 @@ chat = {
     }
 }
 
-document.addEventListener('paste', function(event) {
+document.addEventListener('paste', function() {
     navigator.clipboard.readText()
     .then(text => {
         document.getElementById('paste').disabled = text !== '';
