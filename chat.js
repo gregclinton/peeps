@@ -19,7 +19,6 @@ chat = {
             post.scrollIntoView({ behavior: 'smooth' });
         }
 
-        chat.messages.push({ prompt: text });
         post('me', text);
         const instructions =
 `You are a helpful assistant. Keep your answers brief. If there is any math, render it using LaTeX math mode
@@ -29,7 +28,7 @@ with the equation environment and \\( and \\) where inline is needed.`;
         function addResponse(response, model) {
             if (model !==  'Alfred') {
                 chat.messages.push({ response: response });
-                response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex    
+                response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
                 response = marked.parse(response);
             }
             post(model || settings.model, response);
@@ -41,6 +40,8 @@ with the equation environment and \\( and \\) where inline is needed.`;
             .then(response => addResponse(response, 'Alfred'))
             return;
         }
+
+        chat.messages.push({ prompt: text });
 
         switch (settings.model) {
             case 'gpt': {
