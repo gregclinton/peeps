@@ -2,7 +2,7 @@ chat = {
     messages: [],
 
     prompt: async text => {
-        chat.add('you', text);
+        chat.add('me', text);
         let res;
         const instruction = "You are a helpful assistant. Keep your answers brief.";
         const headers = { 'Content-Type': 'application/json' };
@@ -13,26 +13,31 @@ chat = {
             MathJax.typesetPromise();
         }
 
-        if (settings.model.startsWith('gpt')) {
+        let msgs;
+
+        switch (settings.model) {
+            case 'gpt':
             // https://platform.openai.com/docs/api-reference/introduction
 
-            const msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
+            msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
 
             fetch('/openai/v1/chat/completions', {
                 method: 'POST',
                 headers:  headers,
                 body: JSON.stringify({
                     messages: msgs,
-                    model: settings.model,
+                    model: 'gpt-4-0125-preview',
                     temperature: 2.0 * settings.temperature / 8.0
                 })
             })
             .then(response => response.json())
             .then(o => add(o.choices[0].message.content));
-        } else if (settings.model.startsWith('claude')) {
+            break;
+
+        case 'claude':
             // https://docs.anthropic.com/claude/reference/messages_post
 
-            const msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
+            msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
             headers['anthropic-version'] = '2023-06-01';
 
             fetch('/anthropic/v1/messages', {
@@ -41,14 +46,16 @@ chat = {
                 body: JSON.stringify({
                     system: instruction,
                     messages: msgs,
-                    model: settings.model,
+                    model: 'claude-3-opus-20240229',
                     temperature: 1.0 * settings.temperature / 8.0,
                     max_tokens: 1000
                 })
             })
             .then(response => response.json())
             .then(o => add(o.content[0].text));
-        } else if (settings.model.startsWith('gemini')) {
+            break;
+
+        case 'gemini':
             // https://ai.google.dev/api/rest
             // https://ai.google.dev/tutorials/rest_quickstart
 
@@ -59,26 +66,29 @@ chat = {
                 headers:  headers,
                 body: JSON.stringify({
                     transcript: transcript,
-                    model: settings.model
+                    model: 'gemini-1.0-pro-001'
                 })
             })
             .then(response => response.json())
             .then(o => add(o.text));
-        } else if (settings.model.startsWith('mistral')) {
+            break;
+
+        case 'mistral':
             // https://docs.mistral.ai/api/
 
-            const msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
+            msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
 
             fetch('/mistral/v1/chat/completions', {
                 method: 'POST',
                 headers:  headers,
                 body: JSON.stringify({
                     messages: msgs,
-                    model: settings.model
+                    model: 'mistral-large-latest'
                 })
             })
             .then(response => response.json())
             .then(o => add(o.content.text));
+            break;
         }
     },
 

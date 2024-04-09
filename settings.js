@@ -16,53 +16,24 @@ window.onload = () => {
     document.getElementById('speech-stop').hidden = true;
 
     const models = document.getElementById('models');
-    const table = document.createElement('table');
-    const tbody = document.createElement('tbody');
-    const thead = document.createElement('thead');
 
-    thead.innerHTML = '<th>model</th><th>price</th>';
-    table.appendChild(thead);
-    table.appendChild(tbody);
-    models.appendChild(table);
+    ['gpt', 'claude', 'gemini', 'mistral'].forEach(name => {
+        const span = document.createElement('span');
 
-    [
-        ['gpt-3.5-turbo-0125', '0.50/1.50'],
-        ['gpt-4', '10/60'],
-        ['gpt-4-0125-preview', '10/30'],
-        ['claude-3-haiku-20240307' , '0.25/1.25'],
-        ['claude-3-sonnet-20240229', '3/15'],
-        ['claude-3-opus-20240229', '15/75'],
-        ['gemini-1.0-pro-001', 'free'],
-        ['mistral-small-latest' , '2/6'],
-        ['mistral-medium-latest', '2.70/8.10'],
-        ['mistral-large-latest', '8/24'],
-    ].forEach(model => {
-        const tr = document.createElement('tr');
-        const addTd = (value => {
-            const td = document.createElement('td');
+        span.innerHTML = name;
 
-            td.innerHTML = value;
-            tr.appendChild(td)
-        });
-
-        const name = model[0];
-        const price = model[1];
-
-        addTd(name);
-        addTd(price);
-
-        if (name === 'gpt-4-0125-preview') {
-            tr.classList.add('selected')
-            settings.selectedModel = tr;
+        if (name === 'gpt') {
+            span.classList.add('selected')
+            settings.selectedModel = span;
             settings.model = name;
         }
 
-        tbody.appendChild(tr);
+        models.appendChild(span);
 
-        tr.onclick = () => {
-            settings.selectedModel.classList.remove('selected')
-            tr.classList.add('selected');
-            settings.selectedModel = tr;
+        span.onclick = () => {
+            settings.selectedModel.classList.remove('selected');
+            span.classList.add('selected');
+            settings.selectedModel = span;
             settings.model = name;
         }
     });
@@ -77,8 +48,7 @@ window.onload = () => {
         return span;
     }
 
-    addSpan('temperature: ');
-    addSpan('low');
+    addSpan('cold');
     for (let i = 0; i < 9; i++) {
         const span = addSpan('&nbsp;&nbsp;|&nbsp;&nbsp;');
 
@@ -96,5 +66,5 @@ window.onload = () => {
             settings.temperature = i;
         }
     }
-    addSpan('high');
+    addSpan('hot');
 };

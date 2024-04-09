@@ -40,13 +40,12 @@ body, html
 #models h3
 {
     margin: 0px;
+    color: darkcyan;
 }
 
-#models div span
+#models span
 {
-    margin-top: 10px;
-    margin-bottom: 0px;
-    height: 10px;
+    margin: 0 0 0 15;
 }
 
 #models td:nth-child(n+2)
@@ -81,10 +80,10 @@ th
     cursor: pointer;
 }
 
-#models tr.selected
+.selected
 {
     font-weight: bold;
-    color: darkblue;
+    color: darkcyan;
 }
 
 #temperature
@@ -100,7 +99,6 @@ th
 #temperature span.selected
 {
     font-weight: bolder;
-    color: darkblue;
 }
 
 #chat
