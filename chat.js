@@ -29,9 +29,10 @@ chat = {
                     input: text
                 })
             })
-            .then(response => {
-                player.play(response.blob(), () => {});
-            })
+            .then(res => res.blob())
+            .then(blob => {
+                player.play(blob, () => {});
+            });
         }
 
         post('me', text);
@@ -42,12 +43,7 @@ with the equation environment and \\( and \\) where inline is needed.`;
 
         function addResponse(response, model) {
             if (settings.sound === 'on') {
-                tts(response, settings.voice)
-                .then(res => res.blob())
-                .then(blob => {
-                    player.play(blob, () => {
-                    });
-                });
+                tts(response, settings.voice);
             }
             if (model !==  'Alfred') {
                 chat.messages.push({ response: response });
