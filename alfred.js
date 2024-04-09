@@ -17,6 +17,13 @@ alfred = {
 `;
         function process(jsonString) {
             result = jsonString;
+            o = JSON.parse(jsonString);
+            if (o.model) {
+                settings.model = o.model;
+            }
+            if (o.temperature) {
+                settings.temperature = o.temperature;
+            }
         }
 
         await fetch('/openai/v1/chat/completions', {
