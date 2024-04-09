@@ -21,7 +21,7 @@ chat = {
 
         chat.messages.push({ prompt: text });
         post('me', text);
-        const instruction = "You are a helpful assistant. Keep your answers brief.";
+        const instructions = "You are a helpful assistant. Keep your answers brief. If there is any math, render it in standard LaTex.";
         const headers = { 'Content-Type': 'application/json' };
 
         function addResponse(response) {
@@ -36,6 +36,8 @@ chat = {
                 // https://platform.openai.com/docs/api-reference/introduction
 
                 const msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
+
+                msgs.unshift({ role: 'system', content: instructions });
 
                 await fetch('/openai/v1/chat/completions', {
                     method: 'POST',
@@ -61,7 +63,7 @@ chat = {
                     method: 'POST',
                     headers:  headers,
                     body: JSON.stringify({
-                        system: instruction,
+                        system: instructions,
                         messages: msgs,
                         model: 'claude-3-opus-20240229',
                         temperature: 1.0 * settings.temperature / 10.0,
