@@ -51,8 +51,9 @@ chat = {
             .then(o => add(o.content.text));
         } else if (settings.model.startsWith('gemini')) {
             // https://ai.google.dev/api/rest
+            // https://ai.google.dev/tutorials/rest_quickstart
 
-            fetch('/gemini/v1/chat/completions', {
+            fetch('/v1beta/models/gemini-pro:generateContent', {
                 method: 'POST',
                 headers:  headers,
                 body: JSON.stringify({
