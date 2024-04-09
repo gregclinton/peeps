@@ -30,7 +30,10 @@ chat = {
                 })
             })
             .then(res => res.blob())
-            .then(blob => { return player.play(blob) });
+            .then(blob => { return player.play(blob, () => {
+                speech.show('start');
+                speech.hide('stop');            
+            })});
         }
 
         post('me', text);
@@ -41,11 +44,7 @@ with the equation environment and \\( and \\) where inline is needed.`;
 
         function addResponse(response, model) {
             if (settings.sound === 'on') {
-                tts(response, settings.voice)
-                .then(() => {
-                    speech.show('start');
-                    speech.hide('stop');
-                });
+                tts(response, settings.voice);
             }
             if (model !==  'Alfred') {
                 chat.messages.push({ response: response });
