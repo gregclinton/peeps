@@ -1,4 +1,4 @@
-settings = { model: 'gpt', temperature: 5, sound: 'off' };
+settings = { model: 'gpt', temperature: 5, sound: 'off', voice: 'echo' };
 
 alfred = {
     prompt: async text => {
