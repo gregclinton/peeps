@@ -16,8 +16,7 @@ chat = {
         if (settings.model.startsWith('gpt')) {
             // https://platform.openai.com/docs/api-reference/introduction
 
-            msgs = chat.messages.map(msg => { role: msg.prompt ? 'user' : 'assistant'; content: msg.prompt });
-            msgs.unshift({ role: 'system', content: instruction });
+            const msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
 
             fetch('/openai/v1/chat/completions', {
                 method: 'POST',
@@ -33,7 +32,7 @@ chat = {
         } else if (settings.model.startsWith('claude')) {
             // https://docs.anthropic.com/claude/reference/messages_post
 
-            msgs = chat.messages.map(msg => { role: msg.prompt ? 'user' : 'assistant'; content: msg.prompt });
+            const msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
             headers['anthropic-version'] = '2023-06-01';
 
             fetch('/anthropic/v1/messages', {
@@ -53,17 +52,18 @@ chat = {
             // https://ai.google.dev/api/rest
             // https://ai.google.dev/tutorials/rest_quickstart
 
+            const transcript = chat.messages.map(msg => { msg.prompt ? 'prompt: ' +  msg.prompt : 'response: ' + msg.response }).join('\n');
+
             fetch('/v1beta/models/gemini-pro:generateContent', {
                 method: 'POST',
                 headers:  headers,
                 body: JSON.stringify({
-                    messages: msgs,
-                    model: settings.model,
-                    temperature: 2.0 * settings.temperature / 8.0
+                    transcript: transcript,
+                    model: settings.model
                 })
             })
             .then(response => response.json())
-            .then(o => add(o.content.text));
+            .then(o => add(o.text));
         } else if (settings.model.startsWith('mistral')) {
             // https://docs.mistral.ai/api/
 
