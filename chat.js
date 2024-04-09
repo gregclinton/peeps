@@ -21,7 +21,9 @@ chat = {
 
         chat.messages.push({ prompt: text });
         post('me', text);
-        const instructions = "You are a helpful assistant. Keep your answers brief. If there is any math, render it using LaTeX math mode with the equation environment.";
+        const instructions =
+`You are a helpful assistant. Keep your answers brief. If there is any math, render it using LaTeX math mode
+with the equation environment and \\( and \\) where inline is needed.`;
         const headers = { 'Content-Type': 'application/json' };
 
         function addResponse(response) {
