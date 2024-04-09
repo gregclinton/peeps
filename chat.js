@@ -52,9 +52,9 @@ chat = {
             // https://ai.google.dev/api/rest
             // https://ai.google.dev/tutorials/rest_quickstart
 
-            const transcript = chat.messages.map(msg => { msg.prompt ? 'prompt: ' +  msg.prompt : 'response: ' + msg.response }).join('\n');
+            const transcript = chat.messages.map(msg => msg.prompt ? 'prompt: ' +  msg.prompt : 'response: ' + msg.response).join('\n') + '\nresponse: ';
 
-            fetch('/v1beta/models/gemini-pro:generateContent', {
+            fetch('/gemini/v1beta/models/gemini-pro:generateContent', {
                 method: 'POST',
                 headers:  headers,
                 body: JSON.stringify({
