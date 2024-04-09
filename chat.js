@@ -34,7 +34,8 @@ with the equation environment and \\( and \\) where inline is needed.`;
         }
 
         if (text.startsWith('Alfred')) {
-            addResponse(alfred.prompt(text), 'Alfred');
+            await alfred.prompt(text)
+            .then(response => addResponse(response, 'Alfred'))
             return;
         }
 
