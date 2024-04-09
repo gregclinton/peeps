@@ -2,13 +2,32 @@ chat = {
     messages: [],
 
     prompt: async text => {
-        chat.add('me', text);
+        function post(name, text) {
+            const post = document.createElement('div');
+            const n = document.createElement('h4');
+            const t = document.createElement('div');
+
+            post.appendChild(n);
+            post.appendChild(t);
+
+            n.innerHTML = name;
+            t.innerHTML = text;
+
+            post.classList.add('post');
+            document.getElementById('chat').appendChild(post);
+
+            post.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        chat.messages.push({ prompt: text });
+        post('me', text);
         const instruction = "You are a helpful assistant. Keep your answers brief.";
         const headers = { 'Content-Type': 'application/json' };
 
-        function add(response) {
+        function addResponse(response) {
+            chat.messages.push({ response: response });
             response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
-            chat.add(settings.model, marked.parse(response));
+            post(settings.model, marked.parse(response));
             MathJax.typesetPromise();
         }
 
@@ -28,7 +47,7 @@ chat = {
                     })
                 })
                 .then(response => response.json())
-                .then(o => add(o.choices[0].message.content));
+                .then(o => addResponse(o.choices[0].message.content));
                 break;
             }
 
@@ -50,7 +69,7 @@ chat = {
                     })
                 })
                 .then(response => response.json())
-                .then(o => add(o.content[0].text));
+                .then(o => addResponse(o.content[0].text));
                 break;
             }
 
@@ -69,7 +88,7 @@ chat = {
                     })
                 })
                 .then(response => response.json())
-                .then(o => add(o.text));
+                .then(o => addResponse(o.text));
                 break;
             }
 
@@ -87,7 +106,7 @@ chat = {
                     })
                 })
                 .then(response => response.json())
-                .then(o => add(o.content.text));
+                .then(o => addResponse(o.content.text));
                 break;
             }
         }
@@ -96,24 +115,6 @@ chat = {
     clear: () => {
         document.getElementById('chat').innerHTML = "";
         chat.messages = [];
-    },
-
-    add: (name, text) => {
-        chat.messages.push({[name === 'you' ? 'prompt' : 'response']: text});
-        const post = document.createElement('div');
-        const n = document.createElement('h4');
-        const t = document.createElement('div');
-
-        post.appendChild(n);
-        post.appendChild(t);
-
-        n.innerHTML = name;
-        t.innerHTML = text;
-
-        post.classList.add('post');
-        document.getElementById('chat').appendChild(post);
-
-        post.scrollIntoView({ behavior: 'smooth' });
     },
 
     paste: () => {
