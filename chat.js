@@ -16,7 +16,7 @@ chat = {
         if (settings.model.startsWith('gpt')) {
             // https://platform.openai.com/docs/api-reference/introduction
 
-            msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.prompt });
+            msgs = chat.messages.map(msg => { role: msg.prompt ? 'user' : 'assistant'; content: msg.prompt });
             msgs.unshift({ role: 'system', content: instruction });
 
             fetch('/openai/v1/chat/completions', {
@@ -33,7 +33,7 @@ chat = {
         } else if (settings.model.startsWith('claude')) {
             // https://docs.anthropic.com/claude/reference/messages_post
 
-            msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.prompt });
+            msgs = chat.messages.map(msg => { role: msg.prompt ? 'user' : 'assistant'; content: msg.prompt });
             headers['anthropic-version'] = '2023-06-01';
 
             fetch('/anthropic/v1/messages', {
@@ -48,7 +48,7 @@ chat = {
                 })
             })
             .then(response => response.json())
-            .then(o => add(o.content.text));
+            .then(o => add(o.content[0].text));
         } else if (settings.model.startsWith('gemini')) {
             // https://ai.google.dev/api/rest
             // https://ai.google.dev/tutorials/rest_quickstart
