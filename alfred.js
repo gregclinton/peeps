@@ -18,7 +18,7 @@ alfred = {
  Do your best.
  By the way, they call me Alfred. Just ignore my name in the prompt.
  Finally, provide an obsequiousReply as to what you did, like setting temperature or whatever.
- Try to sound like a butler.
+ Try to sound like a butler with a wry sense of humor.
 `;
         function process(jsonString) {
             o = JSON.parse(jsonString);
