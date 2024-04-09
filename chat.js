@@ -82,11 +82,7 @@ with the equation environment and \\( and \\) where inline is needed.`;
                 // https://ai.google.dev/tutorials/rest_quickstart
 
                 const text = chat.messages.map(msg => msg.prompt ? 'prompt: ' +  msg.prompt : 'response: ' + msg.response).join('\n') + '\nresponse: ';
-/*
-curl https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=xxxx \
--H "Content-Type: application/json" \
--X POST -d '{"contents": [{"parts":[{"text": "Write a story about a magic backpack."}]}]}'
-*/
+
                 await fetch('/gemini/v1beta/models/gemini-pro:generateContent', {
                     method: 'POST',
                     headers:  headers,

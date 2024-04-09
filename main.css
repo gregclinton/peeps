@@ -5,13 +5,13 @@ body, html
     height: 100%;
 }
 
-#canvas
+#chat
 {
     overflow-y: scroll;
     height: calc(100% - 50px);
 }
 
-#canvas h4
+#chat h4
 {
     color: darkcyan;
 }
@@ -35,62 +35,6 @@ body, html
 #recorder
 {
     float: right;
-}
-
-#settings
-{
-    margin-left: 20px;
-}
-
-#models h3
-{
-    margin: 0px;
-    color: darkcyan;
-}
-
-#models span
-{
-    margin: 0 0 0 15;
-}
-
-#models td:nth-child(n+2)
-{
-    text-align: right;
-}
-
-table
-{
-    border-collapse: collapse;
-}
-
-#models span
-{
-    font-size: larger;
-    cursor: pointer;
-}
-
-.selected
-{
-    font-weight: bold;
-    color: darkcyan;
-}
-
-#temperature
-{
-    margin-top: 10px;
-}
-
-#temperature span.tick
-{
-    color: gray;
-}
-
-#temperature span.selected
-{
-    font-size: larger;
-    font-weight: bolder;
-    font-weight: bold;
-    color: darkcyan;
 }
 
 #chat
