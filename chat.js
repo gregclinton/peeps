@@ -67,13 +67,14 @@ chat = {
         } else if (settings.model.startsWith('mistral')) {
             // https://docs.mistral.ai/api/
 
+            const msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
+
             fetch('/mistral/v1/chat/completions', {
                 method: 'POST',
                 headers:  headers,
                 body: JSON.stringify({
                     messages: msgs,
-                    model: settings.model,
-                    temperature: 2.0 * settings.temperature / 8.0
+                    model: settings.model
                 })
             })
             .then(response => response.json())
