@@ -26,11 +26,16 @@ chat = {
 with the equation environment and \\( and \\) where inline is needed.`;
         const headers = { 'Content-Type': 'application/json' };
 
-        function addResponse(response) {
+        function addResponse(response, model) {
             chat.messages.push({ response: response });
             response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
-            post(settings.model, marked.parse(response));
+            post(model || settings.model, marked.parse(response));
             MathJax.typesetPromise();
+        }
+
+        if (text.startsWith('Alfred')) {
+            addResponse(alfred.prompt(text), 'Alfred');
+            return;
         }
 
         switch (settings.model) {
