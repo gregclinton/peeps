@@ -13,7 +13,7 @@ alfred = {
  Model should be gpt, claude, gemini or mistral.
  Sound can be on or off.
  Also, we might want to create a character.
- A character has a name and instructions (as to the character's behavior as in gpt system instructions).
+ A character has a name, gender (male or female) and instructions (as to the character's behavior as in gpt system instructions).
  Input comes from speech-to-text, so spelling may not be right.
  Do your best.
  By the way, they call me Alfred. Just ignore my name in the prompt.
