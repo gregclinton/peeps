@@ -2,8 +2,19 @@ settings = { model: 'gpt', temperature: 5 };
 
 alfred = {
     prompt: async text => {
-        const instructions = 'Make it brief';
         let result;
+        const instructions = 
+`
+ You are going to respond with just JSON.
+ Keys must be camel-cased.
+ Provide as many of the following keys as mentioned by the prompt:
+ model, temperature and timeSlot.
+ Temperature must be between 0 (coldest) and 10 (hottest) inclusive
+ Model should be gpt, claude, gemini or mistral.
+ Input comes from speech-to-text, so some spelling might not be right.
+ Do your best.
+ By the way, they call me Alfred. Just ignore my name in the prompt.
+`;
 
         await fetch('/openai/v1/chat/completions', {
             method: 'POST',
