@@ -8,7 +8,7 @@ const speech = {
     stt: blob => {
         const data = new FormData();
 
-        data.append('file', blob, 'audio/stt.wav');
+        data.append('file', blob, 'stt.wav');
         data.append('model', 'whisper-1'); // 100 seconds for a penny
         data.append('language', 'en'); // optional but improves accuracy and latency
         data.append('response_format', 'text');

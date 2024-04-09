@@ -1,5 +1,5 @@
 # sudo apt install -y nginx
-# sudo nginx -c /tmp/nginx.conf
+# sudo nginx -c ~/peeps/nginx.conf
 # sudo nginx -s reload
 # sudo nginx -s stop
 # chmod o+x /home/greg
