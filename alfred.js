@@ -14,9 +14,10 @@ alfred = {
  Input comes from speech-to-text, so spelling may not be right.
  Do your best.
  By the way, they call me Alfred. Just ignore my name in the prompt.
+ Finally, provide an obsequiousReply as to what you did, like setting temperature or whatever.
+ Try to sound like a butler.
 `;
         function process(jsonString) {
-            result = jsonString;
             o = JSON.parse(jsonString);
             if (o.model) {
                 settings.model = o.model;
@@ -24,6 +25,7 @@ alfred = {
             if (o.temperature) {
                 settings.temperature = o.temperature;
             }
+            result = o.obsequiousReply;
         }
 
         await fetch('/openai/v1/chat/completions', {
