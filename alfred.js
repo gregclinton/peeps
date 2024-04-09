@@ -1,4 +1,4 @@
-settings = { model: 'gpt', temperature: 5 };
+settings = { model: 'gpt', temperature: 5, sound: 'off' };
 
 alfred = {
     prompt: async text => {
@@ -27,6 +27,9 @@ alfred = {
             }
             if (o.temperature) {
                 settings.temperature = o.temperature;
+            }
+            if (o.sound) {
+                settings.sound = o.sound;
             }
             result = o.obsequiousReply;
         }

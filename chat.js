@@ -26,6 +26,9 @@ with the equation environment and \\( and \\) where inline is needed.`;
         const headers = { 'Content-Type': 'application/json' };
 
         function addResponse(response, model) {
+            if (setting.sound === 'on') {
+                
+            }
             if (model !==  'Alfred') {
                 chat.messages.push({ response: response });
                 response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
