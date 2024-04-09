@@ -81,15 +81,16 @@ with the equation environment and \\( and \\) where inline is needed.`;
                 // https://ai.google.dev/api/rest
                 // https://ai.google.dev/tutorials/rest_quickstart
 
-                const transcript = chat.messages.map(msg => msg.prompt ? 'prompt: ' +  msg.prompt : 'response: ' + msg.response).join('\n') + '\nresponse: ';
-
+                const text = chat.messages.map(msg => msg.prompt ? 'prompt: ' +  msg.prompt : 'response: ' + msg.response).join('\n') + '\nresponse: ';
+/*
+curl https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyBg8O7lxxc3r026kolnbBpY_xPwaj_h3Og \
+-H "Content-Type: application/json" \
+-X POST -d '{"contents": [{"parts":[{"text": "Write a story about a magic backpack."}]}]}'
+*/
                 await fetch('/gemini/v1beta/models/gemini-pro:generateContent', {
                     method: 'POST',
                     headers:  headers,
-                    body: JSON.stringify({
-                        transcript: transcript,
-                        model: 'gemini-1.0-pro-001'
-                    })
+                    body: JSON.stringify({ contents: [{parts: [{text: text}]}]})
                 })
                 .then(response => response.json())
                 .then(o => addResponse(o.text));
@@ -110,7 +111,7 @@ with the equation environment and \\( and \\) where inline is needed.`;
                     })
                 })
                 .then(response => response.json())
-                .then(o => addResponse(o.content.text));
+                .then(o => addResponse(o.candidates[0].content.parts[0].text));
                 break;
             }
         }
