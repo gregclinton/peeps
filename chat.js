@@ -13,82 +13,84 @@ chat = {
             MathJax.typesetPromise();
         }
 
-        let msgs;
-
         switch (settings.model) {
-            case 'gpt':
-            // https://platform.openai.com/docs/api-reference/introduction
+            case 'gpt': {
+                // https://platform.openai.com/docs/api-reference/introduction
 
-            msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
+                const msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
 
-            fetch('/openai/v1/chat/completions', {
-                method: 'POST',
-                headers:  headers,
-                body: JSON.stringify({
-                    messages: msgs,
-                    model: 'gpt-4-0125-preview',
-                    temperature: 2.0 * settings.temperature / 10.0
+                fetch('/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers:  headers,
+                    body: JSON.stringify({
+                        messages: msgs,
+                        model: 'gpt-4-0125-preview',
+                        temperature: 2.0 * settings.temperature / 10.0
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(o => add(o.choices[0].message.content));
-            break;
+                .then(response => response.json())
+                .then(o => add(o.choices[0].message.content));
+                break;
+            }
 
-        case 'claude':
-            // https://docs.anthropic.com/claude/reference/messages_post
+            case 'claude': {
+                // https://docs.anthropic.com/claude/reference/messages_post
 
-            msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
-            headers['anthropic-version'] = '2023-06-01';
+                const msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
+                headers['anthropic-version'] = '2023-06-01';
 
-            fetch('/anthropic/v1/messages', {
-                method: 'POST',
-                headers:  headers,
-                body: JSON.stringify({
-                    system: instruction,
-                    messages: msgs,
-                    model: 'claude-3-opus-20240229',
-                    temperature: 1.0 * settings.temperature / 10.0,
-                    max_tokens: 1000
+                fetch('/anthropic/v1/messages', {
+                    method: 'POST',
+                    headers:  headers,
+                    body: JSON.stringify({
+                        system: instruction,
+                        messages: msgs,
+                        model: 'claude-3-opus-20240229',
+                        temperature: 1.0 * settings.temperature / 10.0,
+                        max_tokens: 1000
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(o => add(o.content[0].text));
-            break;
+                .then(response => response.json())
+                .then(o => add(o.content[0].text));
+                break;
+            }
 
-        case 'gemini':
-            // https://ai.google.dev/api/rest
-            // https://ai.google.dev/tutorials/rest_quickstart
+            case 'gemini': {
+                // https://ai.google.dev/api/rest
+                // https://ai.google.dev/tutorials/rest_quickstart
 
-            const transcript = chat.messages.map(msg => msg.prompt ? 'prompt: ' +  msg.prompt : 'response: ' + msg.response).join('\n') + '\nresponse: ';
+                const transcript = chat.messages.map(msg => msg.prompt ? 'prompt: ' +  msg.prompt : 'response: ' + msg.response).join('\n') + '\nresponse: ';
 
-            fetch('/gemini/v1beta/models/gemini-pro:generateContent', {
-                method: 'POST',
-                headers:  headers,
-                body: JSON.stringify({
-                    transcript: transcript,
-                    model: 'gemini-1.0-pro-001'
+                fetch('/gemini/v1beta/models/gemini-pro:generateContent', {
+                    method: 'POST',
+                    headers:  headers,
+                    body: JSON.stringify({
+                        transcript: transcript,
+                        model: 'gemini-1.0-pro-001'
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(o => add(o.text));
-            break;
+                .then(response => response.json())
+                .then(o => add(o.text));
+                break;
+            }
 
-        case 'mistral':
-            // https://docs.mistral.ai/api/
+            case 'mistral': {
+                // https://docs.mistral.ai/api/
 
-            msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
+                const msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
 
-            fetch('/mistral/v1/chat/completions', {
-                method: 'POST',
-                headers:  headers,
-                body: JSON.stringify({
-                    messages: msgs,
-                    model: 'mistral-large-latest'
+                fetch('/mistral/v1/chat/completions', {
+                    method: 'POST',
+                    headers:  headers,
+                    body: JSON.stringify({
+                        messages: msgs,
+                        model: 'mistral-large-latest'
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(o => add(o.content.text));
-            break;
+                .then(response => response.json())
+                .then(o => add(o.content.text));
+                break;
+            }
         }
     },
 
