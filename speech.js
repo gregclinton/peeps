@@ -45,6 +45,6 @@ const speech = {
         speech.show('start');
         speech.hide('send');
         speech.hide('stop');
-        recorder.stop();
+        (player.playing ? player : recorder).stop();
     }
 };
