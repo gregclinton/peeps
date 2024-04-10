@@ -30,7 +30,7 @@ const speech = {
             })
         })
         .then(res => res.blob())
-        .then(blob => { return player.play(blob, () => {
+        .then(blob => { player.play(blob, () => {
             speech.show('start');
             speech.hide('stop');
         })});
