@@ -3,7 +3,6 @@ characters = [];
 
 alfred = {
     prompt: async text => {
-        let result;
         const instructions =
 `
  Respond with just JSON.
@@ -20,8 +19,22 @@ alfred = {
  Finally, provide an obsequiousReply as to what you did, like setting temperature or whatever.
  Try to sound like a butler with a wry sense of humor.
 `;
-        function process(jsonString) {
-            const o = JSON.parse(jsonString);
+
+        let result;
+
+        await fetch('/openai/v1/chat/completions', {
+            method: 'POST',
+            headers:  { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                messages: [{ role: 'system', content: instructions }, { role: 'user', content: text }],
+                model: 'gpt-4-0125-preview',
+                temperature: 0,
+                response_format: { "type": "json_object" }
+            })
+        })
+        .then(res => res.json())
+        .then(res => {
+            const o = JSON.parse(res.choices[0].message.content);
 
             if (o.model) {
                 settings.model = o.model;
@@ -36,19 +49,7 @@ alfred = {
                 characters = characters.concat(o.characters);
             }
             result = o.obsequiousReply;
-        }
-
-        await fetch('/openai/v1/chat/completions', {
-            method: 'POST',
-            headers:  { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                messages: [{ role: 'system', content: instructions }, { role: 'user', content: text }],
-                model: 'gpt-4-0125-preview',
-                temperature: 0
-            })
-        })
-        .then(response => response.json())
-        .then(o => { process(o.choices[0].message.content) });
+        });
 
         return result;
     }
