@@ -61,7 +61,8 @@ with the equation environment and \\( and \\) where inline is needed.`;
                     body: JSON.stringify({
                         messages: msgs,
                         model: 'gpt-4-0125-preview',
-                        temperature: 2.0 * settings.temperature / 10.0
+                        temperature: 2.0 * settings.temperature / 10.0,
+                        response_format: { "type": "json_object" }
                     })
                 })
                 .then(response => response.json())
