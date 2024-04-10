@@ -51,7 +51,7 @@ chat = {
         if (chat.name) {
             name = chat.name;
         } else {
-          chat.name = name;
+            chat.name = name;
         }
 
         const character = characters[name];
