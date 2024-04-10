@@ -15,6 +15,8 @@ alfred = {
  A character's instruction will instruct it, addressing it as you, to its behavior as in gpt system instruction.
  Preserve any spaces in the name, such as "John Henry".
 
+ Don't supply model or temperature if there is no hint of them in the prompt.
+
  Characters should never refer to themselves by name.
  For example, Abe Lincoln should never say "As Abe Lincoln, I ...".
 
@@ -26,7 +28,7 @@ alfred = {
  Input comes from speech-to-text, so spelling may not be right.
  Do your best.
  By the way, they call me Alfred. Just ignore my name in the prompt.
- Finally, provide an obsequiousReply as to what you did, like setting temperature or whatever.
+ Finally, always provide an obsequiousReply as to what you did, like setting temperature or creating a character.
  Try to sound like a butler with a wry sense of humor.
 `;
 
@@ -58,7 +60,7 @@ alfred = {
             if (o.characters) {
                 characters = { ...characters, ...o.characters };
             }
-            result = o.obsequiousReply;
+            result = o.obsequiousReply || 'Your wish is my command.';
         });
 
         return result;
