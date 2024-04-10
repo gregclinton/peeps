@@ -32,8 +32,8 @@ alfred = {
             if (o.sound) {
                 settings.sound = o.sound;
             }
-            if (o.character) {
-                characters.push(o.character);
+            if (o.characters) {
+                characters = characters.concat(o.characters);
             }
             result = o.obsequiousReply;
         }
