@@ -24,17 +24,17 @@ chat = {
 
         post('me', text);
 
-        function addResponse(response, model) {
+        function addResponse(response) {
             if (voice !== 'none') {
                 speech.tts(response, voice);
             }
             chat.messages.push({ response: response });
 
-            if (model !==  'Alfred') {
+            if (name !==  'Alfred') {
                 response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
                 response = marked.parse(response);
             }
-            post(name || model || settings.model, response);
+            post(name || settings.model, response);
             MathJax.typesetPromise();
         }
 
@@ -44,7 +44,7 @@ chat = {
 
         if (name === 'Alfred') {
             await alfred.prompt(text)
-            .then(response => addResponse(response, 'Alfred'))
+            .then(response => addResponse(response))
             return;
         }
 
