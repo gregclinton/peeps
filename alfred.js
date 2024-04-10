@@ -1,4 +1,5 @@
 settings = { model: 'gpt', temperature: 5, sound: 'off', voice: 'echo' };
+characters = [];
 
 alfred = {
     prompt: async text => {
@@ -31,6 +32,9 @@ alfred = {
             }
             if (o.sound) {
                 settings.sound = o.sound;
+            }
+            if (o.character) {
+                characters.push(o.character);
             }
             result = o.obsequiousReply;
         }
