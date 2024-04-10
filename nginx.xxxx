@@ -46,7 +46,9 @@ http {
         location /gemini/ {
             proxy_ssl_server_name on;
             proxy_pass https://generativelanguage.googleapis.com/;
-            rewrite ^(.*)$ $1?key=xxxx break;
+            if ($is_args = "") {
+                rewrite ^(.*)$ $1?key=xxxx last;
+            }
        }
 
         location /mistral/ {
