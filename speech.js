@@ -51,7 +51,7 @@ const speech = {
             .then(prompt => {
                 chat.prompt(prompt.trim())
                 .then(() => {
-                    if (settings.sound === 'off') {
+                    if (settings.voice === 'none') {
                         speech.show('start');
                         speech.hide('stop');
                     }

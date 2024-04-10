@@ -1,18 +1,23 @@
-settings = { model: 'gpt', temperature: 5, sound: 'off', voice: 'echo' };
+settings = { model: 'gpt', temperature: 5, voice: 'none' };
 characters = [];
 
 alfred = {
     prompt: async text => {
         const instructions =
 `
- Respond with just JSON.
+ Respond with JSON.
  Keys must be camel-cased.
  Provide as many of the following keys as mentioned by the prompt:
  model (gpt, claude, gemini or mistral),
  temperature (between 0 (coldest) and 10 (hottest) inclusive),
- sound (on or off),
- characters (array of name, gender (male or female) and instruction),
+ voice,
+ characters (array of name, voice and instruction),
  A character's instruction will be as to its behavior as in gpt system instruction.
+
+ alloy, shimmer and nova are women voices,
+ echo, fable, and onyx are men voices.
+ alloy and fable are british sounding.
+
  Input comes from speech-to-text, so spelling may not be right.
  Do your best.
  By the way, they call me Alfred. Just ignore my name in the prompt.
@@ -42,8 +47,8 @@ alfred = {
             if (o.temperature) {
                 settings.temperature = o.temperature;
             }
-            if (o.sound) {
-                settings.sound = o.sound;
+            if (o.voice) {
+                settings.voice = o.voice;
             }
             if (o.characters) {
                 characters = characters.concat(o.characters);

@@ -26,7 +26,7 @@ with the equation environment and \\( and \\) where inline is needed.`;
         const headers = { 'Content-Type': 'application/json' };
 
         function addResponse(response, model) {
-            if (settings.sound === 'on') {
+            if (settings.voice !== 'none') {
                 speech.tts(response);
             }
             chat.messages.push({ response: response });
