@@ -1,5 +1,5 @@
 settings = { model: 'gpt', temperature: 5, voice: 'none' };
-characters = [];
+characters = {};
 
 alfred = {
     prompt: async text => {
@@ -11,8 +11,8 @@ alfred = {
  model (gpt, claude, gemini or mistral),
  temperature (between 0 (coldest) and 10 (hottest) inclusive),
  voice,
- characters (array of name, voice and instruction),
- A character's instruction will be as to its behavior as in gpt system instruction.
+ characters (object, keyed by name, of voice and instruction),
+ A character's instruction will instruct it, addressing it as you, to its behavior as in gpt system instruction.
 
  alloy, shimmer and nova are women voices,
  echo, fable, and onyx are men voices.
@@ -52,7 +52,7 @@ alfred = {
                 settings.voice = o.voice;
             }
             if (o.characters) {
-                characters = characters.concat(o.characters);
+                characters = { ...characters, ...o.characters };
             }
             result = o.obsequiousReply;
         });
