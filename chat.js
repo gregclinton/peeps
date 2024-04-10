@@ -2,6 +2,8 @@ chat = {
     messages: [],
 
     prompt: async text => {
+        let name = false;
+
         function post(name, text) {
             const post = document.createElement('div');
             const n = document.createElement('h4');
@@ -20,10 +22,6 @@ chat = {
         }
 
         post('me', text);
-        const instructions =
-`You are a helpful assistant. Keep your answers brief. If there is any math, render it using LaTeX math mode
-with the equation environment and \\( and \\) where inline is needed.`;
-        const headers = { 'Content-Type': 'application/json' };
 
         function addResponse(response, model) {
             if (settings.voice !== 'none') {
@@ -35,17 +33,29 @@ with the equation environment and \\( and \\) where inline is needed.`;
                 response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
                 response = marked.parse(response);
             }
-            post(model || settings.model, response);
+            post(name || model || settings.model, response);
             MathJax.typesetPromise();
         }
 
+        name = text.split(',')[0];
+
         chat.messages.push({ prompt: text });
 
-        if (text.startsWith('Alfred')) {
+        if (name === 'Alfred') {
             await alfred.prompt(text)
             .then(response => addResponse(response, 'Alfred'))
             return;
         }
+
+        name = name in characters ? name : false;
+
+        const instructions =
+            (name in characters ? characters[name].instruction : 'You are a helpful assistant. ') +
+            'Keep your answers brief. ' +
+            'If there is any math, render it using LaTeX math mode with the equation environment and \\( and \\) where inline is needed.';
+
+        const headers = { 'Content-Type': 'application/json' };
+
 
         switch (settings.model) {
             case 'gpt': {

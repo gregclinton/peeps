@@ -13,6 +13,7 @@ alfred = {
  voice,
  characters (object, keyed by name, of voice and instruction),
  A character's instruction will instruct it, addressing it as you, to its behavior as in gpt system instruction.
+ Preserve any spaces in the name, such as "John Henry".
 
  alloy, shimmer and nova are women voices,
  echo, fable, and onyx are men voices.
