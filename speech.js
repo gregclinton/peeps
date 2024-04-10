@@ -19,6 +19,23 @@ const speech = {
         })
     },
 
+    tts: async (text, voice) => {
+        fetch('/openai/v1/audio/speech', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                model: "tts-1",
+                voice: voice || settings.voice,
+                input: text
+            })
+        })
+        .then(res => res.blob())
+        .then(blob => { return player.play(blob, () => {
+            speech.show('start');
+            speech.hide('stop');
+        })});
+    },
+
     start: () => {
         speech.hide('start');
         speech.show('send');
@@ -36,7 +53,7 @@ const speech = {
                 .then(() => {
                     if (settings.sound === 'off') {
                         speech.show('start');
-                        speech.hide('stop');    
+                        speech.hide('stop');
                     }
                 })
             })

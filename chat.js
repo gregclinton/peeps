@@ -19,23 +19,6 @@ chat = {
             post.scrollIntoView({ behavior: 'smooth' });
         }
 
-        async function tts(text) {
-            fetch('/openai/v1/audio/speech', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    model: "tts-1",
-                    voice: settings.voice,
-                    input: text
-                })
-            })
-            .then(res => res.blob())
-            .then(blob => { return player.play(blob, () => {
-                speech.show('start');
-                speech.hide('stop');            
-            })});
-        }
-
         post('me', text);
         const instructions =
 `You are a helpful assistant. Keep your answers brief. If there is any math, render it using LaTeX math mode
@@ -44,7 +27,7 @@ with the equation environment and \\( and \\) where inline is needed.`;
 
         function addResponse(response, model) {
             if (settings.sound === 'on') {
-                tts(response, settings.voice);
+                speech.tts(response);
             }
             if (model !==  'Alfred') {
                 chat.messages.push({ response: response });

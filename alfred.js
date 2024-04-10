@@ -21,7 +21,8 @@ alfred = {
  Try to sound like a butler with a wry sense of humor.
 `;
         function process(jsonString) {
-            o = JSON.parse(jsonString);
+            const o = JSON.parse(jsonString);
+
             if (o.model) {
                 settings.model = o.model;
             }
