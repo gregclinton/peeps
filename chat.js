@@ -29,8 +29,9 @@ with the equation environment and \\( and \\) where inline is needed.`;
             if (settings.sound === 'on') {
                 speech.tts(response);
             }
+            chat.messages.push({ response: response });
+
             if (model !==  'Alfred') {
-                chat.messages.push({ response: response });
                 response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
                 response = marked.parse(response);
             }
@@ -38,13 +39,13 @@ with the equation environment and \\( and \\) where inline is needed.`;
             MathJax.typesetPromise();
         }
 
+        chat.messages.push({ prompt: text });
+
         if (text.startsWith('Alfred')) {
             await alfred.prompt(text)
             .then(response => addResponse(response, 'Alfred'))
             return;
         }
-
-        chat.messages.push({ prompt: text });
 
         switch (settings.model) {
             case 'gpt': {
