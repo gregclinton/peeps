@@ -3,7 +3,7 @@ chat = {
 
     prompt: async text => {
         let name = false;
-        let voice = 'none';
+        let voice = settings.voice;
 
         function post(name, text) {
             const post = document.createElement('div');
@@ -48,10 +48,15 @@ chat = {
             return;
         }
 
+        if (chat.name) {
+            name = chat.name;
+        } else {
+          chat.name = name;
+        }
+
         const character = characters[name];
 
         if (character) {
-            name = name;
             voice = character.voice;
         } else {
             name = settings.model;
@@ -151,6 +156,7 @@ chat = {
     clear: () => {
         document.getElementById('chat').innerHTML = "";
         chat.messages = [];
+        chat.name = '';
     },
 
     paste: () => {
