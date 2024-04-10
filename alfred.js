@@ -10,20 +10,16 @@ alfred = {
  Provide as many of the following keys as mentioned by the prompt:
  model (gpt, claude, gemini or mistral),
  temperature (between 0 (coldest) and 10 (hottest) inclusive),
+
  voice,
- characters (object, keyed by name, of voice and instruction),
- A character's instruction will instruct it, addressing it as you, to its behavior as in gpt system instruction.
- Preserve any spaces in the name, such as "John Henry".
-
- Don't supply model or temperature if there is no hint of them in the prompt.
-
- Characters should never refer to themselves by name.
- For example, Abe Lincoln should never say "As Abe Lincoln, I ...".
-
  alloy, shimmer and nova are women voices,
  echo, fable, and onyx are men voices.
  alloy and fable are british sounding.
  none to not hear any voice.
+
+ characters (object, keyed by name, of voice and instruction),
+ A character's instruction will instruct it, addressing it as you, to its behavior as in gpt system instruction.
+ Preserve any spaces in the name, such as "John Henry".
 
  Input comes from speech-to-text, so spelling may not be right.
  Do your best.

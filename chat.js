@@ -59,12 +59,14 @@ chat = {
         }
 
         const instructions =
-            (character ? character.instruction : 'You are a helpful assistant. ') +
+            ( character ?  ('Pretend your name is ' + name + '. ' +
+                    'Never refer to yourself by name, unless directly asked your name. ' +
+                    'Never refer to yourself as an AI. This is role playing and you must remain in character. ')
+                    : 'You are a helpful assistant. ' ) +
             'Keep your answers brief. ' +
-            'If there is any math, render it using LaTeX math mode with the equation environment and \\( and \\) where inline is needed.';
+            'If there is any math, render it using LaTeX math mode with the equation environment and \\( and \\) where inline is needed. ';
 
         const headers = { 'Content-Type': 'application/json' };
-
 
         switch (settings.model) {
             case 'gpt': {
