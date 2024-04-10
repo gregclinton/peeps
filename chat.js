@@ -3,6 +3,7 @@ chat = {
 
     prompt: async text => {
         let name = false;
+        let voice = 'none';
 
         function post(name, text) {
             const post = document.createElement('div');
@@ -24,8 +25,8 @@ chat = {
         post('me', text);
 
         function addResponse(response, model) {
-            if (settings.voice !== 'none') {
-                speech.tts(response);
+            if (voice !== 'none') {
+                speech.tts(response, voice);
             }
             chat.messages.push({ response: response });
 
@@ -47,10 +48,18 @@ chat = {
             return;
         }
 
-        name = name in characters ? name : false;
+        const character = characters[name];
+
+        if (character) {
+            name = name;
+            voice = character.voice;
+        } else {
+            name = settings.model;
+            voice = 'none';
+        }
 
         const instructions =
-            (name in characters ? characters[name].instruction : 'You are a helpful assistant. ') +
+            (character ? character.instruction : 'You are a helpful assistant. ') +
             'Keep your answers brief. ' +
             'If there is any math, render it using LaTeX math mode with the equation environment and \\( and \\) where inline is needed.';
 

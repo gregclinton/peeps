@@ -25,7 +25,7 @@ const speech = {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 model: "tts-1",
-                voice: voice || settings.voice,
+                voice: voice,
                 input: text
             })
         })
