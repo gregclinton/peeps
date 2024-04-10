@@ -103,7 +103,7 @@ with the equation environment and \\( and \\) where inline is needed.`;
                     body: JSON.stringify({ contents: [{parts: [{text: text}]}]})
                 })
                 .then(response => response.json())
-                .then(o => addResponse(o.text));
+                .then(o => addResponse(o.candidates[0].content.parts[0].text));
                 break;
             }
 
@@ -121,7 +121,7 @@ with the equation environment and \\( and \\) where inline is needed.`;
                     })
                 })
                 .then(response => response.json())
-                .then(o => addResponse(o.candidates[0].content.parts[0].text));
+                .then(o => addResponse(o.choices[0].message.content));
                 break;
             }
         }
