@@ -25,6 +25,15 @@ chat = {
 
         post('me', text);
 
+        name = text.split(',')[0];
+        isAgent = name in agents;
+
+        if (name in peeps) {
+            chat.name = name;
+        }
+
+        chat.messages.push({ prompt: text });
+
         function addResponse(response) {
             if (voice !== 'none') {
                 speech.tts(response, voice);
@@ -40,15 +49,6 @@ chat = {
             post(name || settings.model, response);
             MathJax.typesetPromise();
         }
-
-        name = text.split(',')[0];
-        isAgent = name in agents;
-
-        if (name in peeps) {
-            chat.name = name;
-        }
-
-        chat.messages.push({ prompt: text });
 
         if (isAgent) {
             await agents.prompt(name, text)
