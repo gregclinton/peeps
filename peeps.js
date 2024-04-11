@@ -1,6 +1,6 @@
 peeps = {};
 
-agents.register('Scorsese',
+agents.register('Homer',
 `
  characters (object, keyed by name (preserve spaces if any), of voice and instruction),
 
