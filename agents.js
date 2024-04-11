@@ -26,6 +26,8 @@ agents = {
             agent.handler(o);
             result = o.reply || 'Done.';
         });
+
+        return result;
     }
 }
 
@@ -54,7 +56,7 @@ agents.register('Scorsese',
  The instruction addresses character as "you".
  Instruct the character as to its behavior. It will be a gpt system instruction.
 
- if voice is requested: alloy, shimmer and nova for women, echo, fable, and onyx for men
+ If voice is requested: alloy, shimmer and nova for women, echo, fable, and onyx for men
  fable is british sounding.
 
  Provide reply as to what you did. Try to sound like a movie director.
