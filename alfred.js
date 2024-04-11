@@ -14,7 +14,7 @@ alfred = {
  voice,
  alloy, shimmer and nova are women voices,
  echo, fable, and onyx are men voices.
- alloy and fable are british sounding.
+ fable is british sounding.
  none to not hear any voice.
 
  characters (object, keyed by name, of voice and instruction),
