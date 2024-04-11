@@ -51,7 +51,10 @@ const speech = {
             speech.stt(recorder.blob())
             .then(res => res.text())
             .then(prompt => {
-                chat.prompt(prompt.trim());
+                chat.prompt(prompt.trim())
+                .then(() => {
+                    speech.show('start');
+                })
             })
         })
     },
