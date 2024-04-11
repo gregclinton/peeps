@@ -42,14 +42,14 @@ chat = {
 
         name = text.split(',')[0];
 
-        if (name in characters) {
+        if (name in peeps) {
             chat.name = name;
         }
 
         chat.messages.push({ prompt: text });
 
-        if (name === 'Alfred') {
-            await alfred.prompt(text)
+        if (name === 'Alfred' || name === 'Scorsese') {
+            await agents.prompt(name, text)
             .then(response => addResponse(response))
             return;
         }
@@ -60,7 +60,7 @@ chat = {
             chat.name = name;
         }
 
-        const character = characters[name];
+        const character = peeps[name];
 
         if (character) {
             voice = character.voice;
