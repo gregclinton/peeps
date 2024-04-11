@@ -21,6 +21,7 @@ const speech = {
 
     tts: async (text, voice) => {
         speech.show('stop');
+        speech.hide('start');
         fetch('/openai/v1/audio/speech', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -51,10 +52,7 @@ const speech = {
             speech.stt(recorder.blob())
             .then(res => res.text())
             .then(prompt => {
-                chat.prompt(prompt.trim())
-                .then(() => {
-                    speech.show('start');
-                })
+                chat.prompt(prompt.trim());
             })
         })
     },
