@@ -7,6 +7,7 @@ agents.register('Scorsese',
  The instruction addresses character as "you".
  Instruct the character as to its behavior. It will be a gpt system instruction.
  Instruct the character not to ever mention its name unless specifically asked.
+ The character is role playing, should pretend to be a person and not an AI.
 
  If voice is requested: alloy, shimmer and nova for women, echo, fable, and onyx for men
  otherwise don't include voice.
