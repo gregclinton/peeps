@@ -6,10 +6,6 @@ agents.register('Alfred',
      model (gpt, claude, gemini or mistral),
      temperature (between 0 (coldest) and 10 (hottest) inclusive),
 `, o => {
-    if (o.model) {
-        settings.model = o.model;
-    }
-    if (o.temperature) {
-        settings.temperature = o.temperature;
-    }
+    settings = {...settings, ...o};
+    delete settings.reply;
 });
