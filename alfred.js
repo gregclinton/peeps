@@ -37,7 +37,7 @@ alfred = {
                 messages: [{ role: 'system', content: instructions }, { role: 'user', content: text }],
                 model: 'gpt-4-0125-preview',
                 temperature: 0,
-                response_format: { "type": "json_object" }
+                response_format: { type: "json_object" }
             })
         })
         .then(res => res.json())

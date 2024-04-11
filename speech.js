@@ -20,6 +20,7 @@ const speech = {
     },
 
     tts: async (text, voice) => {
+        speech.show('stop');
         fetch('/openai/v1/audio/speech', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -45,17 +46,12 @@ const speech = {
 
     send: () => {
         speech.hide('send');
+        speech.hide('stop');
         recorder.stop(() => {
             speech.stt(recorder.blob())
             .then(res => res.text())
             .then(prompt => {
-                chat.prompt(prompt.trim())
-                .then(() => {
-                    if (settings.voice === 'none') {
-                        speech.show('start');
-                        speech.hide('stop');
-                    }
-                })
+                chat.prompt(prompt.trim());
             })
         })
     },
