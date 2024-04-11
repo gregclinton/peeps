@@ -4,7 +4,7 @@ chat = {
     prompt: async text => {
         let name = false;
         let isAgent = false;
-        let voice = settings.voice;
+        let voice = 'none';
 
         function post(name, text) {
             const post = document.createElement('div');
@@ -56,6 +56,7 @@ chat = {
             return;
         } else if (['gpt', 'claude', 'gemini', 'mistral'].includes(name.toLowerCase())) {
             settings.model = name.toLowerCase();
+            chat.name = '';
         } else if (chat.name) {
             name = chat.name;
         } else {
@@ -68,7 +69,7 @@ chat = {
             voice = peep.voice || 'none';
         } else {
             name = settings.model;
-            voice = settings.voice;
+            voice = 'none';
         }
 
         const instructions =
