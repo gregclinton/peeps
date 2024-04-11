@@ -52,28 +52,28 @@ chat = {
             await agents.prompt(name, text)
             .then(response => addResponse(response))
             return;
-        }
-
-        if (chat.name) {
+        } else if (['gpt', 'claude', 'gemini', 'mistral'].includes(name.toLowerCase())) {
+            settings.model = name.toLowerCase();
+        } else if (chat.name) {
             name = chat.name;
         } else {
             chat.name = name;
         }
 
-        const character = peeps[name];
+        const peep = peeps[name];
 
-        if (character) {
-            voice = character.voice;
+        if (peep) {
+            voice = peep.voice;
         } else {
             name = settings.model;
             voice = settings.voice;
         }
 
         const instructions =
-            ( character ?  ('Pretend your name is ' + name + '. ' +
+            (peep ?  ('Pretend your name is ' + name + '. ' +
                     'Never refer to yourself by name, unless directly asked your name. ' +
                     'Never refer to yourself as an AI. This is role playing and you must remain in character. ')
-                    : 'You are a helpful assistant. ' ) +
+                    : 'You are a helpful assistant. ') +
             'Keep your answers brief. ' +
             'If there is any math, render it using LaTeX math mode with the equation environment and \\( and \\) where inline is needed. ';
 

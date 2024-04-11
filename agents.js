@@ -57,8 +57,7 @@ agents.register('Scorsese',
  if voice is requested: alloy, shimmer and nova for women, echo, fable, and onyx for men
  fable is british sounding.
 
- Provide reply as to what you did.
- Your name is Scorsese. Try to sound like a movie director.
+ Provide reply as to what you did. Try to sound like a movie director.
  `, o => {
     if (o.characters) {
         peeps = { ...peeps, ...o.characters };
