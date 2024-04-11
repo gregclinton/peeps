@@ -9,6 +9,7 @@ agents = {
         const instructions = 'Respond with JSON.\n' + agent.instructions +
             '\nProvide key "reply" telling what you did in a lighthearted way.';
 
+        // blot out the agent's name, so as not to confuse him
         text = text.charAt(name.length + 2).toUpperCase() + text.slice(name.length + 3);
 
         await fetch('/openai/v1/chat/completions', {
