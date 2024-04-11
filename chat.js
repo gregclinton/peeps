@@ -65,7 +65,7 @@ chat = {
         const peep = peeps[name];
 
         if (peep) {
-            voice = peep.voice;
+            voice = peep.voice || 'none';
         } else {
             name = settings.model;
             voice = settings.voice;
