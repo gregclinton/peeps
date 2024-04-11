@@ -9,8 +9,8 @@ agents.register('Homer',
  Instruct the character not to ever mention its name unless specifically asked.
  The character is role playing, should pretend to be a person and not an AI.
 
- If voice is requested: alloy, shimmer and nova for women, echo, fable, and onyx for men
- otherwise don't include voice.
+ Only include a character's voice selection (alloy, shimmer, nova for women; echo, fable, onyx for men) if I explicitly request it.
+ If no voice preference is mentioned, please omit the voice attribute entirely.
 
  fable is british sounding.
  `, o => {
