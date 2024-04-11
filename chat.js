@@ -42,6 +42,10 @@ chat = {
 
         name = text.split(',')[0];
 
+        if (name in characters) {
+            chat.name = name;
+        }
+
         chat.messages.push({ prompt: text });
 
         if (name === 'Alfred') {
