@@ -3,6 +3,7 @@ chat = {
 
     prompt: async text => {
         let name = false;
+        let isAgent = false;
         let voice = settings.voice;
 
         function post(name, text) {
@@ -32,7 +33,7 @@ chat = {
             }
             chat.messages.push({ response: response });
 
-            if (name !==  'Alfred') {
+            if (!isAgent) {
                 response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
                 response = marked.parse(response);
             }
@@ -41,6 +42,7 @@ chat = {
         }
 
         name = text.split(',')[0];
+        isAgent = name in agents;
 
         if (name in peeps) {
             chat.name = name;
@@ -48,7 +50,7 @@ chat = {
 
         chat.messages.push({ prompt: text });
 
-        if (name === 'Alfred' || name === 'Scorsese') {
+        if (isAgent) {
             await agents.prompt(name, text)
             .then(response => addResponse(response))
             return;
