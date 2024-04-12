@@ -1,6 +1,7 @@
 const recorder = {
     stream: 0,
     device: null,
+    recording: false,
 
     start: () => {
         navigator.mediaDevices.getUserMedia({ audio: true })
@@ -14,16 +15,18 @@ const recorder = {
                 audioBitsPerSecond: 128000
             });
             recorder.device.startRecording();
+            recorder.recording = true;
         })
     },
 
     stop: (fn) => {
         recorder.device.stopRecording(fn);
         recorder.stream.getTracks().forEach(track => { track.stop(); });
+        recorder.recording = false;
     },
 
     blob: () => {
-        recorder.stream.getTracks().forEach(track => { track.stop(); });
+        recorder.stop();
         return recorder.device.getBlob();
     }
 }
