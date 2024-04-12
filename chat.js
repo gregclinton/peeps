@@ -1,10 +1,13 @@
 chat = {
     messages: [],
+    waiting: false,
 
     prompt: async text => {
         let name = false;
         let isAgent = false;
         let voice = 'none';
+
+        chat.waiting = true;
 
         function post(name, text) {
             const post = document.createElement('div');
@@ -46,6 +49,7 @@ chat = {
             }
             post(name || settings.model, response);
             MathJax.typesetPromise();
+            chat.waiting = false;
         }
 
         if (isAgent) {
@@ -67,7 +71,7 @@ chat = {
             voice = peep.voice || 'none';
         } else {
             name = settings.model;
-            voice = 'echo';
+            voice = 'none';
         }
 
         const instructions =

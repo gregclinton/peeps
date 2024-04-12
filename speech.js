@@ -32,6 +32,7 @@ const speech = {
     },
 
     send: () => {
+        chat.waiting = true;
         recorder.stop(() => {
             speech.stt(recorder.blob())
             .then(res => res.text())

@@ -38,7 +38,7 @@
                 document.getElementById(name).hidden = !show;
             };
 
-            show('start', !recorder.recording && !player.playing);
+            show('start', !recorder.recording && !player.playing && !chat.waiting);
             show('stop', recorder.recording || player.playing);
             show('send', recorder.recording);
         }, 200);        
