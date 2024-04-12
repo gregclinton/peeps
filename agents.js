@@ -17,7 +17,7 @@ agents = {
             headers:  { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 messages: [{ role: 'system', content: instructions }, { role: 'user', content: text }],
-                model: 'gpt-4-0125-preview',
+                model: 'gpt-4-turbo-2024-04-09',
                 temperature: 0,
                 response_format: { type: "json_object" }
             })

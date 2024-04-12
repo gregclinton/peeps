@@ -97,7 +97,7 @@ chat = {
                     headers:  headers,
                     body: JSON.stringify({
                         messages: msgs,
-                        model: 'gpt-4-0125-preview',
+                        model: 'gpt-4-turbo-2024-04-09',
                         temperature: 2.0 * settings.temperature / 10.0,
                     })
                 })
