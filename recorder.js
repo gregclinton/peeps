@@ -23,6 +23,7 @@ const recorder = {
     },
 
     blob: () => {
+        recorder.stream.getTracks().forEach(track => { track.stop(); });
         return recorder.device.getBlob();
     }
 }
