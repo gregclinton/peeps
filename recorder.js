@@ -1,8 +1,4 @@
 const recorder = {
-    stream: 0,
-    device: null,
-    recording: false,
-
     start: () => {
         recorder.recording = true;
         navigator.mediaDevices.getUserMedia({ audio: true })

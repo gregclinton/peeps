@@ -1,6 +1,5 @@
 chat = {
     messages: [],
-    waiting: false,
 
     prompt: async text => {
         let name = false;

@@ -1,12 +1,9 @@
 const player = {
-    device: null,
-    playing: false,
     play: (blob) => {
         player.device = new Audio(URL.createObjectURL(blob));
         player.device.play();
         player.device.onended = () => {
             player.playing = false;
-            player.device = null;
         }
         player.playing = true;
     },
