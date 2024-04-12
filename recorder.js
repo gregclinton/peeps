@@ -19,26 +19,23 @@ const recorder = {
         })
     },
 
-    stop: (fn) => {
+    stop: () => {
         recorder.device.stopRecording(fn);
         recorder.stream.getTracks().forEach(track => { track.stop(); });
         recorder.recording = false;
     },
 
     send: () => {
+        recorder.recording = false;
         chat.waiting = true;
-        recorder.stop(() => {
-            recorder.stt(recorder.blob())
+        recorder.device.stopRecording(() => {
+            recorder.stream.getTracks().forEach(track => { track.stop(); });
+            recorder.stt(recorder.device.getBlob())
             .then(res => res.text())
             .then(prompt => {
                 chat.prompt(prompt.trim());
             })
-        })
-    },
-
-    blob: () => {
-        recorder.stop();
-        return recorder.device.getBlob();
+        });
     },
 
     stt: blob => {
