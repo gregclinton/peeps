@@ -27,7 +27,7 @@ chat = {
 
         post('me', text);
 
-        name = text.split(',')[0];
+        name = text.split(/[,.\s]+/)[0];
         isAgent = name in agents;
 
         if (name in peeps) {
