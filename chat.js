@@ -37,8 +37,6 @@ chat = {
         function addResponse(response) {
             if (voice !== 'none') {
                 speech.tts(response, voice);
-            } else {
-                speech.show('start');
             }
             chat.messages.push({ response: response });
 
@@ -69,7 +67,7 @@ chat = {
             voice = peep.voice || 'none';
         } else {
             name = settings.model;
-            voice = 'none';
+            voice = 'echo';
         }
 
         const instructions =

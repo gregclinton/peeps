@@ -1,10 +1,4 @@
 const speech = {
-    hide: (name, show) => {
-        document.getElementById('speech-' + name).hidden = show === undefined;
-    },
-
-    show: (name) => { speech.hide(name, false); },
-
     stt: blob => {
         const data = new FormData();
 
@@ -20,8 +14,6 @@ const speech = {
     },
 
     tts: async (text, voice) => {
-        speech.show('stop');
-        speech.hide('start');
         fetch('/openai/v1/audio/speech', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -32,22 +24,14 @@ const speech = {
             })
         })
         .then(res => res.blob())
-        .then(blob => { player.play(blob, () => {
-            speech.show('start');
-            speech.hide('stop');
-        })});
+        .then(blob => { player.play(blob) });
     },
 
     start: () => {
-        speech.hide('start');
-        speech.show('send');
-        speech.show('stop');
         recorder.start();
     },
 
     send: () => {
-        speech.hide('send');
-        speech.hide('stop');
         recorder.stop(() => {
             speech.stt(recorder.blob())
             .then(res => res.text())
@@ -58,9 +42,6 @@ const speech = {
     },
 
     stop: () => {
-        speech.show('start');
-        speech.hide('send');
-        speech.hide('stop');
         (player.playing ? player : recorder).stop();
     }
 };
