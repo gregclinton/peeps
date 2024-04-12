@@ -20,9 +20,10 @@ const recorder = {
     },
 
     stop: () => {
-        recorder.device.stopRecording(fn);
-        recorder.stream.getTracks().forEach(track => { track.stop(); });
-        recorder.recording = false;
+        recorder.device.stopRecording(() => {
+            recorder.stream.getTracks().forEach(track => { track.stop(); });
+            recorder.recording = false;    
+        });
     },
 
     send: () => {
