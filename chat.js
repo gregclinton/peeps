@@ -51,12 +51,17 @@ chat = {
             chat.waiting = false;
         }
 
+        const cmd = text.toLowerCase().split(/[,.\s]+/);
+
         if (isAgent) {
             await agents.prompt(name, text)
             .then(response => addResponse(response))
             return;
-        } else if (['gpt', 'claude', 'gemini', 'mistral'].includes(name.toLowerCase())) {
-            settings.model = name.toLowerCase();
+        } else if (['gpt', 'claude', 'gemini', 'mistral'].includes(cmd[0])) {
+            settings.model = cmd[0];
+            if (cmd.length > 1 && cmd[1] === 'redo' && chat.messages.length > 1) {
+                chat.back();
+            }
             chat.name = '';
         } else if (chat.name) {
             name = chat.name;
