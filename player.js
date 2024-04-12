@@ -1,7 +1,6 @@
 const player = {
     device: null,
     playing: false,
-
     play: (blob) => {
         player.device = new Audio(URL.createObjectURL(blob));
         player.device.play();
@@ -17,5 +16,19 @@ const player = {
         player.device.src = '';
         player.device.load();
         player.playing = false;
+    },
+
+    tts: async (text, voice) => {
+        fetch('/openai/v1/audio/speech', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                model: "tts-1",
+                voice: voice,
+                input: text
+            })
+        })
+        .then(res => res.blob())
+        .then(blob => { player.play(blob) });
     }
 }

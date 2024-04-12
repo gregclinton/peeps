@@ -39,7 +39,7 @@ chat = {
 
         function addResponse(response) {
             if (voice !== 'none') {
-                speech.tts(response, voice);
+                player.tts(response, voice);
             }
             chat.messages.push({ response: response });
 
