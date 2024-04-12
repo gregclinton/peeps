@@ -15,6 +15,8 @@ const player = {
 
     stop: () => {
         player.device.pause();
+        player.device.src = '';
+        player.device.load();
         player.playing = false;
     }
 }
