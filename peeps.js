@@ -1,4 +1,4 @@
-let peeps = {
+const peeps = {
     register: (name, instructions, voice, handler) => {
         const peep = { name: name, instructions: instructions, voice: voice, handler: handler };
 
@@ -20,7 +20,10 @@ peeps.register('Homer',
  fable voice is british sounding.
  `, 'none', o => {
     if (o.characters) {
-        peeps = { ...peeps, ...o.characters };
+        Object.entries(o.characters).forEach(([name, peep]) => {
+            peep.name = name;
+            peeps[name] = peep;
+        });
     }
 });
 

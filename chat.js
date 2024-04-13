@@ -11,7 +11,6 @@ chat = {
 
             if (p) {
                 chat.peep = p;
-                chat.peep.name = name;
             }
         }
 
