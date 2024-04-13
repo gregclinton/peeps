@@ -17,7 +17,7 @@ peeps.register('Homer',
  The character is role playing, should pretend to be a person and not an AI.
 
  Only include a character's voice selection (alloy, shimmer, nova for women; echo, fable, onyx for men) if I explicitly request it.
- If no voice preference is mentioned, please omit the voice attribute entirely.
+ If no voice preference is mentioned, omit the voice attribute entirely.
 
  fable is british sounding.
  `, 'none', o => {

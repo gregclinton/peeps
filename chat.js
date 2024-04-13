@@ -6,10 +6,12 @@ chat = {
         chat.waiting = true;
 
         {
-            const p = peeps[text.split(',')[0]];
+            const name = text.split(',')[0];
+            const p = peeps[name];
 
             if (p) {
                 chat.peep = p;
+                chat.peep.name = name;
             }
         }
 
