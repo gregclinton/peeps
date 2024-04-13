@@ -50,7 +50,7 @@ chat = {
 
         post('me', text);
 
-        if (peep.handler) {
+        if (peep.handler && peep.name === text.split(',')[0]) {
             // blot out the agent's name, so as not to confuse him
             text = text.charAt(peep.name.length + 2).toUpperCase() + text.slice(peep.name.length + 3);
         }
