@@ -9,17 +9,16 @@ const peeps = {
 
 peeps.register('Homer',
 `
-characters (object, keyed by name (preserve spaces if any), of voice and instruction),
+characters (object, keyed by name (preserve spaces if any), of voice(only if requested) and instruction),
 
 The instruction addresses character as "you".
 Instruct the character as to its behavior. It will be a gpt system instruction.
 
-If I want to hear a voice, I'll say so or hint at it.
-If so, use alloy, shimmer, nova for women and echo, fable(british), onyx for men.
-If I don't, set voice to "none".
+Voices alloy, shimmer, nova are for women and echo, fable(british), onyx for men.
 `, 'none', o => {
     if (o.characters) {
         Object.entries(o.characters).forEach(([name, peep]) => {
+            peep.voice = peep.voice || 'none'
             peep.name = name;
             peeps[name] = peep;
         });
