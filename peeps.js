@@ -1,4 +1,4 @@
-const peeps = {
+let peeps = {
     register: (name, instructions, voice, handler) => {
         const peep = { name: name, instructions: instructions, voice: voice, handler: handler };
 

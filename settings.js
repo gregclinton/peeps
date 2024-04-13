@@ -1,4 +1,4 @@
-settings = { model: 'gemini', temperature: 5 };
+let settings = { model: 'gemini', temperature: 5 };
 
 peeps.register('Alfred',
 `
