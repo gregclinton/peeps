@@ -1,4 +1,11 @@
-peeps = {};
+const peeps = {
+    register: (name, instructions, handler) => {
+        const peep = { name: name, instructions: instructions, handler: handler };
+
+        peeps[name] = peep;
+        return  peep;
+    }
+}
 
 agents.register('Homer',
 `
@@ -18,3 +25,4 @@ agents.register('Homer',
         peeps = { ...peeps, ...o.characters };
     }
 });
+

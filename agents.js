@@ -1,4 +1,4 @@
-agents = {
+const agents = {
     register: (name, instructions, handler) => {
         agents[name] = { instructions: instructions, handler: handler };
     },

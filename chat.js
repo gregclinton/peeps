@@ -1,5 +1,6 @@
 chat = {
     messages: [],
+    peep: peeps.register('Max', 'You are a helpful assistant. '),
 
     prompt: async text => {
         let name = false;
@@ -30,7 +31,7 @@ chat = {
             top.append(n, s)
             post.append(top, bottom);
 
-            n.innerHTML = name;
+            n.innerHTML = name === 'me' ? name : chat.peep.name;
             bottom.innerHTML = text;
 
             post.classList.add('post');
