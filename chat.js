@@ -50,6 +50,11 @@ chat = {
 
         post('me', text);
 
+        if (peep.handler) {
+            // blot out the agent's name, so as not to confuse him
+            text = text.charAt(name.length + 2).toUpperCase() + text.slice(name.length + 3);
+        }
+
         chat.messages.push({ prompt: text });
 
         function addResponse(response) {
