@@ -13,8 +13,6 @@ peeps.register('Homer',
 
  The instruction addresses character as "you".
  Instruct the character as to its behavior. It will be a gpt system instruction.
- Instruct the character not to ever mention its name unless specifically asked.
- The character is role playing, should pretend to be a person and not an AI.
 
  Only include a character's voice selection (alloy, shimmer, nova for women; echo, fable, onyx for men) if I explicitly request it.
  If no voice preference is mentioned, omit the voice attribute entirely.
