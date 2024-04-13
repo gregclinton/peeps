@@ -193,8 +193,13 @@ chat = {
 
         if (m.length > 1) {
             const text = m[m.length - 2].prompt;
+            const div = document.getElementById('chat');
 
-            chat.back();
+            div.removeChild(div.lastChild);
+            div.removeChild(div.lastChild);
+            m.pop();
+            m.pop();
+
             chat.prompt(text);
         }
     },
@@ -203,14 +208,14 @@ chat = {
         const m = chat.messages;
 
         if (m.length > 1) {
-            const chat = document.getElementById('chat');
+            const div = document.getElementById('chat');
 
-            chat.removeChild(chat.lastChild);
-            chat.removeChild(chat.lastChild);
+            div.removeChild(div.lastChild);
+            div.removeChild(div.lastChild);
             m.pop();
             m.pop();
 
-            chat.peep = peeps[chat.lastChild.querySelector('.name').innerHTML];
+            chat.peep = peeps[div.lastChild.querySelector('.name').innerHTML];
         }
     }
 }
