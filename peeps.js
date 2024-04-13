@@ -9,16 +9,16 @@ const peeps = {
 
 peeps.register('Homer',
 `
- characters (object, keyed by name (preserve spaces if any), of voice and instruction),
+characters (object, keyed by name (preserve spaces if any), of voice and instruction),
 
- The instruction addresses character as "you".
- Instruct the character as to its behavior. It will be a gpt system instruction.
+The instruction addresses character as "you".
+Instruct the character as to its behavior. It will be a gpt system instruction.
 
- If I want to hear the character, use alloy, shimmer, nova for women and echo, fable, onyx for men.
- Otherwise if I don't mention it, voice is "none".
+If I want to hear the character, use alloy, shimmer, nova for women and echo, fable, onyx for men.
+Otherwise if I don't mention it, voice is "none".
 
- fable voice is british sounding.
- `, 'none', o => {
+fable voice is british sounding.
+`, 'none', o => {
     if (o.characters) {
         Object.entries(o.characters).forEach(([name, peep]) => {
             peep.name = name;
