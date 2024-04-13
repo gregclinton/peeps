@@ -119,8 +119,6 @@ chat = {
 
                         peep.handler(o);
                         addResponse(o.reply || 'Done.');
-                        chat.messages.pop();
-                        chat.messages.pop();
                     } else {
                         addResponse(content);
                     }
