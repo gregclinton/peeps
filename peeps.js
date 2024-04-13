@@ -14,10 +14,10 @@ peeps.register('Homer',
  The instruction addresses character as "you".
  Instruct the character as to its behavior. It will be a gpt system instruction.
 
- Only include a character's voice selection (alloy, shimmer, nova for women; echo, fable, onyx for men) if I explicitly request it.
- If no voice preference is mentioned, omit the voice attribute entirely.
+ If I want to hear the character, use alloy, shimmer, nova for women and echo, fable, onyx for men.
+ Otherwise if I don't mention it, voice is "none".
 
- fable is british sounding.
+ fable voice is british sounding.
  `, 'none', o => {
     if (o.characters) {
         peeps = { ...peeps, ...o.characters };
