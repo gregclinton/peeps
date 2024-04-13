@@ -21,25 +21,26 @@ chat = {
             const post = document.createElement('div');
             const top = document.createElement('div');
             const bottom = document.createElement('div');
-            const n = document.createElement('h4');
+            const n = document.createElement('span');
             const h = document.createElement('div');
-            const s = document.createElement('div');
+
+            top.append(n);
 
             if (name !== 'me') {
                 const span = text => {
                     const e = document.createElement('span');
                     e.innerHTML = text;
+                    e.classList.add('settings')
                     return e;
                 };
 
-                s.classList.add('settings');
-                s.append(span(settings.model), span(settings.temperature));
+                top.append(span(settings.model), span(settings.temperature));
             }
 
-            top.append(n, s)
             post.append(top, bottom);
 
             n.innerHTML = name === 'me' ? name : peep.name;
+            n.classList.add('name');
             bottom.innerHTML = text;
 
             post.classList.add('post');

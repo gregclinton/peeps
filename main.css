@@ -12,10 +12,12 @@ body, html
     font-family: sans-serif;
 }
 
-#chat h4
+#chat .post .name
 {
     color: darkcyan;
-    margin: 5px 0px 5px 0px;
+    margin: 5px 0px 20px 0px;
+    font-size: larger;
+    font-weight: bold;
 }
 
 #chat p:first-of-type /* markdown adds a <p> */
@@ -33,11 +35,6 @@ body, html
 #chat .post .settings
 {
     color: gray;
-    float: right;
-}
-
-#chat .post .settings span
-{
     margin-left: 15px;
 }
 
