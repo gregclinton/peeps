@@ -89,7 +89,7 @@ chat = {
 
         const headers = { 'Content-Type': 'application/json' };
 
-        switch (settings.model) {
+        switch (peep.handler ? 'gpt' : settings.model) {
             case 'gpt': {
                 // https://platform.openai.com/docs/api-reference/introduction
 
@@ -103,7 +103,8 @@ chat = {
                     body: JSON.stringify({
                         messages: msgs,
                         model: 'gpt-4-turbo-2024-04-09',
-                        temperature: 2.0 * settings.temperature / 10.0,
+                        temperature: peep.handler ? 0 : 2.0 * settings.temperature / 10.0,
+                        response_format: { type: peep.handler ? 'json_object' : 'text' }
                     })
                 })
                 .then(response => response.json())
