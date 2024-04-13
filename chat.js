@@ -215,7 +215,9 @@ chat = {
             m.pop();
             m.pop();
 
-            chat.peep = peeps[div.lastChild.querySelector('.name').innerHTML];
+            if (m.length > 1) {
+                chat.peep = peeps[div.lastChild.querySelector('.name').innerHTML];
+            }
         }
     }
 }
