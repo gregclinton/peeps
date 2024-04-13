@@ -20,17 +20,16 @@ chat = {
             const post = document.createElement('div');
             const top = document.createElement('div');
             const bottom = document.createElement('div');
-            const n = document.createElement('span');
-            const h = document.createElement('div');
+            const title = document.createElement('span');
 
-            top.append(n);
+            top.append(title);
 
             if (name !== 'me') {
                 const span = text => {
-                    const e = document.createElement('span');
-                    e.innerHTML = text;
-                    e.classList.add('settings')
-                    return e;
+                    const span = document.createElement('span');
+                    span.innerHTML = text;
+                    span.classList.add('settings')
+                    return span;
                 };
 
                 top.append(span(settings.model), span(settings.temperature));
@@ -38,8 +37,8 @@ chat = {
 
             post.append(top, bottom);
 
-            n.innerHTML = name === 'me' ? name : peep.name;
-            n.classList.add('name');
+            title.innerHTML = name === 'me' ? name : peep.name;
+            title.classList.add('name');
             bottom.innerHTML = text;
 
             post.classList.add('post');
