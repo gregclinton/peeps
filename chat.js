@@ -57,7 +57,6 @@ chat = {
                 player.tts(response, peep.voice);
             }
             chat.messages.push({ response: response });
-
             response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
             response = marked.parse(response);
             post('', response);
@@ -84,11 +83,6 @@ chat = {
             'Never refer to yourself as an AI. This is role playing and you must remain in character. ' +
             'Keep your answers brief. ' +
             'If there is any math, render it using LaTeX math mode with the equation environment and \\( and \\) where inline is needed. ');
-
-        if (peep.handler) {
-            // blot out the agent's name, so as not to confuse him
-            text = text.charAt(peep.name.length + 2).toUpperCase() + text.slice(peep.name.length + 3);
-        }
 
         const headers = { 'Content-Type': 'application/json' };
 
@@ -119,6 +113,8 @@ chat = {
 
                         peep.handler(o);
                         addResponse(o.reply || 'Done.');
+                        chat.messages.pop();
+                        chat.messages.pop();
                     } else {
                         addResponse(content);
                     }
