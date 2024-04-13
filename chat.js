@@ -1,12 +1,8 @@
 chat = {
     messages: [],
-    peep: peeps.register('Max', 'You are a helpful assistant. '),
+    peep: peeps.register('Max', 'You are a helpful assistant. ', 'none'),
 
     prompt: async text => {
-        let name = false;
-        let isAgent = false;
-        let voice = 'none';
-
         chat.waiting = true;
 
         function post(name, text) {
@@ -42,33 +38,32 @@ chat = {
 
         post('me', text);
 
-        name = text.split(/[,.\s]+/)[0];
-        isAgent = name in agents;
+        {
+            const p = peeps[text.split(',')[0]];
 
-        if (name in peeps) {
-            chat.name = name;
+            if (p) {
+                chat.peep = p;
+            }
         }
 
         chat.messages.push({ prompt: text });
 
         function addResponse(response) {
-            if (voice !== 'none') {
-                player.tts(response, voice);
+            if (chat.peep.voice !== 'none') {
+                player.tts(response, chat.peep.voice);
             }
             chat.messages.push({ response: response });
 
-            if (!isAgent) {
-                response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
-                response = marked.parse(response);
-            }
-            post(name || settings.model, response);
+            response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
+            response = marked.parse(response);
+            post('', response);
             MathJax.typesetPromise();
             chat.waiting = false;
         }
 
         const cmd = text.toLowerCase().split(/[,.\s]+/);
 
-        if (isAgent) {
+        if (false) {
             await agents.prompt(name, text)
             .then(response => addResponse(response))
             return;
@@ -77,27 +72,12 @@ chat = {
             if (cmd.length > 1 && cmd[1] === 'redo' && chat.messages.length > 1) {
                 chat.back();
             }
-            chat.name = '';
-        } else if (chat.name) {
-            name = chat.name;
-        } else {
-            chat.name = name;
-        }
-
-        const peep = peeps[name];
-
-        if (peep) {
-            voice = peep.voice || 'none';
-        } else {
-            name = settings.model;
-            voice = 'none';
         }
 
         const instructions =
-            (peep ?  ('Pretend your name is ' + name + '. ' +
-                    'Never refer to yourself by name, unless directly asked your name. ' +
-                    'Never refer to yourself as an AI. This is role playing and you must remain in character. ')
-                    : 'You are a helpful assistant. ') +
+            'Pretend your name is ' + chat.peep.name + '. ' +
+            'Never refer to yourself by name, unless directly asked your name. ' +
+            'Never refer to yourself as an AI. This is role playing and you must remain in character. ' +
             'Keep your answers brief. ' +
             'If there is any math, render it using LaTeX math mode with the equation environment and \\( and \\) where inline is needed. ';
 
@@ -186,7 +166,6 @@ chat = {
     clear: () => {
         document.getElementById('chat').innerHTML = "";
         chat.messages = [];
-        chat.name = '';
     },
 
     paste: () => {

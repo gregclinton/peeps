@@ -1,6 +1,6 @@
 const peeps = {
-    register: (name, instructions, handler) => {
-        const peep = { name: name, instructions: instructions, handler: handler };
+    register: (name, instructions, voice, handler) => {
+        const peep = { name: name, instructions: instructions, voice: voice, handler: handler };
 
         peeps[name] = peep;
         return  peep;
