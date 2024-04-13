@@ -205,10 +205,12 @@ chat = {
         if (m.length > 1) {
             const div = document.getElementById('chat');
 
-            div.removeChild(div.lastElementChild);
-            div.removeChild(div.lastElementChild);
+            div.removeChild(div.lastChild);
+            div.removeChild(div.lastChild);
             m.pop();
             m.pop();
+
+            chat.peep = peeps[document.getElementById('chat').lastChild.querySelector('.name').innerHTML];
         }
     }
 }
