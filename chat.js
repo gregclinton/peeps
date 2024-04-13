@@ -105,7 +105,7 @@ chat = {
                     body: JSON.stringify({
                         messages: msgs,
                         model: 'gpt-4-turbo-2024-04-09',
-                        temperature: peep.handler ? 0 : 2.0 * settings.temperature / 10.0,
+                        temperature: peep.handler ? 0 : 2.0 * settings.temperature / 100.0,
                         response_format: { type: peep.handler ? 'json_object' : 'text' }
                     })
                 })
@@ -140,7 +140,7 @@ chat = {
                         system: instructions,
                         messages: msgs,
                         model: 'claude-3-opus-20240229',
-                        temperature: 1.0 * settings.temperature / 10.0,
+                        temperature: 1.0 * settings.temperature / 100.0,
                         max_tokens: 1000
                     })
                 })
