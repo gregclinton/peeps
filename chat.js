@@ -203,14 +203,14 @@ chat = {
         const m = chat.messages;
 
         if (m.length > 1) {
-            const div = document.getElementById('chat');
+            const chat = document.getElementById('chat');
 
-            div.removeChild(div.lastChild);
-            div.removeChild(div.lastChild);
+            chat.removeChild(chat.lastChild);
+            chat.removeChild(chat.lastChild);
             m.pop();
             m.pop();
 
-            chat.peep = peeps[document.getElementById('chat').lastChild.querySelector('.name').innerHTML];
+            chat.peep = peeps[chat.lastChild.querySelector('.name').innerHTML];
         }
     }
 }
