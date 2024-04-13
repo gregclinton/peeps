@@ -9,9 +9,9 @@ const peeps = {
 
 peeps.register('Homer',
 `
-characters (object, keyed by name (preserve spaces if any), of voice(only if requested) and instruction),
+characters (object, keyed by name (preserve spaces if any), of voice(only if requested) and instructions),
 
-The instruction addresses character as "you".
+The instructions address character as "you".
 Instruct the character as to its behavior. It will be a gpt system instruction.
 
 Voices alloy, shimmer, nova are for women and echo, fable(british), onyx for men.

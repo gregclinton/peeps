@@ -151,7 +151,7 @@ chat = {
                 // https://ai.google.dev/api/rest
                 // https://ai.google.dev/tutorials/rest_quickstart
 
-                const text = chat.messages.map(msg => msg.prompt ? 'prompt: ' +  msg.prompt : 'response: ' + msg.response).join('\n') + '\nresponse: ';
+                const text = instructions + chat.messages.map(msg => msg.prompt ? 'prompt: ' +  msg.prompt : 'response: ' + msg.response).join('\n') + '\nresponse: ';
 
                 await fetch('/gemini/v1beta/models/gemini-pro:generateContent', {
                     method: 'POST',
