@@ -1,4 +1,4 @@
-settings = { model: 'gpt', temperature: 5 };
+settings = { model: 'gemini', temperature: 5 };
 
 agents.register('Alfred',
 `
