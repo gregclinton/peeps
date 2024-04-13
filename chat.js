@@ -69,15 +69,6 @@ chat = {
             chat.waiting = false;
         }
 
-        const cmd = text.toLowerCase().split(/[,.\s]+/);
-
-        if (['gpt', 'claude', 'gemini', 'mistral'].includes(cmd[0])) {
-            settings.model = cmd[0];
-            if (cmd.length > 1 && cmd[1] === 'redo' && chat.messages.length > 1) {
-                chat.back();
-            }
-        }
-
         const instructions =
             peep.handler ? ('Respond with JSON.\n' + peep.instructions +
             '\nProvide key "reply" telling what you did in a lighthearted way.')
@@ -221,10 +212,3 @@ chat = {
         }
     }
 }
-
-document.addEventListener('paste', function() {
-    navigator.clipboard.readText()
-    .then(text => {
-        document.getElementById('paste').disabled = text !== '';
-    })
-});
