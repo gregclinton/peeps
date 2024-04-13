@@ -10,14 +10,28 @@ chat = {
 
         function post(name, text) {
             const post = document.createElement('div');
+            const top = document.createElement('div');
+            const bottom = document.createElement('div');
             const n = document.createElement('h4');
-            const t = document.createElement('div');
+            const h = document.createElement('div');
+            const s = document.createElement('div');
 
-            post.appendChild(n);
-            post.appendChild(t);
+            if (name !== 'me') {
+                const span = text => {
+                    const e = document.createElement('span');
+                    e.innerHTML = text;
+                    return e;
+                };
+
+                s.classList.add('settings');
+                s.append(span(settings.model), span(settings.temperature));
+            }
+
+            top.append(n, s)
+            post.append(top, bottom);
 
             n.innerHTML = name;
-            t.innerHTML = text;
+            bottom.innerHTML = text;
 
             post.classList.add('post');
             document.getElementById('chat').appendChild(post);
