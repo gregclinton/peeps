@@ -5,6 +5,16 @@ chat = {
     prompt: async text => {
         chat.waiting = true;
 
+        {
+            const p = peeps[text.split(',')[0]];
+
+            if (p) {
+                chat.peep = p;
+            }
+        }
+
+        const peep = chat.peep;
+
         function post(name, text) {
             const post = document.createElement('div');
             const top = document.createElement('div');
@@ -27,7 +37,7 @@ chat = {
             top.append(n, s)
             post.append(top, bottom);
 
-            n.innerHTML = name === 'me' ? name : chat.peep.name;
+            n.innerHTML = name === 'me' ? name : peep.name;
             bottom.innerHTML = text;
 
             post.classList.add('post');
@@ -38,19 +48,11 @@ chat = {
 
         post('me', text);
 
-        {
-            const p = peeps[text.split(',')[0]];
-
-            if (p) {
-                chat.peep = p;
-            }
-        }
-
         chat.messages.push({ prompt: text });
 
         function addResponse(response) {
-            if (chat.peep.voice !== 'none') {
-                player.tts(response, chat.peep.voice);
+            if (peep.voice !== 'none') {
+                player.tts(response, peep.voice);
             }
             chat.messages.push({ response: response });
 
@@ -75,11 +77,15 @@ chat = {
         }
 
         const instructions =
-            'Pretend your name is ' + chat.peep.name + '. ' +
+            peep.handler ? ('Respond with JSON.\n' + peep.instructions +
+            '\nProvide key "reply" telling what you did in a lighthearted way.')
+            :
+            (peep.instructions +
+            'Pretend your name is ' + peep.name + '. ' +
             'Never refer to yourself by name, unless directly asked your name. ' +
             'Never refer to yourself as an AI. This is role playing and you must remain in character. ' +
             'Keep your answers brief. ' +
-            'If there is any math, render it using LaTeX math mode with the equation environment and \\( and \\) where inline is needed. ';
+            'If there is any math, render it using LaTeX math mode with the equation environment and \\( and \\) where inline is needed. ');
 
         const headers = { 'Content-Type': 'application/json' };
 
