@@ -17,10 +17,12 @@ chat = {
         const peep = chat.peep;
 
         function post(name, text) {
-            const post = document.createElement('div');
-            const top = document.createElement('div');
-            const bottom = document.createElement('div');
             const title = document.createElement('span');
+
+            title.innerHTML = name === 'me' ? name : peep.name;
+            title.classList.add('name');
+
+            const top = document.createElement('div');
 
             top.append(title);
 
@@ -35,12 +37,11 @@ chat = {
                 top.append(span(settings.model), span(settings.temperature));
             }
 
-            post.append(top, bottom);
-
-            title.innerHTML = name === 'me' ? name : peep.name;
-            title.classList.add('name');
+            const bottom = document.createElement('div');
             bottom.innerHTML = text;
 
+            const post = document.createElement('div');
+            post.append(top, bottom);
             post.classList.add('post');
             document.getElementById('chat').appendChild(post);
 
