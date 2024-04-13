@@ -87,6 +87,11 @@ chat = {
             'Keep your answers brief. ' +
             'If there is any math, render it using LaTeX math mode with the equation environment and \\( and \\) where inline is needed. ');
 
+        if (peep.handler) {
+            // blot out the agent's name, so as not to confuse him
+            text = text.charAt(peep.name.length + 2).toUpperCase() + text.slice(peep.name.length + 3);
+        }
+
         const headers = { 'Content-Type': 'application/json' };
 
         switch (peep.handler ? 'gpt' : settings.model) {
@@ -108,7 +113,18 @@ chat = {
                     })
                 })
                 .then(response => response.json())
-                .then(o => addResponse(o.choices[0].message.content));
+                .then(o => {
+                    const content = o.choices[0].message.content;
+
+                    if (peep.handler) {
+                        const o = JSON.parse(content);
+
+                        peep.handler(o);
+                        addResponse(o.reply || 'Done.');
+                    } else {
+                        addResponse(content);
+                    }
+                });
                 break;
             }
 
