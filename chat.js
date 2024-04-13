@@ -65,11 +65,7 @@ chat = {
 
         const cmd = text.toLowerCase().split(/[,.\s]+/);
 
-        if (false) {
-            await agents.prompt(name, text)
-            .then(response => addResponse(response))
-            return;
-        } else if (['gpt', 'claude', 'gemini', 'mistral'].includes(cmd[0])) {
+        if (['gpt', 'claude', 'gemini', 'mistral'].includes(cmd[0])) {
             settings.model = cmd[0];
             if (cmd.length > 1 && cmd[1] === 'redo' && chat.messages.length > 1) {
                 chat.back();
