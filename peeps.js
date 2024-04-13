@@ -15,10 +15,8 @@ The instruction addresses character as "you".
 Instruct the character as to its behavior. It will be a gpt system instruction.
 
 If I want to hear a voice, I'll say so or hint at it.
-If so, use alloy, shimmer, nova for women and echo, fable, onyx for men.
+If so, use alloy, shimmer, nova for women and echo, fable(british), onyx for men.
 If I don't, set voice to "none".
-
-fable for a british voice.
 `, 'none', o => {
     if (o.characters) {
         Object.entries(o.characters).forEach(([name, peep]) => {
