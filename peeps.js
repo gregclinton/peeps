@@ -7,7 +7,7 @@ const peeps = {
     }
 }
 
-agents.register('Homer',
+peeps.register('Homer',
 `
  characters (object, keyed by name (preserve spaces if any), of voice and instruction),
 
@@ -20,7 +20,7 @@ agents.register('Homer',
  If no voice preference is mentioned, please omit the voice attribute entirely.
 
  fable is british sounding.
- `, o => {
+ `, 'none', o => {
     if (o.characters) {
         peeps = { ...peeps, ...o.characters };
     }
