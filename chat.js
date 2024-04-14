@@ -57,7 +57,7 @@ chat = {
 
         chat.messages.push(text);
 
-        function addResponse(response) {
+        function respond(response) {
             if (peep.voice !== 'none') {
                 player.tts(response, peep.voice);
             }
@@ -98,9 +98,9 @@ chat = {
                         const o = JSON.parse(content);
 
                         peep.handler(o);
-                        addResponse(o.reply || 'Done.');
+                        respond(o.reply || 'Done.');
                     } else {
-                        addResponse(content);
+                        respond(content);
                     }
                 });
                 break;
@@ -124,7 +124,7 @@ chat = {
                     })
                 })
                 .then(response => response.json())
-                .then(o => addResponse(o.content[0].text));
+                .then(o => respond(o.content[0].text));
                 break;
             }
 
@@ -140,7 +140,7 @@ chat = {
                     body: JSON.stringify({ contents: [{parts: [{text: text}]}]})
                 })
                 .then(response => response.json())
-                .then(o => addResponse(o.candidates[0].content.parts[0].text));
+                .then(o => respond(o.candidates[0].content.parts[0].text));
                 break;
             }
 
@@ -158,7 +158,7 @@ chat = {
                     })
                 })
                 .then(response => response.json())
-                .then(o => addResponse(o.choices[0].message.content));
+                .then(o => respond(o.choices[0].message.content));
                 break;
             }
         }
