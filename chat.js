@@ -76,9 +76,8 @@ chat = {
             case 'gpt': {
                 // https://platform.openai.com/docs/api-reference/introduction
 
-                const msgs = (peep.handler ? [{ prompt: text }] : chat.messages).map(msg =>
-                    msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response }
-                );
+                const msgs = peep.handler ? [{ role: 'user', content: text }] :
+                    chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
 
                 msgs.unshift({ role: 'system', content: instructions });
 
