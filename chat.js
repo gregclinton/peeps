@@ -1,6 +1,6 @@
 chat = {
     messages: [],
-    peep: peeps.register('Max', 'You are a helpful assistant. ', 'none'),
+    peep: peeps.register('Max', 'You are a helpful assistant.'),
 
     prompt: async text => {
         chat.waiting = true;
@@ -72,7 +72,7 @@ chat = {
         const instructions =
             peep.handler ? ('Respond with JSON.\n' + peep.instructions + '\nProvide key "reply" telling what you did in a lighthearted way.') :
             (peep.instructions + ' Keep your answers brief. ' +
-            'If there is any math, render it using LaTeX math mode with the equation environment and \\( and \\) where inline is needed. ');
+            'If there is any math, render it using LaTeX math mode with the equation environment and \\( and \\) where inline is needed.');
 
         const headers = { 'Content-Type': 'application/json' };
 
