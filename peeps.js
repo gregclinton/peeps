@@ -1,5 +1,9 @@
 const peeps = {
     register: (name, instructions, voice, handler) => {
+        instructions = handler ? ('Respond with JSON.\n' + instructions + '\nProvide key "reply" telling what you did in a lighthearted way.') :
+        (instructions + ' Keep your answers brief. ' +
+        'If there is any math, render it using LaTeX math mode with the equation environment and \\( and \\) where inline is needed.');
+
         const peep = { name: name, instructions: instructions, voice: voice || 'none', handler: handler };
 
         peeps[name] = peep;
