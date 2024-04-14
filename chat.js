@@ -16,10 +16,11 @@ chat = {
 
         const peep = chat.peep;
 
-        function post(name, text) {
+        function post(text) {
+            const name = document.getElementById('chat').children.length % 2 ? peep.name : 'me';
             const title = document.createElement('span');
 
-            title.innerHTML = name === 'me' ? name : peep.name;
+            title.innerHTML = name
             title.classList.add('name');
 
             const top = document.createElement('div');
@@ -48,7 +49,7 @@ chat = {
             post.scrollIntoView({ behavior: 'smooth' });
         }
 
-        post('me', text);
+        post(text);
 
         if (peep.handler && peep.name === text.split(',')[0]) {
             // blot out the agent's name, so as not to confuse him
@@ -64,7 +65,7 @@ chat = {
             chat.messages.push(response);
             response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
             response = marked.parse(response);
-            post('', response);
+            post(response);
             MathJax.typesetPromise();
             chat.waiting = false;
         }
