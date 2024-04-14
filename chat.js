@@ -70,7 +70,6 @@ chat = {
         }
 
         const instructions = peep.instructions;
-console.log(instructions);
         const headers = { 'Content-Type': 'application/json' };
 
         switch (peep.handler ? 'gpt' : settings.model) {
