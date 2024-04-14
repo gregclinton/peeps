@@ -55,13 +55,13 @@ chat = {
             text = text.charAt(peep.name.length + 2).toUpperCase() + text.slice(peep.name.length + 3);
         }
 
-        chat.messages.push({ prompt: text });
+        chat.messages.push(text);
 
         function addResponse(response) {
             if (peep.voice !== 'none') {
                 player.tts(response, peep.voice);
             }
-            chat.messages.push({ response: response });
+            chat.messages.push(response);
             response = response.replace(/\\/g, '\\\\');  // so markdown won't trample LaTex
             response = marked.parse(response);
             post('', response);
@@ -76,8 +76,7 @@ chat = {
             case 'gpt': {
                 // https://platform.openai.com/docs/api-reference/introduction
 
-                const msgs = peep.handler ? [{ role: 'user', content: text }] :
-                    chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
+                const msgs = (peep.handler ? [text] : chat.messages).map((msg, i) => i % 2 ? { role: 'assistant', content: msg } : { role: 'user', content: msg });
 
                 msgs.unshift({ role: 'system', content: instructions });
 
@@ -110,7 +109,7 @@ chat = {
             case 'claude': {
                 // https://docs.anthropic.com/claude/reference/messages_post
 
-                const msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
+                const msgs = chat.messages.map((msg, i) => i % 2  ? { role: 'assistant', content: msg } : { role: 'user', content: msg });
                 headers['anthropic-version'] = '2023-06-01';
 
                 await fetch('/anthropic/v1/messages', {
@@ -133,7 +132,7 @@ chat = {
                 // https://ai.google.dev/api/rest
                 // https://ai.google.dev/tutorials/rest_quickstart
 
-                const text = instructions + chat.messages.map(msg => msg.prompt ? 'prompt: ' +  msg.prompt : 'response: ' + msg.response).join('\n') + '\nresponse: ';
+                const text = instructions + chat.messages.map((msg, i) => i % 2  ? 'response: ' +  msg : 'prompt: ' + msg).join('\n') + '\nresponse: ';
 
                 await fetch('/gemini/v1beta/models/gemini-pro:generateContent', {
                     method: 'POST',
@@ -148,7 +147,7 @@ chat = {
             case 'mistral': {
                 // https://docs.mistral.ai/api/
 
-                const msgs = chat.messages.map(msg => msg.prompt ? { role: 'user', content: msg.prompt } : { role: 'assistant', content: msg.response });
+                const msgs = chat.messages.map((msg, i) => i % 2  ? { role: 'assistant', content: msg } : { role: 'user', content: msg });
 
                 await fetch('/mistral/v1/chat/completions', {
                     method: 'POST',
@@ -183,7 +182,7 @@ chat = {
         const m = chat.messages;
 
         if (m.length > 1) {
-            const text = m[m.length - 2].prompt;
+            const text = m[m.length - 2];
             const div = document.getElementById('chat');
 
             div.removeChild(div.lastChild);
