@@ -20,6 +20,9 @@ Voices alloy, shimmer, nova are for women and echo, fable(british), onyx for men
         Object.entries(o.characters).forEach(([name, peep]) => {
             peep.voice = peep.voice || 'none'
             peep.name = name;
+            peep.instructions += ' Pretend your name is ' + peep.name + '. ' +
+                'Never refer to yourself by name, unless directly asked your name. ' +
+                'Never refer to yourself as an AI. This is role playing and you must remain in character. ';
             peeps[name] = peep;
         });
     }

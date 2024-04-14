@@ -70,16 +70,11 @@ chat = {
         }
 
         const instructions =
-            peep.handler ? ('Respond with JSON.\n' + peep.instructions +
-            '\nProvide key "reply" telling what you did in a lighthearted way.')
-            :
-            (peep.instructions +
-            'Pretend your name is ' + peep.name + '. ' +
-            'Never refer to yourself by name, unless directly asked your name. ' +
-            'Never refer to yourself as an AI. This is role playing and you must remain in character. ' +
-            'Keep your answers brief. ' +
+            peep.handler ? ('Respond with JSON.\n' + peep.instructions + '\nProvide key "reply" telling what you did in a lighthearted way.') :
+            (peep.instructions + ' Keep your answers brief. ' +
             'If there is any math, render it using LaTeX math mode with the equation environment and \\( and \\) where inline is needed. ');
-
+    
+console.log(instructions);
         const headers = { 'Content-Type': 'application/json' };
 
         switch (peep.handler ? 'gpt' : settings.model) {
