@@ -2,11 +2,11 @@ chat = {
     messages: [],
     peep: peeps.register('Max', 'You are a helpful assistant.'),
 
-    prompt: async text => {
+    prompt: async prompt => {
         chat.waiting = true;
 
         {
-            const name = text.split(',')[0];
+            const name = prompt.split(',')[0];
             const p = peeps[name];
 
             if (p) {
@@ -49,14 +49,14 @@ chat = {
             post.scrollIntoView({ behavior: 'smooth' });
         }
 
-        post(text);
+        post(prompt);
 
-        if (peep.handler && peep.name === text.split(',')[0]) {
+        if (peep.handler && peep.name === prompt.split(',')[0]) {
             // blot out the agent's name, so as not to confuse him
-            text = text.charAt(peep.name.length + 2).toUpperCase() + text.slice(peep.name.length + 3);
+            prompt = prompt.charAt(peep.name.length + 2).toUpperCase() + prompt.slice(peep.name.length + 3);
         }
 
-        chat.messages.push(text);
+        chat.messages.push(prompt);
 
         function respond(response) {
             if (peep.voice !== 'none') {
@@ -77,7 +77,7 @@ chat = {
             case 'gpt': {
                 // https://platform.openai.com/docs/api-reference/introduction
 
-                const msgs = (peep.handler ? [text] : chat.messages).map((msg, i) => i % 2 ? { role: 'assistant', content: msg } : { role: 'user', content: msg });
+                const msgs = (peep.handler ? [prompt] : chat.messages).map((msg, i) => i % 2 ? { role: 'assistant', content: msg } : { role: 'user', content: msg });
 
                 msgs.unshift({ role: 'system', content: instructions });
 
@@ -172,9 +172,9 @@ chat = {
 
     paste: () => {
         navigator.clipboard.readText()
-        .then(text => {
-            if (text !== '') {
-                chat.prompt(text);
+        .then(prompt => {
+            if (prompt !== '') {
+                chat.prompt(prompt);
             }
         })
     },
@@ -183,7 +183,7 @@ chat = {
         const m = chat.messages;
 
         if (m.length > 1) {
-            const text = m[m.length - 2];
+            const prompt = m[m.length - 2];
             const div = document.getElementById('chat');
 
             div.removeChild(div.lastChild);
@@ -191,7 +191,7 @@ chat = {
             m.pop();
             m.pop();
 
-            chat.prompt(text);
+            chat.prompt(prompt);
         }
     },
 
