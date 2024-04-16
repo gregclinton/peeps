@@ -77,7 +77,8 @@ chat = {
             case 'gpt': {
                 // https://platform.openai.com/docs/api-reference/introduction
 
-                const msgs = (peep.handler ? [prompt] : chat.messages).map((msg, i) => i % 2 ? { role: 'assistant', content: msg } : { role: 'user', content: msg });
+                const msgs = (peep.handler ? [prompt] : chat.messages).map((msg, i) => ({ role: i % 2 ? 'assistant' : 'user', content: msg }));
+
 
                 msgs.unshift({ role: 'system', content: instructions });
 
@@ -110,7 +111,7 @@ chat = {
             case 'claude': {
                 // https://docs.anthropic.com/claude/reference/messages_post
 
-                const msgs = chat.messages.map((msg, i) => i % 2  ? { role: 'assistant', content: msg } : { role: 'user', content: msg });
+                const msgs = chat.messages.map((msg, i) => ({ role: i % 2 ? 'assistant' : 'user', content: msg }));
                 headers['anthropic-version'] = '2023-06-01';
 
                 await fetch('/anthropic/v1/messages', {
@@ -133,7 +134,7 @@ chat = {
                 // https://ai.google.dev/api/rest
                 // https://ai.google.dev/tutorials/rest_quickstart
 
-                const text = instructions + chat.messages.map((msg, i) => i % 2  ? 'response: ' +  msg : 'prompt: ' + msg).join('\n') + '\nresponse: ';
+                const text = instructions + chat.messages.map((msg, i) => (i % 2  ? 'response: ' :  'prompt: ') +  msg ).join('\n') + '\nresponse: ';
 
                 await fetch('/gemini/v1beta/models/gemini-pro:generateContent', {
                     method: 'POST',
@@ -148,7 +149,7 @@ chat = {
             case 'mistral': {
                 // https://docs.mistral.ai/api/
 
-                const msgs = chat.messages.map((msg, i) => i % 2  ? { role: 'assistant', content: msg } : { role: 'user', content: msg });
+                const msgs = chat.messages.map((msg, i) => ({ role: i % 2  ? 'assistant' : 'user', content: msg }));
 
                 await fetch('/mistral/v1/chat/completions', {
                     method: 'POST',
