@@ -1,48 +1,47 @@
 const recorder = {
     start: () => {
         recorder.recording = true;
+        recorder.chunks = [];
         navigator.mediaDevices.getUserMedia({ audio: true })
         .then(stream => {
             recorder.stream = stream;
-            recorder.device = new RecordRTC(recorder.stream, {
-                mimeType: 'audio/wav',
-                timeSlice: 1000,
-                recorderType: RecordRTC.StereoAudioRecorder,
-                numberOfAudioChannels: 1,
-                audioBitsPerSecond: 128000
-            });
-            recorder.device.startRecording();
+            recorder.device = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+            recorder.device.ondataavailable = e => {
+                recorder.chunks.push(e.data);
+            };
+            recorder.device.start();
         })
     },
 
     stop: () => {
-        recorder.device.stopRecording(() => {
+        recorder.recording = false;
+        recorder.device.onstop = () => {
+            recorder.chunks = [];
             recorder.stream.getTracks().forEach(track => { track.stop(); });
-            recorder.recording = false;
-        });
+        };
+        recorder.device.stop();
     },
 
     send: () => {
         recorder.recording = false;
-        recorder.device.stopRecording(() => {
+        recorder.device.onstop = () => {
             recorder.stream.getTracks().forEach(track => { track.stop(); });
-            const blob = recorder.device.getBlob();
-
-            if (blob.size > 16000 /* 1 second */) {
-                chat.waiting = true;
-                recorder.stt(blob)
-                .then(res => res.text())
-                .then(prompt => {
-                    chat.prompt(prompt.trim());
-                });
-            }
-        });
+            chat.waiting = true;
+            const blob = new Blob(recorder.chunks, { type: 'audio/webm' });
+            recorder.chunks = [];
+            recorder.stt(blob)
+            .then(res => res.text())
+            .then(prompt => {
+                chat.prompt(prompt.trim());
+            });
+        };
+        recorder.device.stop();
     },
 
     stt: blob => {
         const data = new FormData();
 
-        data.append('file', blob, 'stt.wav');
+        data.append('file', blob, 'stt.webm');
         data.append('model', 'whisper-1');
         data.append('language', 'en'); // optional but improves accuracy and latency
         data.append('response_format', 'text');
