@@ -1,47 +1,48 @@
 const recorder = {
     start: () => {
         recorder.recording = true;
-        recorder.chunks = [];
         navigator.mediaDevices.getUserMedia({ audio: true })
         .then(stream => {
             recorder.stream = stream;
-            recorder.device = new MediaRecorder(stream);
-            recorder.device.ondataavailable = e => {
-                recorder.chunks.push(e.data);
-            };
-            recorder.device.start();
+            recorder.device = new RecordRTC(recorder.stream, {
+                mimeType: 'audio/webm',
+                timeSlice: 1000,
+                recorderType: RecordRTC.StereoAudioRecorder,
+                numberOfAudioChannels: 1,
+                audioBitsPerSecond: 128000
+            });
+            recorder.device.startRecording();
         })
     },
 
     stop: () => {
-        recorder.recording = false;
-        recorder.device.onstop = () => {
-            recorder.chunks = [];
+        recorder.device.stopRecording(() => {
             recorder.stream.getTracks().forEach(track => { track.stop(); });
-        };
-        recorder.device.stop();
+            recorder.recording = false;
+        });
     },
 
     send: () => {
         recorder.recording = false;
-        recorder.device.onstop = () => {
+        recorder.device.stopRecording(() => {
             recorder.stream.getTracks().forEach(track => { track.stop(); });
-            chat.waiting = true;
-            const blob = new Blob(recorder.chunks, { type: 'audio/mp4' });
-            recorder.chunks = [];
-            recorder.stt(blob)
-            .then(res => res.text())
-            .then(prompt => {
-                chat.prompt(prompt.trim());
-            });
-        };
-        recorder.device.stop();
+            const blob = recorder.device.getBlob();
+
+            if (blob.size > 0) {
+                chat.waiting = true;
+                recorder.stt(blob)
+                .then(res => res.text())
+                .then(prompt => {
+                    chat.prompt(prompt.trim());
+                });
+            }
+        });
     },
 
     stt: blob => {
         const data = new FormData();
 
-        data.append('file', blob, 'audio.mp4');
+        data.append('file', blob, 'stt.webm');
         data.append('model', 'whisper-1');
         data.append('language', 'en'); // optional but improves accuracy and latency
         data.append('response_format', 'text');
