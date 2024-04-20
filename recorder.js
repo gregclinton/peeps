@@ -18,20 +18,24 @@ const recorder = {
     stop: () => {
         recorder.device.stopRecording(() => {
             recorder.stream.getTracks().forEach(track => { track.stop(); });
-            recorder.recording = false;    
+            recorder.recording = false;
         });
     },
 
     send: () => {
         recorder.recording = false;
-        chat.waiting = true;
         recorder.device.stopRecording(() => {
             recorder.stream.getTracks().forEach(track => { track.stop(); });
-            recorder.stt(recorder.device.getBlob())
-            .then(res => res.text())
-            .then(prompt => {
-                chat.prompt(prompt.trim());
-            })
+            const blob = recorder.device.getBlob();
+
+            if (blob.size > 0) {
+                chat.waiting = true;
+                recorder.stt(blob)
+                .then(res => res.text())
+                .then(prompt => {
+                    chat.prompt(prompt.trim());
+                });
+            }
         });
     },
 
