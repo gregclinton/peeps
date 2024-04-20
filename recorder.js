@@ -5,7 +5,7 @@ const recorder = {
         navigator.mediaDevices.getUserMedia({ audio: true })
         .then(stream => {
             recorder.stream = stream;
-            recorder.device = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+            recorder.device = new MediaRecorder(stream);
             recorder.device.ondataavailable = e => {
                 recorder.chunks.push(e.data);
             };
@@ -27,7 +27,7 @@ const recorder = {
         recorder.device.onstop = () => {
             recorder.stream.getTracks().forEach(track => { track.stop(); });
             chat.waiting = true;
-            const blob = new Blob(recorder.chunks, { type: 'audio/webm' });
+            const blob = new Blob(recorder.chunks, { type: 'audio/mp4' });
             recorder.chunks = [];
             recorder.stt(blob)
             .then(res => res.text())
@@ -41,7 +41,7 @@ const recorder = {
     stt: blob => {
         const data = new FormData();
 
-        data.append('file', blob, 'stt.webm');
+        data.append('file', blob, 'audio.mp4');
         data.append('model', 'whisper-1');
         data.append('language', 'en'); // optional but improves accuracy and latency
         data.append('response_format', 'text');
