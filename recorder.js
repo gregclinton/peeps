@@ -28,7 +28,7 @@ const recorder = {
             recorder.stream.getTracks().forEach(track => { track.stop(); });
             const blob = recorder.device.getBlob();
 
-            if (blob.size > 0) {
+            if (blob.size > 16000 /* 1 second */) {
                 chat.waiting = true;
                 recorder.stt(blob)
                 .then(res => res.text())
