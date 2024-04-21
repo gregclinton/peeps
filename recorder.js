@@ -18,6 +18,8 @@ const recorder = {
     stop: () => {
         recorder.device.stopRecording(() => {
             recorder.stream.getTracks().forEach(track => { track.stop(); });
+            recorder.stream = null;
+            recorder.device = null;
             recorder.recording = false;
         });
     },
@@ -26,6 +28,8 @@ const recorder = {
         recorder.recording = false;
         recorder.device.stopRecording(() => {
             recorder.stream.getTracks().forEach(track => { track.stop(); });
+            recorder.stream = null;
+            recorder.device = null;
             chat.waiting = true;
             recorder.stt(recorder.device.getBlob())
             .then(res => res.text())
