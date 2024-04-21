@@ -26,16 +26,12 @@ const recorder = {
         recorder.recording = false;
         recorder.device.stopRecording(() => {
             recorder.stream.getTracks().forEach(track => { track.stop(); });
-            const blob = recorder.device.getBlob();
-
-            if (blob.size > 0) {
-                chat.waiting = true;
-                recorder.stt(blob)
-                .then(res => res.text())
-                .then(prompt => {
-                    chat.prompt(prompt.trim());
-                });
-            }
+            chat.waiting = true;
+            recorder.stt(recorder.device.getBlob())
+            .then(res => res.text())
+            .then(prompt => {
+                chat.prompt(prompt.trim());
+            });
         });
     },
 
@@ -53,3 +49,13 @@ const recorder = {
         })
     }
 }
+
+setInterval(() => {
+    if (!recorder.recording) {
+        // keep mic from dying on us
+        navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+            stream.getTracks().forEach(track => { track.stop(); });
+        });
+    }
+}, 1000 * 60 * 2); // every 2 minutes
