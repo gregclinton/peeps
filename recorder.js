@@ -19,14 +19,17 @@ const recorder = {
 
     send: () => {
         recorder.device.stopRecording(() => {
-            chat.waiting = true;
             const blob = recorder.device.getBlob();
 
+            chat.waiting = true;
             recorder.close();
             recorder.stt(blob)
             .then(res => res.text())
             .then(prompt => {
-                chat.prompt(prompt.trim());
+                const text = prompt.trim();
+
+                navigator.clipboard.writeText(text);
+                chat.prompt(text);
             });
         });
     },
