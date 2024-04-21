@@ -15,28 +15,27 @@ const recorder = {
         })
     },
 
-    stop: () => {
-        recorder.device.stopRecording(() => {
-            recorder.stream.getTracks().forEach(track => { track.stop(); });
-            recorder.stream = null;
-            recorder.device = null;
-            recorder.recording = false;
-        });
-    },
+    stop: () => recorder.device.stopRecording(recorder.close),
 
     send: () => {
-        recorder.recording = false;
         recorder.device.stopRecording(() => {
-            recorder.stream.getTracks().forEach(track => { track.stop(); });
-            recorder.stream = null;
-            recorder.device = null;
             chat.waiting = true;
-            recorder.stt(recorder.device.getBlob())
+            const blob = recorder.device.getBlob();
+
+            recorder.close();
+            recorder.stt(blob)
             .then(res => res.text())
             .then(prompt => {
                 chat.prompt(prompt.trim());
             });
         });
+    },
+
+    close: () => {
+        recorder.stream.getTracks().forEach(track => { track.stop(); });
+        recorder.stream = null;
+        recorder.device = null;
+        recorder.recording = false;
     },
 
     stt: blob => {
