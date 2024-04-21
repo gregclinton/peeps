@@ -53,9 +53,11 @@ const recorder = {
 setInterval(() => {
     if (!recorder.recording) {
         // keep mic from dying on us
+        recorder.recording = true;
         navigator.mediaDevices.getUserMedia({ audio: true })
         .then(stream => {
             stream.getTracks().forEach(track => { track.stop(); });
+            recorder.recording = false;
         });
     }
 }, 1000 * 60 * 2); // every 2 minutes
