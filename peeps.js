@@ -2,7 +2,9 @@ const peeps = {
     register: (name, instructions, voice, handler) => {
         instructions = handler ? ('Respond with JSON.\n' + instructions + '\nProvide key "reply" telling what you did in a lighthearted way.') :
         (instructions + ' Keep your answers brief. ' +
-        'For rendering mathematical expressions, use LaTex with backslash square brackets, \\[ ... \\] for display-style and \\( ... \\) for inline -- no dollar signs.');
+        'For rendering mathematical expressions, use LaTex with backslash square brackets, \\[ ... \\] ' +
+        'for display-style and \\( ... \\) for inline -- no dollar signs. ' + 
+        'Do not escape the backslashes.');
 
         const peep = { name: name, instructions: instructions, voice: voice || 'none', handler: handler };
 
