@@ -120,7 +120,7 @@ chat = {
                     body: JSON.stringify({
                         system: instructions,
                         messages: msgs,
-                        model: 'claude-3-opus-20240229',
+                        model: 'claude-3-5-sonnet-20240620',
                         temperature: 1.0 * settings.temperature / 100.0,
                         max_tokens: 1000
                     })
