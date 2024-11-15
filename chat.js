@@ -67,6 +67,7 @@ chat = {
             response = marked.parse(response);
             post(response);
             MathJax.typesetPromise();
+            Prism.highlightAll();
             chat.waiting = false;
         }
 
