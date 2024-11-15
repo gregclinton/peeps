@@ -181,17 +181,12 @@ chat = {
     },
 
     redo: () => {
-        const m = chat.messages;
+        const div = document.getElementById('chat');
 
-        if (m.length > 1) {
-            const prompt = m[m.length - 2];
-            const div = document.getElementById('chat');
+        if (div.children.length > 1) {
+            const prompt = div.lastChild.previousSibling.lastChild.innerHTML;
 
-            div.removeChild(div.lastChild);
-            div.removeChild(div.lastChild);
-            m.pop();
-            m.pop();
-
+            chat.back();
             chat.prompt(prompt);
         }
     },
